@@ -24,10 +24,10 @@ var router = new VueRouter({
 })
 
 router.beforeEach((to, from, next)=>{
-
+    
     if(to.matched.some(r=>r.meta.requiresAuth)){
         // check cookie storage 
-        if(localstore.getdata('auth')==null){
+        if(localstore.getdata('auth')== undefined){
             next({name:'login'})
         }
         else

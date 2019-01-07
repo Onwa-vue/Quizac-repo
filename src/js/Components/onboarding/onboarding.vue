@@ -120,7 +120,7 @@
         <nav class="wizard_nav">
             <div class="container">
                 <ul class="step_nav text-center">
-                    <li class="step_nav_item active">
+                    <li class="step_nav_item" v-bind:class="{active:stage_one_status()}">
                         <router-link to="/onboarding/">
                        <!-- <a href="onboard_form_1.html"> 
                             <span class="step_icon">
@@ -135,7 +135,7 @@
                       <!--  </a> -->
                         </router-link>
                     </li>
-                    <li class="step_nav_item ">
+                    <li class="step_nav_item"  v-bind:class="{active:stage_two_status()}">
                         <router-link to="/onboarding/stagetwo">
                       <!--  <a href="onboard_form_2.html"> 
                             <span class="step_icon">
@@ -167,3 +167,22 @@
  
 </div>
 </template>
+
+<script>
+export default {
+
+    methods:{
+        stage_one_status: function(){
+           var pth = this.$route.path;
+            return  !pth.includes('stagetwo');
+        },
+
+        stage_two_status : function(){
+            var pth = this.$route.path;
+             return pth.includes('stagetwo');
+        }
+    }
+}
+</script>
+
+

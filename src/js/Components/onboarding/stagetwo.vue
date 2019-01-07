@@ -140,8 +140,9 @@
 
 <script>
 
-var axion = require('../../Utility/serverClient.js')
+var client = require('../../Utility/serverClient.js')
 var localstore  = require('../../utility/cookieStorage.js'); 
+var axion = client();
 
 export default {
     data(){

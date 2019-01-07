@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en" class="no-js">
+
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<title>Create a question set | Quizac Contributors</title>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png">
+    <link rel="icon" href="img/favicon.png" type="image/png">
+    <link rel="stylesheet" href="css/reset.css"/>
+    <link rel="stylesheet" href="css/base.min.css"/>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <script src="js/modernizr.js"></script> <!-- Modernizr -->
+</head>
+
+<body>
+    
+    <div class="modal fade" id="new_topic_dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <header class="modal-header">
+                    <h4 class="modal-title text-caps">New Topic</h4>
+                    <button type="button" class="close_dialog" data-dismiss="modal" ></button>
+                </header>
+                <div class="modal-body">
+                    <form action="">
+                        <div class="form-group">
+                            <label class="control-label caps_upper">Topic Name</label>
+                            <input type="text" class="form-control" placeholder="E.g Arithmetics">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label caps_upper">Reference URL</label>
+                            <input type="url" class="form-control" placeholder="Link for more information">
+                            <p class="help-block">Please provide a link to any material we can use to verify this topics.</p>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label caps_upper">Description</label>
+                            <textarea rows="10" class="form-control" placeholder="Tell us a little about this topic"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label caps_upper">Assign an image as the topic thumbnail</label>
+                           <div class="custom_selector">
+                                <article class="thumb_item selector_item">
+                                    <label for="prd_thumb_0" class="thumb_wrapper">
+                                       <input type="radio" id="prd_thumb_0" class="cst_selector" name="topic_thumbnail">
+                                        <div class="thumbImage_holder">
+                                            <img src="./img/banners/Business_org.png" alt="Topic Thumb">
+                                        </div>
+                                    </label>
+                                </article>
+                                <article class="thumb_item selector_item">
+                                    <label for="prd_thumb_1" class="thumb_wrapper">
+                                       <input type="radio" id="prd_thumb_1" class="cst_selector" name="topic_thumbnail">
+                                        <div class="thumbImage_holder">
+                                            <img src="./img/banners/Demand_n_supply.png" alt="Topic Thumb">
+                                        </div>
+                                    </label>
+                                </article>
+                                <article class="thumb_item selector_item">
+                                    <label for="prd_thumb_2" class="thumb_wrapper">
+                                       <input type="radio" id="prd_thumb_2" class="cst_selector" name="topic_thumbnail">
+                                        <div class="thumbImage_holder">
+                                            <img src="./img/banners/determinals.png" alt="Topic Thumb">
+                                        </div>
+                                    </label>
+                                </article>
+                                <article class="thumb_item selector_item">
+                                    <label for="prd_thumb_3" class="thumb_wrapper">
+                                       <input type="radio" id="prd_thumb_3" class="cst_selector" name="topic_thumbnail">
+                                        <div class="thumbImage_holder">
+                                            <img src="./img/banners/Fiscal_policy.png" alt="Topic Thumb">
+                                        </div>
+                                    </label>
+                                </article>
+                                <article class="thumb_item selector_item">
+                                    <label for="prd_thumb_4" class="thumb_wrapper">
+                                       <input type="radio" id="prd_thumb_4" class="cst_selector" name="topic_thumbnail">
+                                        <div class="thumbImage_holder">
+                                            <img src="./img/banners/Hydro_carbon.png" alt="Topic Thumb">
+                                        </div>
+                                    </label>
+                                </article>
+                                <article class="thumb_item selector_item">
+                                    <label for="prd_thumb_5" class="thumb_wrapper">
+                                       <input type="radio" id="prd_thumb_5" class="cst_selector" name="topic_thumbnail">
+                                        <div class="thumbImage_holder">
+                                            <img src="./img/banners/Labor_market.png" alt="Topic Thumb">
+                                        </div>
+                                    </label>
+                                </article>
+                                <article class="thumb_item selector_item">
+                                    <label for="prd_thumb_6" class="thumb_wrapper">
+                                       <input type="radio" id="prd_thumb_6" class="cst_selector" name="topic_thumbnail">
+                                        <div class="thumbImage_holder">
+                                            <img src="./img/banners/Literature.png" alt="Topic Thumb">
+                                        </div>
+                                    </label>
+                                </article>
+                                <article class="thumb_item selector_item">
+                                    <label for="prd_thumb_7" class="thumb_wrapper">
+                                       <input type="radio" id="prd_thumb_7" class="cst_selector" name="topic_thumbnail">
+                                        <div class="thumbImage_holder">
+                                            <img src="./img/banners/Metals.png" alt="Topic Thumb">
+                                        </div>
+                                    </label>
+                                </article>
+                                <article class="thumb_item selector_item">
+                                    <label for="prd_thumb_8" class="thumb_wrapper">
+                                       <input type="radio" id="prd_thumb_8" class="cst_selector" name="topic_thumbnail">
+                                        <div class="thumbImage_holder">
+                                            <img src="./img/banners/Mole_concept.png" alt="Topic Thumb">
+                                        </div>
+                                    </label>
+                                </article>
+                                <article class="thumb_item selector_item">
+                                    <label for="prd_thumb_9" class="thumb_wrapper">
+                                       <input type="radio" id="prd_thumb_9" class="cst_selector" name="topic_thumbnail">
+                                        <div class="thumbImage_holder">
+                                            <img src="./img/banners/Radioactivity.png" alt="Topic Thumb">
+                                        </div>
+                                    </label>
+                                </article>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-primary">
+                        Add
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="new_ref">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <header class="modal-header">
+                    <h4 class="modal-title text-caps">New Reference</h4>
+                    <button type="button" class="close_dialog" data-dismiss="modal" ></button>
+                </header>
+                <div class="modal-body">
+                    <form action="">
+                        <div class="form-group">
+                            <label class="control-label caps_upper">Reference Name</label>
+                            <input type="text" class="form-control" placeholder="E.g New general mathematics">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label caps_upper">Reference URL</label>
+                            <textarea rows="2" class="form-control" placeholder="Link or description of reference"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-primary">
+                        Add
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <header class="mainHeader has_feedback" role="banner">
+        <div class="container">
+            <div class="brand_img">
+                <a href="index.html" class="logo_link">
+                    <img src="./img/logo.png" alt="Quizac Contributor Portal">
+                </a>
+            </div>
+            <nav class="navMenu menu__primary">
+                <div class="menuList-item" >
+                    <a href="dashboard.html" class="menu__link_item">Dashboard</a>
+                </div>
+                <div class="menuList-item active">
+                    <a href="user_sets.html" class="menu__link_item">Question Sets</a>
+                </div>
+                <div class="menuList-item">
+                    <a href="wallet.html" class="menu__link_item">Wallet</a>
+                </div>
+            </nav>
+            <nav class="navMenu menu_alt">
+                <div class="menuList-item control_btns has_feedback">
+                    <a href="feedbacks.html" class="menu__link_item">
+                        <span class="icon_holder">
+                            <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
+                                <path d="M12.5,25a12.43,12.43,0,0,1-6.87-2.06l-4.3,1.33a.49.49,0,0,1-.61-.61l1.33-4.3A12.5,12.5,0,0,1,21.34,3.66,12.5,12.5,0,0,1,12.5,25ZM5.71,21.92A.49.49,0,0,1,6,22a11.52,11.52,0,1,0-3-3,.49.49,0,0,1,.06.42L1.93,23.07l3.63-1.13Z"/>
+                                <path d="M12.53,3.56h0a.49.49,0,0,1,0-1h0a.49.49,0,0,1,0,1Z"/>
+                                <path d="M19.16,6.32a.49.49,0,0,1-.35-.14,8.89,8.89,0,0,0-4.56-2.44.49.49,0,0,1,.19-1A9.87,9.87,0,0,1,19.5,5.49a.49.49,0,0,1-.35.83Z"/>
+                                <path d="M18.52,15.69a1.37,1.37,0,0,0-.27-.82,1.37,1.37,0,0,0,0-2.36,1.37,1.37,0,0,0-1.1-2.19H14L15.34,9a1.57,1.57,0,1,0-2.23-2.23L9.57,10.32h-3a.37.37,0,0,0-.37.37v6a.37.37,0,0,0,.37.37H8.2a2.38,2.38,0,0,0,2.34,2h6.2a1.37,1.37,0,0,0,1.1-2.19A1.37,1.37,0,0,0,18.52,15.69Zm-1.37.63h-2.4a.63.63,0,1,1,0-1.25h2.4a.63.63,0,1,1,0,1.25Zm-3-2.63a.63.63,0,0,1,.63-.63h2.8a.63.63,0,0,1,0,1.25h-2.8A.63.63,0,0,1,14.12,13.69Zm3.65-2a.63.63,0,0,1-.63.63h-2.4a.63.63,0,1,1,0-1.25h2.4A.63.63,0,0,1,17.78,11.69Zm-8.86,5a.37.37,0,0,0-.37-.37H6.92V11.07H9.73A.37.37,0,0,0,10,11l3.65-3.65a.83.83,0,0,1,1.17,1.17l-2,2a.37.37,0,0,0,.26.64h.4a1.36,1.36,0,0,0-.15.63v1a1.63,1.63,0,0,1-1.63,1.63.37.37,0,0,0,0,.75,2.37,2.37,0,0,0,1.76-.78,1.38,1.38,0,0,0,.3.41A1.37,1.37,0,0,0,14,16.88a1.37,1.37,0,0,0-.12,1.45H10.55A1.63,1.63,0,0,1,8.92,16.7Zm7.83,1.63h-1.6a.63.63,0,0,1,0-1.25h1.6a.63.63,0,1,1,0,1.25Z"/>
+                            </svg>
+                        </span>
+                        <span class="feedback_sig"></span>
+                    </a>
+                </div>
+                <div class="menuList-item account_info">
+                    <a href="#" class="menu__link_item dropdown-toggle" data-toggle="dropdown">
+                       <div class="flex_wrapper d-flex align-items-center">
+                            <span class="user_avi">
+                                <img src="./img/default_avi.png" alt="Cayhlebs">
+                            </span>
+                            <span class="user_name">Cayhlebs</span>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="profile_lander.html">My Profile</a></li>
+                        <li><a href="act_settings.html">Settings</a></li>
+                        <li><a href="login.html">Log Out</a></li>
+                    </ul>
+                </div>
+                <div class="nav_trigger">
+                    <a class="primary-nav-trigger" href="#0">
+                        <span class="menu-icon"></span>
+                        <span class="menu-text sr-only">Menu</span>
+                    </a>
+                </div>
+            </nav>
+       </div>
+    </header>
+
+	<main class="main_content_wrapper">
+        
+        <section class="section_block">
+            <div class="container content_narrow">
+                <header class="section_header">
+                    <h3 class="section_title">Question set Details</h3>
+                </header>
+                
+                <div class="form_body">
+                    <form action="" class="numbered_row_list">
+                        <div class="numbered_row_item">
+                           <span class="row_count"></span>
+                            <div class="row_content">
+                                <header class="row_header">
+                                    <span class="question_text">Give your question set a name</span>
+                                    <span class="explainer_tooltip" title="You are adviced to use a short name that describe the set as much as possible." data-toggle="tooltip">
+                                        <img src="./img/icons/info.svg" class="cust_icon" alt="More Info">
+                                    </span>
+                                </header>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Question set name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="numbered_row_item">
+                           <span class="row_count"></span>
+                            <div class="row_content">
+                                <header class="row_header">
+                                    <span class="question_text">Tell us about this question set</span>
+                                </header>
+                                <div class="form-group">
+                                    <textarea rows="10" class="form-control" placeholder="A short description of this question set"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="numbered_row_item">
+                           <span class="row_count"></span>
+                            <div class="row_content">
+                               <header class="row_header">
+                                    <span class="question_text">Which class of students is this set for?</span>
+                                    <span class="explainer_tooltip" title="You can only create questions for students in the classes you selected during your registration. You can add more classes on your account settings page." data-toggle="tooltip">
+                                        <img src="./img/icons/info.svg" class="cust_icon" alt="More Info">
+                                    </span>
+                                </header>
+                                <div class="form-group custom_selector">
+                                    <div class="seletor_pill selector_item">
+                                        <label for="ucat_0" class="pill_wrapper">
+                                           <input type="radio" id="ucat_0" class="cst_selector" name="set_cat">
+                                            <span class="selector_label">
+                                                Senior Secondary School 1
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <div class="seletor_pill selected selector_item">
+                                        <label for="ucat_1" class="pill_wrapper">
+                                           <input type="radio" id="ucat_1" class="cst_selector" name="set_cat">
+                                            <span class="selector_label">
+                                                Senior Secondary School 2
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <div class="seletor_pill selector_item">
+                                        <label for="ucat_2" class="pill_wrapper">
+                                           <input type="radio" id="ucat_2" class="cst_selector" name="set_cat">
+                                            <span class="selector_label">
+                                                Senior Secondary School 3
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="numbered_row_item">
+                           <span class="row_count"></span>
+                            <div class="row_content">
+                               <header class="row_header">
+                                    <span class="question_text">Under which subject are you setting the questions?</span>
+                                </header>
+                                <div class="form-group custom_selector">
+                                    <div class="seletor_pill selected selector_item">
+                                        <label for="usbj_0" class="pill_wrapper">
+                                           <input type="radio" id="usbj_0" class="cst_selector" name="set_subject">
+                                            <span class="selector_label">
+                                                Mathematics
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <div class="seletor_pill selector_item">
+                                        <label for="usbj_1" class="pill_wrapper">
+                                           <input type="radio" id="usbj_1" class="cst_selector" name="set_subject">
+                                            <span class="selector_label">
+                                                Physics
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <div class="seletor_pill selector_item">
+                                        <label for="usbj_2" class="pill_wrapper">
+                                           <input type="radio" id="usbj_2" class="cst_selector" name="set_subject">
+                                            <span class="selector_label">
+                                                Further Mathematics
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="numbered_row_item">
+                           <span class="row_count"></span>
+                            <div class="row_content">
+                               <header class="row_header">
+                                    <span class="question_text">What topic are the questions based on?</span>
+                                    <span class="explainer_tooltip" title="Question set is a group of questions related to a specific topic." data-toggle="tooltip">
+                                        <img src="./img/icons/info.svg" class="cust_icon" alt="More Info">
+                                    </span>
+                                </header>
+                                <div class="form-group">
+                                    <select class="form-control" placeholder="Select your subjects of interest">
+                                        <option>Arithmetics</option>
+                                        <option>Quadratic Equation</option>
+                                        <option>Complex Numbers</option>
+                                        <option>Indices &amp; Logarithm</option>
+                                        <option>Mathematical Equations</option>
+                                        <option>Number Bases</option>
+                                    </select>
+                                    <div class="more_control">
+                                        <a href="#new_topic_dialog" data-toggle="modal" data-backdrop="static">
+                                            <span>+</span>
+                                            <span>Can't find the topic? Add it here.</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="numbered_row_item">
+                           <span class="row_count"></span>
+                            <div class="row_content">
+                               <header class="row_header">
+                                    <span class="question_text">Add any reference material(s) you used in preparing this set.</span>
+                                </header>
+                                <div class="form-group">
+                                    <div class="listBlocks">
+                                        <div class="listItem">
+                                           <div class="flex_wrapper">
+                                            <div class="list_content">
+                                                <span class="listTitle color__black">Online test center</span>
+                                                <span class="listSub">
+                                                    http://www.theonlinetestcentre.com/arithmetic-aptitude2.html
+                                                </span>
+                                            </div>
+                                            <div class="itemDismiss">
+                                                <a href="#" title="Remove reference">
+                                                    <i class="cust_icon icon_xs icon_close"></i>
+                                                </a>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="listItem">
+                                           <div class="flex_wrapper">
+                                                <div class="list_content">
+                                                    <span class="listTitle color__black">Wikipedia</span>
+                                                    <span class="listSub">
+                                                        http://www.wikipedia.com/arithmetic
+                                                    </span>
+                                                </div>
+                                                <div class="itemDismiss">
+                                                    <a href="#" title="Remove reference">
+                                                        <i class="cust_icon icon_xs icon_close"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="more_control">
+                                        <a href="#new_ref" data-toggle="modal" data-backdrop="static">
+                                            <span>+</span>
+                                            <span>Add a reference.</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="numbered_row_item">
+                           <span class="row_count"></span>
+                            <div class="row_content">
+                               <header class="row_header">
+                                    <span class="question_text">Sales price. Set to 0 if your set is free.</span>
+                                </header>
+                                <div class="row">
+                                    <div class="form-group col-sm-6">
+                                        <label for="#" class="control-label caps_upper">Standard Price</label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" value="0.00" min="0" placeholder="How much do you want to sell this sell">
+                                            <span class="input-group-addon">
+                                                NGN <i class="currency naira"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="#" class="control-label caps_upper">% discount</label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" value="0" min="0">
+                                            <span class="input-group-addon">
+                                                %
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="submit_widget widget_fixed_bottom">
+                        <div class="container content_narrow">
+                            <div class="nav_flex_row">
+                                <div class="nav_btn btn-prev">
+                                </div>
+                                <div class="nav_btn btn-next">
+                                    <a href="new_set_lander.html" class="btn btn-primary">Continue</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    	
+	<script src="js/jquery.js"></script>
+	<script src="js/base.min.js"></script>
+	<script src="js/main.js"></script>
+	
+	
+</body>
+</html>

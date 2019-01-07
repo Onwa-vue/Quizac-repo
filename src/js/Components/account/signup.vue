@@ -49,7 +49,8 @@
 
 <script>
 
-var axion = require('../../Utility/serverClient.js')
+var client = require('../../Utility/serverClient.js');
+var axion = client();
 
 export default {
     data (){
@@ -105,7 +106,6 @@ export default {
                     v.view.btn_text= "Continue";
                 }
             }).catch(function(error){
-
                console.log(error);
                     v.view.showError= true;
                     v.view.showlogin_lnk = false;

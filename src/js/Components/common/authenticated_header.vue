@@ -7,14 +7,16 @@
                 </a>
             </div>
             <nav class="navMenu menu__primary">
-                <div class="menuList-item active" >
-                    <a href="dashboard.html" class="menu__link_item">Dashboard</a>
+                <div class="menuList-item" v-bind:class="{active:isDashboard()}" >
+                     <router-link class="menu__link_item" to="/dashboard">Dashboard</router-link>
+                   <!-- <a href="dashboard.html" class="menu__link_item"></a> -->
                 </div>
-                <div class="menuList-item">
-                    <a href="user_sets.html" class="menu__link_item">Question Sets</a>
+                <div class="menuList-item" v-bind:class="{active:isQuestionSet()}">
+                    <router-link class="menu__link_item" to="/dashboard/questionset">Question Sets</router-link>
+                  <!--  <a href="user_sets.html" class="menu__link_item">Question Sets</a> -->
                 </div>
-                <div class="menuList-item">
-                    <a href="wallet.html" class="menu__link_item">Wallet</a>
+                <div class="menuList-item" v-bind:class="{active:isWallet()}">
+                    <a href="#" class="menu__link_item">Wallet</a>
                 </div>
             </nav>
             <nav class="navMenu menu_alt">
@@ -41,9 +43,9 @@
                         </div>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="profile_lander.html">My Profile</a></li>
-                        <li><a href="act_settings.html">Settings</a></li>
-                        <li><a href="login.html">Log Out</a></li>
+                        <li><a href="#">My Profile</a></li>
+                        <li><a href="#">Settings</a></li>
+                        <li><a href="" v-on:click="logout">Log Out</a></li>
                     </ul>
                 </div>
                 <div class="nav_trigger">
@@ -60,16 +62,73 @@
 <script>
 
 var localstore  = require('../../utility/cookieStorage.js'); 
+var client = require('../../Utility/serverClient.js');
+var axion;
 
-var d = localstore.getdata('auth')
-console.log(d);
+
 export default {
 
     data(){
         return{
-            displayname : d.displayname,
-            picture : d.picture
+            displayname : null,
+            picture : null
         }
+    },
+
+    methods:{
+        isDashboard: function(){
+            var pth = this.$route.path;
+            return (!pth.includes('questionset') && !pth.includes('wallet'));
+        },
+        isQuestionSet : function(){
+            var pth = this.$route.path;
+            return  pth.includes('questionset');
+        },
+
+        isWallet : function(){
+            var pth = this.$route.path;
+            return  pth.includes('wallet');
+        },
+
+        logout: function(){
+
+            localstore.cleardata('auth');
+            localstore.cleardata('stage1_onboarding');
+            localstore.cleardata('stage2_onboarding');
+            localstore.cleardata('user_info');
+            this.$router.push({name:'login'})
+
+        }
+    },
+
+    mounted : function(){
+        
+        var d = localstore.getdata('user_info');
+        axion = client();
+        if(d != null){
+            this.displayname = d.displayname,
+            this.picture  = d.picture
+        }
+
+        
+        var authenData = localstore.getdata('auth');
+        var v = this;
+        var url ='/api/contributor/'+ authenData.id +'/profile';
+        axion.get(url).then(function(r){   
+            if(r.statusText=='OK' && r.data.status=="success" ){
+                var data = {
+                            id : r.data.data.id,
+                            fullname : r.data.data.fullName,
+                            country : r.data.data.countries,
+                            picture : r.data.data.picture
+                        }
+                localstore.storeUserData('user_info',data);
+                v.displayname = d.displayname
+                v.picture  = d.picture
+                }
+            }).catch(function(err){
+
+            }) 
     }
 
 }

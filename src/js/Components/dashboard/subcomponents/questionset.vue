@@ -9,18 +9,18 @@
                                                     </div>
                                                 </figure>
                                                 <div class="productDetails">
-                                                    <h4 class="productName">Laws of Motion</h4>
+                                                    <h4 class="productName">{{title}}</h4>
                                                     <div class="productMeta">
                                                         <div class="metaItem">
                                                             <span class="metaValue">SSS3</span>
                                                         </div>
                                                         <div class="metaItem">
-                                                            <span class="metaValue">Physics</span>
+                                                            <span class="metaValue">{{subject}}</span>
                                                         </div>
                                                         <div class="metaItem">
                                                             <span class="metaValue">
                                                                 <span class="currency naira">
-                                                                    2,500.00
+                                                                    {{price}}
                                                                 </span>
                                                             </span>
                                                         </div>
@@ -31,16 +31,16 @@
                                         <div class="card_item_row snip_row">
                                             <div class="snipItem">
                                                 <div class="snipIcon">
-                                                    <img src="./img/icons/question_mark.svg" alt="Questions in set">
+                                                    <img src="../../../../img/icons/question_mark.svg" alt="Questions in set">
                                                 </div>
                                                 <div class="snipInfo">
                                                     <span class="snipTitle">Questions</span>
-                                                    <span class="snipValue">75</span>
+                                                    <span class="snipValue">{{questionsCount}}</span>
                                                 </div>
                                             </div>
                                             <div class="snipItem">
                                                 <div class="snipIcon">
-                                                    <img src="./img/icons/feedback_icon.svg" alt="Feedbacks Received">
+                                                    <img src="../../../../img/icons/feedback_icon.svg" alt="Feedbacks Received">
                                                 </div>
                                                 <div class="snipInfo">
                                                     <span class="snipTitle">Feedbacks</span>
@@ -49,7 +49,7 @@
                                             </div>
                                             <div class="snipItem">
                                                 <div class="snipIcon">
-                                                    <img src="./img/icons/sold_icon.svg" alt="Units Sold">
+                                                    <img src="../../../../img/icons/sold_icon.svg" alt="Units Sold">
                                                 </div>
                                                 <div class="snipInfo">
                                                     <span class="snipTitle">Sold</span>
@@ -61,3 +61,9 @@
                                     </div>
                                 </article>
 </template>
+<script>
+export default {
+    props:['id','title','questionsCount', 'authorName', 'performanceScore','description','authorBio','authorId','image','price','subject']
+}
+</script>
+

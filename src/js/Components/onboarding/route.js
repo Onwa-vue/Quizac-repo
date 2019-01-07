@@ -1,5 +1,5 @@
 import header from '../common/header.vue'
-import auth_header from '../common/authenticated_header.vue'
+import auth_header from '../common/partial_authenticated_header.vue'
 import footer from '../common/footer.vue'
 
 import onboarding from '../onboarding/onboarding.vue'
@@ -11,14 +11,14 @@ var routes = [
 
       {
         path:'/onboarding',
-        name:'onboarding',
         components:{
-            header:header,
+            header:auth_header,
             main: onboarding
         },
 
         children: [{
             path:'',
+            name:'onboarding',
             component:stageone,
             meta: {
                 complete_stg1:false

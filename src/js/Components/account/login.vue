@@ -41,9 +41,10 @@
 
 <script>
 
-var axion = require('../../Utility/serverClient.js')
+var client = require('../../Utility/serverClient.js')
 var localstore  = require('../../utility/cookieStorage.js'); 
 var constants  = require('../../utility/constants.js'); 
+var axion = client();
 
 export default {
     data(){
@@ -76,9 +77,25 @@ export default {
                 console.log(resp);
                 if(resp.statusText=="OK" && resp.data.status=="success"){
                     var d = resp.data.data;
-                   
-                      var url = 'api/user/'+ d.user.id +'/profile';
-                      axion.get(url).then(function(r){
+
+                         var data = {
+                                access_token : d.access_token,
+                                expires_in : d.expires_in,
+                                refresh_token : d.refresh_token,
+                                role :'contributor',
+                                id : d.user.id
+                            }
+                            localstore.storeAuthData(data);
+                            localstore.storeOnboardingdata('stage1_onboarding',{status: true})
+                            localstore.storeOnboardingdata('stage2_onboarding',{status: true})
+                            axion = client();
+                            v.$router.push('dashboard'); 
+
+
+                    /* console.log(d);       
+                     axion.defaults.headers.common['Authorization'] = 'Bearer '+ d.access_token;
+                     var url ='/api/contributor/'+ d.user.id +'/profile'
+                     axion.get(url).then(function(r){
                           console.log(r);
                           if(r.statusText=='OK' && resp.data.status=="success" ){
                         var data = {
@@ -92,19 +109,16 @@ export default {
                                 country : r.country,
                                 picture : r.picture
                             }
-
+                            console.log(data);
                             v.show_error= false;
                             localstore.storeAuthData(data);
-                            localstore.storeOnboardingdata('stage1_onboarding',{status: true})
-                            localstore.storeOnboardingdata('stage2_onboarding',{status: true})
-
+                            localstore.storeOnboardingdata('stage1_onboarding',{status: false})
+                            localstore.storeOnboardingdata('stage2_onboarding',{status: false})
                             v.$router.push('dashboard/verification');
-
                           }
                       }).catch(function(err){
 
-                      }) 
-                     
+                      })    */
 
                 }else{
                     v.show_error= true;
@@ -112,7 +126,6 @@ export default {
 
             }).catch(function(error){
                 console.log(error);
-
                 v.show_error= true;
             })
         }

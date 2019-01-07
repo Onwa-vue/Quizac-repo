@@ -1,0 +1,1128 @@
+<!doctype html>
+<html lang="en" class="no-js">
+
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<title>Wave Theory | Quizac Contributors</title>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png">
+    <link rel="icon" href="img/favicon.png" type="image/png">
+    <link rel="stylesheet" href="css/reset.css"/>
+    <link rel="stylesheet" href="css/base.min.css"/>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <script src="js/modernizr.js"></script> <!-- Modernizr -->
+</head>
+
+<body>
+    
+    <div class="modal fade" id="question_upload">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <header class="modal-header">
+                    <h4 class="modal-title text-caps">Upload your question</h4>
+                    <button type="button" class="close_dialog" data-dismiss="modal" ></button>
+                </header>
+                <div class="modal-body">
+                    <div class="margin_bottom_md">
+                        <p>Upload a word (.doc, .docx) document containing your questions. Make sure your Questions are formated as specified in our question creation guide. If they are not, will not be able to extract your questions. </p>
+                    </div>
+                    <form action="img/banners" class="user_file dropzone" id="userFileUploader">
+                    </form>
+                    <div class="statusMessages hidden">
+                        <!--Show this after parsing the uploaded document, You can change the message depending on the outcome-->
+                        <span class="statusMsg parseStatus">Document parsed successfully</span>
+                        <!--Show this after extracting the questions from the parsed document-->
+                        <span class="statusMsg questionCount">15 Questions generated</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                   <!--Continue button to initiate parsing and question extraction. hide it when parsing is completed to revel the preview button-->
+                    <button class="btn btn-sm btn-primary ">Continue</button>
+                    <a href="doc_questions_preview.html" class="btn btn-sm btn-primary hidden">Preview Questions</a>
+                </div>
+            </div>
+        </div>
+    </div>
+           
+    <div class="modal fade" id="publish_form">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <header class="modal-header">
+                    <h4 class="modal-title text-caps">Publish new questions</h4>
+                    <button type="button" class="close_dialog" data-dismiss="modal" ></button>
+                </header>
+                <div class="modal-body">
+                    <form action="">
+                        <div class="form-group">
+                            <label class="control-label caps_upper">What's new?</label>
+                            <textarea rows="10" class="form-control" placeholder="A short description of what you added to this set."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="#" class="control-label caps_upper">Standard Price</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" value="10000.00" min="0">
+                                <span class="input-group-addon">
+                                    NGN <i class="currency naira"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary">Publish</button>
+                </div>
+            </div>
+        </div>
+    </div>
+            
+    <header class="mainHeader has_feedback" role="banner">
+        <div class="container">
+            <div class="brand_img">
+                <a href="index.html" class="logo_link">
+                    <img src="./img/logo.png" alt="Quizac Contributor Portal">
+                </a>
+            </div>
+            <nav class="navMenu menu__primary">
+                <div class="menuList-item" >
+                    <a href="dashboard.html" class="menu__link_item">Dashboard</a>
+                </div>
+                <div class="menuList-item active">
+                    <a href="user_sets.html" class="menu__link_item">Question Sets</a>
+                </div>
+                <div class="menuList-item">
+                    <a href="wallet.html" class="menu__link_item">Wallet</a>
+                </div>
+            </nav>
+            <nav class="navMenu menu_alt">
+                <div class="menuList-item control_btns has_feedback">
+                    <a href="feedbacks.html" class="menu__link_item">
+                        <span class="icon_holder">
+                            <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
+                                <path d="M12.5,25a12.43,12.43,0,0,1-6.87-2.06l-4.3,1.33a.49.49,0,0,1-.61-.61l1.33-4.3A12.5,12.5,0,0,1,21.34,3.66,12.5,12.5,0,0,1,12.5,25ZM5.71,21.92A.49.49,0,0,1,6,22a11.52,11.52,0,1,0-3-3,.49.49,0,0,1,.06.42L1.93,23.07l3.63-1.13Z"/>
+                                <path d="M12.53,3.56h0a.49.49,0,0,1,0-1h0a.49.49,0,0,1,0,1Z"/>
+                                <path d="M19.16,6.32a.49.49,0,0,1-.35-.14,8.89,8.89,0,0,0-4.56-2.44.49.49,0,0,1,.19-1A9.87,9.87,0,0,1,19.5,5.49a.49.49,0,0,1-.35.83Z"/>
+                                <path d="M18.52,15.69a1.37,1.37,0,0,0-.27-.82,1.37,1.37,0,0,0,0-2.36,1.37,1.37,0,0,0-1.1-2.19H14L15.34,9a1.57,1.57,0,1,0-2.23-2.23L9.57,10.32h-3a.37.37,0,0,0-.37.37v6a.37.37,0,0,0,.37.37H8.2a2.38,2.38,0,0,0,2.34,2h6.2a1.37,1.37,0,0,0,1.1-2.19A1.37,1.37,0,0,0,18.52,15.69Zm-1.37.63h-2.4a.63.63,0,1,1,0-1.25h2.4a.63.63,0,1,1,0,1.25Zm-3-2.63a.63.63,0,0,1,.63-.63h2.8a.63.63,0,0,1,0,1.25h-2.8A.63.63,0,0,1,14.12,13.69Zm3.65-2a.63.63,0,0,1-.63.63h-2.4a.63.63,0,1,1,0-1.25h2.4A.63.63,0,0,1,17.78,11.69Zm-8.86,5a.37.37,0,0,0-.37-.37H6.92V11.07H9.73A.37.37,0,0,0,10,11l3.65-3.65a.83.83,0,0,1,1.17,1.17l-2,2a.37.37,0,0,0,.26.64h.4a1.36,1.36,0,0,0-.15.63v1a1.63,1.63,0,0,1-1.63,1.63.37.37,0,0,0,0,.75,2.37,2.37,0,0,0,1.76-.78,1.38,1.38,0,0,0,.3.41A1.37,1.37,0,0,0,14,16.88a1.37,1.37,0,0,0-.12,1.45H10.55A1.63,1.63,0,0,1,8.92,16.7Zm7.83,1.63h-1.6a.63.63,0,0,1,0-1.25h1.6a.63.63,0,1,1,0,1.25Z"/>
+                            </svg>
+                        </span>
+                        <span class="feedback_sig"></span>
+                    </a>
+                </div>
+                <div class="menuList-item account_info">
+                    <a href="#" class="menu__link_item dropdown-toggle" data-toggle="dropdown">
+                       <div class="flex_wrapper d-flex align-items-center">
+                            <span class="user_avi">
+                                <img src="./img/default_avi.png" alt="Cayhlebs">
+                            </span>
+                            <span class="user_name">Cayhlebs</span>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="profile_lander.html">My Profile</a></li>
+                        <li><a href="act_settings.html">Settings</a></li>
+                        <li><a href="login.html">Log Out</a></li>
+                    </ul>
+                </div>
+                <div class="nav_trigger">
+                    <a class="primary-nav-trigger" href="#0">
+                        <span class="menu-icon"></span>
+                        <span class="menu-text sr-only">Menu</span>
+                    </a>
+                </div>
+            </nav>
+       </div>
+    </header>
+
+	<div class="split_layout">
+        <div class="layout_wrapper">
+            
+            <aside class="layout_aside bg__black color__grey_light">
+                <div class="layout_content_wrapper">
+                    <div class="qs_masthead">
+                        <div class="detail_control">
+                            <a href="user_sets.html" class="back_btn" title="Back to my questions sets">
+                                <span class="back_icon">
+                                    <img src="img/icons/angle_back.svg" alt="Back to my questions sets">
+                                </span>
+                                <span class="bc_label">
+                                    All Sets
+                                </span>
+                            </a>
+                        </div>
+                        
+                        <div class="details_panel_header">
+                            <h4 class="detail_title color__white">Wave Theory</h4>
+                            <div class="productMeta">
+                                <div class="metaItem">
+                                    <span class="metaValue">SSS3</span>
+                                </div>
+                                <div class="metaItem">
+                                    <span class="metaValue">Mathematics</span>
+                                </div>
+                                <div class="metaItem">
+                                    <span class="metaValue">
+                                        Arithmetics
+                                    </span>
+                                </div>
+                                <div class="metaItem">
+                                    <span class="metaValue">
+                                        <span class="currency naira">5,000.00</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="details_panel_body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse repellat iure eligendi iste laudantium eaque et praesentium ex quos, soluta minus, in vero incidunt assumenda accusantium qui eos non. Earum. In vero incidunt assumenda accusantium qui eos non. Earu.</p>
+                            
+                            <ul class="custom_bullet_list">
+                                <li class="bullet_list_item">
+                                    <div class="bullet_list_label">
+                                        <span class="listTitle">Online test center</span>
+                                        <span class="listSub">http://www.theonlinetestcentre.com/arithmetic-aptitude2.html</span>
+                                    </div>
+                                </li>
+                                <li class="bullet_list_item">
+                                    <div class="bullet_list_label">
+                                        <span class="listTitle">Wikipedia</span>
+                                        <span class="listSub">http://www.wikipedia.com/arithmetic-aptitude2.html</span>
+                                    </div>
+                                </li>
+                            </ul>
+                            
+                            <div class="section_cto">
+                                <a href="new_set.html" class="btn btn-default">Edit Details</a>
+                            </div>
+                        </div>
+                    </div>
+               </div>
+            </aside>
+            
+            <main class="main_content_wrapper layout_content_area">
+                <div class="layout_content_wrapper">
+                    <section class="section_block">
+                        <div class="container">
+                           <header class="row margin_bottom_sm">
+                               <div class="col-6">
+                                   <h3 class="section_title d-inline-block">Questions</h3>
+                                    <span class="d-inline-block font-md color__grey_dark">36</span>
+                               </div>
+                               <div class="col-6 text-right dropdown">
+                                   <a href="#" class="btn btn-primary" data-toggle="dropdown">Add Question(s) <span class="caret"></span></a>
+                                   <ul class="dropdown-menu">
+                                       <li><a href="#question_upload" data-toggle="modal" data-backdrop="static">Document Upload</a></li>
+                                       <li><a href="new_question_form.html">Question Form</a></li>
+                                   </ul>
+                               </div>
+                           </header>
+                           
+                            <div class="alert alert_scondary">
+                                <div class="extra_info">
+                                    <div class="alert_icon">
+                                        <span class="cust_icon icon_info"></span>
+                                    </div>
+                                    <div class="alert_info">
+                                        <h4 class="margin_bottom_sm font-md">You have unpublished Questions</h4>
+                                        <p>You need to add 4 more questions to reach the minimum of 20 questions per update required.</p>
+                                    </div>
+                                </div>
+                            </div>
+                          
+                           <div class="empty_state hidden">
+                                <div class="def_wrapper">
+                                    <p>Your set must contain a minimum of 30 questions before it can be published. Choose any of listed options to add your questions.</p>
+                                    <div class="section_cto">
+                                        <a href="#question_upload" data-toggle="modal" data-backdrop="static" class="control_flex">
+                                            <div class="form_info_block">
+                                                <span class="label_title color__black caps_upper font-bold">Document Upload</span>
+                                                <span class="label_info">Uplaod a word document containing your questions, prepared according to our question creation specifications.</span>
+                                            </div>
+                                        </a>
+                                        <a href="new_question_form.html" class="control_flex">
+                                            <div class="form_info_block">
+                                                <span class="label_title color__black caps_upper font-bold">Question Form</span>
+                                                <span class="label_info">Create your questions one at a time; using the questions creator form.</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content_inner ">
+                                <nav class="filter_navigation">
+                                    <div class="filter_search">
+                                       <form action="">
+                                           <div class="search_bar_holder">
+                                               <button class="search_btn">
+                                                   <svg class="cust_icon" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+                                                       <g transform="translate(1 1)" fill="none" fill-rule="evenodd">
+                                                           <path d="M15.364 2.636A9 9 0 1 1 2.636 15.363 9 9 0 0 1 15.364 2.636zM20 20l-5-5"></path>
+                                                       </g>
+                                                   </svg>
+                                               </button>
+                                               <label class="search_input">
+                                                   <input type="search" class="filter_search_input" placeholder="Search..." title="Search for...">
+                                               </label>
+                                           </div>
+                                       </form>
+                                   </div>
+                                </nav>
+                                <div class="question_render">
+                                    <div class="question_version_block">
+                                        <header class="version_header">
+                                            <a class="accordion-toggle" data-toggle="collapse" href="#version_1" >
+                                                <div class="collapse_stat_indicator">
+                                                    <svg class="cust_icon state_icon" viewBox="0 0 24 24">
+                                                        <path d="M8.292 10.293a1.009 1.009 0 0 0 0 1.419l2.939 2.965c.218.215.5.322.779.322s.556-.107.769-.322l2.93-2.955a1.01 1.01 0 0 0 0-1.419.987.987 0 0 0-1.406 0l-2.298 2.317-2.307-2.327a.99.99 0 0 0-1.406 0z" fill="currentColor" fill-rule="evenodd"></path>
+                                                    </svg>
+                                                </div>
+                                                <h2 class="version_label">
+                                                    <span>Version 1</span> - <span>10/11/2018</span> - <span>20 Questions</span>
+                                                </h2>
+                                                <div class="version_status">
+                                                    <span class="stat_tag"></span>
+                                                </div>
+                                            </a>
+                                        </header>
+                                        <div id="version_1" class="version_items panel-collapse collapse show" style="">
+                                            <div class="table table-responsive table-brand">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><div class="text-left">Question Text</div></th>
+                                                            <th><div class="text-center">Comments</div></th>
+                                                            <th><div>Options</div></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        Which of the following is not an example of waves?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    0
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="question_view.html">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        What is the wavelength of a 5Hz wave traveling at the speed of 10m/s?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    15
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="question_view.html">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        A rope of length 5 m is stretched to a tension of 80 N. If its mass is 1 kg, at what speed would a 10 Hz transverse wave travel down the string?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    0
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="question_view.html">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        A medium is able is able to transport a wave from one location to another because the particles of the medium are
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    21
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="question_view.html">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        Which of the following is not an example of waves?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    0
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="question_view.html">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        What is the wavelength of a 5Hz wave traveling at the speed of 10m/s?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    15
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="question_view.html">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        A rope of length 5 m is stretched to a tension of 80 N. If its mass is 1 kg, at what speed would a 10 Hz transverse wave travel down the string?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    0
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="question_view.html">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        A medium is able is able to transport a wave from one location to another because the particles of the medium are
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    21
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="question_view.html">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        Which of the following is not an example of waves?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    0
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="question_view.html">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        What is the wavelength of a 5Hz wave traveling at the speed of 10m/s?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    15
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="question_view.html">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        A rope of length 5 m is stretched to a tension of 80 N. If its mass is 1 kg, at what speed would a 10 Hz transverse wave travel down the string?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    0
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="question_view.html">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        A medium is able is able to transport a wave from one location to another because the particles of the medium are
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    21
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="question_view.html">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        Which of the following is not an example of waves?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    0
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="question_view.html">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        What is the wavelength of a 5Hz wave traveling at the speed of 10m/s?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    15
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="question_view.html">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        A rope of length 5 m is stretched to a tension of 80 N. If its mass is 1 kg, at what speed would a 10 Hz transverse wave travel down the string?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    0
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="question_view.html">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        A medium is able is able to transport a wave from one location to another because the particles of the medium are
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    21
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="question_view.html">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="question_version_block">
+                                        <header class="version_header">
+                                            <a class="accordion-toggle" data-toggle="collapse" href="#version_2" >
+                                                <div class="collapse_stat_indicator">
+                                                    <svg class="cust_icon state_icon" viewBox="0 0 24 24">
+                                                        <path d="M8.292 10.293a1.009 1.009 0 0 0 0 1.419l2.939 2.965c.218.215.5.322.779.322s.556-.107.769-.322l2.93-2.955a1.01 1.01 0 0 0 0-1.419.987.987 0 0 0-1.406 0l-2.298 2.317-2.307-2.327a.99.99 0 0 0-1.406 0z" fill="currentColor" fill-rule="evenodd"></path>
+                                                    </svg>
+                                                </div>
+                                                <h2 class="version_label">
+                                                    <span>Version 2</span> - <span>21/11/2018</span> - <span>16 Questions</span>
+                                                </h2>
+                                                <div class="version_status">
+                                                    <span class="stat_tag">unpublished</span>
+                                                </div>
+                                            </a>
+                                        </header>
+                                        <div id="version_2" class="version_items panel-collapse collapse show" style="">
+                                            <div class="table table-responsive table-brand">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><div class="text-left">Question Text</div></th>
+                                                            <th><div class="text-center">Comments</div></th>
+                                                            <th><div>Options</div></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        Which of the following is not an example of waves?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    0
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="#">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        What is the wavelength of a 5Hz wave traveling at the speed of 10m/s?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    0
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="#">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        A rope of length 5 m is stretched to a tension of 80 N. If its mass is 1 kg, at what speed would a 10 Hz transverse wave travel down the string?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    0
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="#">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        A medium is able is able to transport a wave from one location to another because the particles of the medium are
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    0
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="#">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        Which of the following is not an example of waves?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    0
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="#">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        What is the wavelength of a 5Hz wave traveling at the speed of 10m/s?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    0
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="#">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        A rope of length 5 m is stretched to a tension of 80 N. If its mass is 1 kg, at what speed would a 10 Hz transverse wave travel down the string?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    0
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="#">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        A medium is able is able to transport a wave from one location to another because the particles of the medium are
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    0
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="#">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        Which of the following is not an example of waves?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    0
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="#">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        What is the wavelength of a 5Hz wave traveling at the speed of 10m/s?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    0
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="#">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="table_description">
+                                                                    <a href="question_view.html">
+                                                                        A rope of length 5 m is stretched to a tension of 80 N. If its mass is 1 kg, at what speed would a 10 Hz transverse wave travel down the string?
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="text-center">
+                                                                    0
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="post_control dropdown">
+                                                                    <a href="#" class="control_trigger dropdown-toggle" data-toggle="dropdown">
+                                                                        <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                            <path d="M4 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a href="#">Edit</a></li>
+                                                                        <li><a href="#">View</a></li>
+                                                                        <li><a href="#">Archive</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+            <!--Visible when the user has updates eligible for publishing-->
+            <div class="submit_widget widget_fixed_bottom hidden">
+                <div class="container">
+                    <div class="nav_flex_row">
+                        <div class="nav_btn btn-prev">
+                            
+                        </div>
+                        <div class="nav_btn btn-next">
+                            <button data-target="#publish_form" data-toggle="modal" data-backdrop="static" class="btn btn-secondary">Publish Updates</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        	
+	<script src="js/jquery.js"></script>
+	<script src="js/base.min.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/dropzone.min.js"></script>
+	
+	<script>
+        Dropzone.options.userFileUploader = {
+            maxFilesize: 2, // MB
+            addRemoveLinks: true,
+            acceptedFiles: "application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        };
+    </script>
+	
+</body>
+
+</html>

@@ -13,6 +13,7 @@ require('../css/styles.css')
 // require("./Utility/modernizr")
 require("jquery")
 require("./utility/base.min.js")
+require('./Utility/dropzone.min.js')
 require("./script.js")
 
 const dictionary = {
@@ -29,7 +30,6 @@ const dictionary = {
       }
     }
 }
-
 
 Validator.localize(dictionary);
 Vue.use(VeeValidate, {event: 'onchange'});

@@ -5,7 +5,7 @@
                     <div class="customer_profile media_info">
                         <div class="media_image">
                             <a href="profile_lander.html" class="customer_image">
-                                <img src="../../../img/default_avi.png" alt="Cayhlebs">
+                                <img src="../../../../img/default_avi.png" alt="Cayhlebs">
                             </a>
                         </div>
                         <div class="media_details">

@@ -121,9 +121,10 @@
 
 <script>
 
-var axios = require('../../Utility/serverClient.js')
+var client = require('../../Utility/serverClient.js')
 var localstore  = require('../../utility/cookieStorage.js'); 
 import Selectize from 'vue2-selectize'
+var axios = client();
     
 export default {
     data(){
@@ -221,8 +222,7 @@ export default {
                  if(result){     
            var id = localstore.getdata('auth').id;
 
-           
-
+        
            var levels = [];
            this.levels.map(l=>{
                vueInstance.selectedLevels.forEach(sl=>{
@@ -242,14 +242,14 @@ export default {
                })
            })
 
+           
 
-           Promise.all([axios.post('/api/contributor/'+ id +'/categories',levels),axios.post('api/contributor/'+ id +'{id}/subjects',subjects)]).
+           Promise.all([axios.post('/api/contributor/'+ id +'/categories',levels),axios.post('api/contributor/'+ id +'/subjects',subjects)]).
            then(function (resps){
                console.log(resps);
                if(resps[1].statusText=="OK" && resps[1].statusText=="OK"){
 
                    var url = 'api/contributor/'+ id +'/update_profile';
-                   console.log(url);
                    axios.post( url, {
                        countries: vueInstance.selectedCountries,
                        mobileNumber: vueInstance.phonenumber,
@@ -258,7 +258,7 @@ export default {
                    }).then(function(resp){
                        console.log(resp);
                        if(resp.statusText=="OK"){
-                           //  save onboarding status 
+                           // save onboarding status 
                            localstore.storeOnboardingdata('stage1_onboarding', {status: true})
                            // navigate to stage two
                            vueInstance.$router.push('/onboarding/stagetwo');  
