@@ -185,7 +185,7 @@ export default {
     props:{
         references:Array
         },
-
+          
     data(){
         return {
             name:null,
@@ -299,7 +299,7 @@ export default {
             
             axion.post(url, data).then(result=>{
                 if(result.statusText=='OK' && result.data.status =="success"){
-                     var id = result.data.id;
+                     var id = result.data.data.id;
                      vueInstance.$router.push({name:'questionEntryOption', params:{questionsetId:id}})
                 }
             }).catch(err=>{

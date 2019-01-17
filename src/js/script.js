@@ -60,5 +60,17 @@ jQuery(document).ready(function($){
             $('body').toggleClass('scroll_lock');
         });
         
+        /*Custom Selector*/
+        var selector = $(".cst_selector"),
+            target_container = $('.custom_selector');
+            
+        selector.on('click', function() {
+            if ($(this).attr("checked"), true) {
+                $(this).parents(".custom_selector").find(".selector_item").removeClass('selected');
+                $(this).parents(".selector_item").addClass("selected");
+            } else {
+                $(this).parents(".selector_item").removeClass('selected');
+            }
+        });    
         
     });

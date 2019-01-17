@@ -57,13 +57,32 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <a href="question_set_details.html" class="card_link"></a>
+                                        <a class="card_link" v-on:click="viewDetail(id)"></a>
                                     </div>
                                 </article>
 </template>
 <script>
 export default {
-    props:['id','title','questionsCount', 'authorName', 'performanceScore','description','authorBio','authorId','image','price','subject']
+    props:[
+        'id',
+        'title',
+        'questionsCount',
+        'authorName',
+        'performanceScore',
+        'description',
+        'authorBio',
+        'authorId',
+        'image',
+        'price',
+        'subject'
+          ],
+
+          methods:{
+              viewDetail: function(id){
+                  this.$router.push({name:'questionSetVersions', params:{questionsetId:id}})
+              }
+          }
+
 }
 </script>
 

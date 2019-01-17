@@ -8,12 +8,13 @@ require('../css/reset.css')
 require('../css/base.min.css')
 require('../css/selectize.bootstrap3.css')
 require('../css/styles.css')
+import 'vue2-dropzone/dist/vue2Dropzone.css'
 
 
 // require("./Utility/modernizr")
 require("jquery")
 require("./utility/base.min.js")
-require('./Utility/dropzone.min.js')
+//require('./Utility/dropzone.min.js')
 require("./script.js")
 
 const dictionary = {

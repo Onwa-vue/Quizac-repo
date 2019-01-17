@@ -10,9 +10,13 @@
                     <div class="margin_bottom_md">
                         <p>Upload a word (.doc, .docx) document containing your questions. Make sure your Questions are formated as specified in our question creation guide. If they are not, will not be able to extract your questions. </p>
                     </div>
-                    <form action="img/banners" class="user_file dropzone dz-clickable" id="userFileUploader">
+
+                    <vue-dropzone ref="dropzone" id="drop1" :options="dropOptions" @vdropzone-success="afterComplete"></vue-dropzone>
+
+                   <!-- <form action="img/banners" class="user_file dropzone dz-clickable" id="userFileUploader">
                        <div class="dz-default dz-message"><span>Drop files here to upload</span></div>
-                    </form>
+                    </form> -->
+
                     <div class="statusxMessages hidden">
                         <!--Show this after parsing the uploaded document, You can change the message depending on the outcome-->
                         <span class="statusMsg parseStatus">Document parsed successfully</span>
@@ -31,13 +35,43 @@
 </template>
 
 <script>
+
+import vueDropzone from "vue2-dropzone";
+var localstore  = require('../../../utility/cookieStorage.js'); 
+
+var questionSetId;
+var contributorId;
+
 export default {
+    props:{
+        versionId:String
+    },
+    
+    data(){
+        return {
+            dropOptions: {
+                 url: '/api/contributor/'+ contributorId +'/question_set/'+ questionSetId +'/batch_preview',
+                 addRemoveLinks: true,
+                 paramName:'file',
+                 maxFiles: 1,
+                 acceptedFiles:'application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+             }       
+        }
+    },
+
+    methods:{
+        afterComplete: function(file){
+             $('#question_upload').modal('hide')
+        }
+    },
+    components:{
+        vueDropzone
+    },
+
     mounted: function(){
-         Dropzone.options.userFileUploader = {
-        maxFilesize: 2, // MB
-        addRemoveLinks: true,
-        acceptedFiles: "application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    }; 
+
+         contributorId = localstore.getdata('auth').id;  
+         questionSetId = this.$route.params.questionsetId;
     }
 }
 </script>

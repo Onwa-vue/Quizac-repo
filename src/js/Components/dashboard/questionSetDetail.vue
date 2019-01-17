@@ -1,7 +1,6 @@
 <template>
      <div class="split_layout">
         <div class="layout_wrapper">
-            
             <aside class="layout_aside bg__black color__grey_light">
                 <div class="layout_content_wrapper">
                     <div class="qs_masthead">
@@ -50,17 +49,24 @@
                                     </div>
                                 </li>
                             </ul>
-                            <div class="section_cto">
-                                <a href="#" class="btn btn-default">Edit Details</a>
-                            </div>
+                            
                         </div>
                     </div>
                </div>
             </aside>
-           <question-upload-dialog></question-upload-dialog>
+           <question-upload-dialog v-bind:versionId="versionId"></question-upload-dialog>
             <main class="main_content_wrapper layout_content_area">
                 <div class="layout_content_wrapper">
-                    <router-view name="section"></router-view>
+                    <nav class="wizard_nav not_fixed">
+                        <div class="container">
+                            <ul class="step_nav" role="tablist">
+                                <li class="step_nav_item active"><a href="question_set_details.html">Questions</a></li>
+                                <li class="step_nav_item"><a href="set_reviews.html">Reviews</a></li>
+                                <li class="step_nav_item"><a href="set_settings.html">Settings</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                    <router-view name="section" v-on:setversion="setversion"></router-view>
                 </div>
             </main>
         </div>
@@ -71,6 +77,7 @@
 
 import questionUpload_dialog from './subcomponents/questionUpload_dialog.vue';
 var client = require('../../Utility/serverClient.js')
+var localstore  = require('../../utility/cookieStorage.js'); 
 var axios;
 
  var questionSetId;
@@ -88,12 +95,19 @@ export default {
             description:'',
             references:[],
             price:'',
-            colorCode:''
+            colorCode:'',
+            versionId:''
 
         }
     },
     components:{
         'question-upload-dialog': questionUpload_dialog
+    },
+
+    methods:{
+        setversion: function(versionId){
+            this.versionId=versionId;
+        }
     },
 
     mounted: function(){

@@ -10,9 +10,9 @@ import newQuestionSet from './newQuestionSet.vue';
 import questionSets from './questionSets.vue'
 import questionSetDetail from './questionSetDetail.vue'
 import questionEntryOption from './subcomponents/questionUploadOptions.vue'
-import questionSetQuestions from './subcomponents/questionSetQuestions.vue'
+import questionSetVersions from './subcomponents/questionSetVersions.vue'
 
-import newQuestionForm from './newQuestionForm.vue'
+import question from './newQuestionform.vue'
 
 var routes = [
     {
@@ -80,21 +80,14 @@ var routes = [
         },
         children:[
             {
-                path:'entry/option',
-                name: 'questionEntryOption' ,
+                path:'',
+                name: 'questionSetVersions' ,
                 components:{
-                    section : questionEntryOption
+                    section : questionSetVersions
                 },
                 meta :{
                     requiresAuth:true
                  }
-            },
-            {
-                path:'questions',
-                name:'questionSetQuestions',
-                components:{
-                    section : questionSetQuestions
-                }
             }
         ],
         meta:{
@@ -103,11 +96,11 @@ var routes = [
     },
 
     {
-        path:'dashboard/questionset/:questionSetId/question/new',
+        path:'/dashboard/questionset/:questionsetId/question/new',
         name:'newQuestionForm',
         components:{
             header:auth_header,
-            main: newQuestionForm,
+            main: question,
         },
         meta:{
             requiresAuth:true

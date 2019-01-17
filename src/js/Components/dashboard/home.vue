@@ -127,7 +127,7 @@ export default {
             var vueInstance = this;
             var contributor_id = localstore.getdata('auth').id;
             var req =[];
-            req.push(axios.get('api/contributor/'+ contributor_id + '/question_sets/1/2'));
+            req.push(axios.get('api/contributor/'+ contributor_id + '/question_sets/0/2'));
             req.push(axios.get('api/feedback'));
             Promise.all(req).then(function(resps){
                 if(resps[0].statusText=='OK'){

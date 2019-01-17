@@ -20,7 +20,7 @@ export default {
         return {
             topicId :'',
             subjectId :'',
-            references:[{title:'testing one', resourceLink:'http://api.staging.quizac.com/docs/#/'}, {title:'Tetsing two', resourceLink:'http://api.staging.quizac.com/docs/#/'},{title:'testing three', resourceLink:'http://api.staging.quizac.com/docs/#/'}]
+            references:[]
         }
     },
 

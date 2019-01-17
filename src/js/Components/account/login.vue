@@ -88,7 +88,6 @@ export default {
                             localstore.storeAuthData(data);
                             localstore.storeOnboardingdata('stage1_onboarding',{status: true})
                             localstore.storeOnboardingdata('stage2_onboarding',{status: true})
-                            axion = client();
                             v.$router.push('dashboard'); 
 
 

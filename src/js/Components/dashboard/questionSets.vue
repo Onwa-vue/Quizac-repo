@@ -110,7 +110,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="question_set_details.html" class="card_link"></a>
+                                <a class="card_link" v-on:click="questionDetail(questionset)"></a>
                             </div>
                         </article>
                     </div>
@@ -138,9 +138,10 @@ export default {
 
             var vueInstance = this;
             var contributor_id = localstore.getdata('auth').id;
-            axios.get('api/contributor/'+ contributor_id + '/question_sets/1/10').then(function(resp){
+            axios.get('api/contributor/'+ contributor_id + '/question_sets/0/10').then(function(resp){
                 if(resp.statusText=='OK'){
                     resp.data.forEach(function(q){
+
                         vueInstance.questionSets.push({
                             id: q.id,
                             title: q.title,
@@ -152,13 +153,16 @@ export default {
                             authorId : q.authorId,
                             image : q.image,
                             price : q.price,
-                            subject : q.subject.name
+                            subject : q.subject!=null? q.subject.name:''
                         });
                     })    
                 }
             }).catch(err =>{
                 
             })
+        },
+        questionDetail: function(q){
+            this.$router.push({name:'questionSetVersions', params:{questionsetId:q.id}})
         }
     },
     created: function(){

@@ -121,7 +121,7 @@ export default {
                             fullname : r.data.data.fullName,
                             country : r.data.data.countries,
                             picture : r.data.data.picture
-                        }
+                           }
                 localstore.storeUserData('user_info',data);
                 v.displayname = d.displayname
                 v.picture  = d.picture
