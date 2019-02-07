@@ -1,6 +1,6 @@
 <template>
 
-           <div class="empty_state hidden">
+           <div class="empty_state">
                 <div class="def_wrapper">
                     <p>How would you like to add your questions?</p>
                     <div class="section_cto">
@@ -26,10 +26,11 @@
 
 
 export default {
+    props:['versionId'],
     methods:{
         openQuestionForm : function(){
           var questionSetId = this.$route.params.questionsetId;
-          this.$router.push({name:'newQuestionForm', params:{questionsetId:questionSetId}})
+          this.$router.push({name:'newQuestionForm', params:{questionsetId:questionSetId, versionId: this.versionId}})
         }
     }
 }

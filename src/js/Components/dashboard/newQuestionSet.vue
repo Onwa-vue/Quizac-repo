@@ -83,10 +83,21 @@
                                         <img src="../../../img/icons/info.svg" class="cust_icon" alt="More Info">
                                     </span>
                                 </header>
-                                <div class="form-group">
+                                <div class="form-group" v-bind:class="{data_loading: status.loadingTopics}">
                                     <select class="form-control" placeholder="Select your subjects of interest" v-model="topic">
                                         <option v-for="tpic in topics" v-bind:key="tpic.id" v-bind:value="tpic.id">{{tpic.name}}</option>    
                                     </select>
+
+                                    <div class="form_input_loader">
+                                       <div class="loader_text">Loading</div>
+                                        <div class="loader_grid">
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                        </div>
+                                    </div>
+
                                     <div class="more_control">
                                         <a href="#new_topic_dialog" data-toggle="modal" data-backdrop="static">
                                             <span>+</span>
@@ -188,6 +199,8 @@ export default {
           
     data(){
         return {
+
+            status:{isProcessing:false, loadingTopics:false},
             name:null,
             about: null,
             categories:[],
@@ -225,6 +238,7 @@ export default {
             })
 
             if(this.subject != null){
+                this.status.loadingTopics = true;
                 axion.get('/api/Subject/'+ this.subject  +'/topics').then(function(resp){
                     if(resp.statusText=='OK'){
                         vueInstance.topics = [];
@@ -240,6 +254,7 @@ export default {
                             })
                         })
                     }
+                    vueInstance.status.loadingTopics = false;
                 }).catch(function(err){
 
                 })

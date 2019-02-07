@@ -5,11 +5,11 @@
                            <header class="row margin_bottom_sm">
                                <div class="col-6">
                                    <h3 class="section_title d-inline-block">Questions</h3>
-                                    <span class="d-inline-block font-md color__grey_dark">36</span>
+                                    <span class="d-inline-block font-md color__grey_dark">{{questionCount}}</span>
                                </div>
                                <div class="col-6 text-right dropdown">
                                   <!--Add a new version group when the user clicks this button-->
-                                   <button type="button" class="btn btn-primary">New Version
+                                   <button type="button" class="btn btn-primary" v-on:click="createVersion" >New Version
                                </button></div>
                            </header>
                             <div class="alert alert_scondary">
@@ -45,7 +45,7 @@
                                 <div class="question_render">
                                     <div class="question_version_block" v-for="version in versions" v-bind:key="version.id">
                                         <header class="version_header">
-                                            <a class="accordion-toggle collapsed" data-toggle="collapse"  v-bind:href="'#'+version.name" aria-expanded="false" v-on:click="toggleCollapse(version.id)">
+                                            <a class="accordion-toggle collapsed" data-toggle="collapse"  v-bind:href="'#'+version.tagName" aria-expanded="false" v-on:click="toggleCollapse(version.id)">
                                                 <div class="collapse_stat_indicator">
                                                     <svg class="cust_icon state_icon" viewBox="0 0 24 24">
                                                         <path d="M8.292 10.293a1.009 1.009 0 0 0 0 1.419l2.939 2.965c.218.215.5.322.779.322s.556-.107.769-.322l2.93-2.955a1.01 1.01 0 0 0 0-1.419.987.987 0 0 0-1.406 0l-2.298 2.317-2.307-2.327a.99.99 0 0 0-1.406 0z" fill="currentColor" fill-rule="evenodd"></path>
@@ -60,11 +60,11 @@
                                             </a>
                                         </header>
                                         <!--Show if there are no questions in the version-->
+                                        <div class="version_items panel-collapse collapse " style="" v-bind:id="version.tagName">
+                                        <question-upload-option v-bind:questionSetId="questionSetId" v-bind:contributorId="contributorId" v-bind:versionId="version.id" v-if="version.questionCount==0" ></question-upload-option>
 
-                                        <question-upload-option v-bind:questionSetId="questionSetId" v-bind:contributorId="contributorId" ></question-upload-option>
-
-                                        <questions-table v-if="version.questionCount>0" v-bind:questions="version.questions" v-bind:versionName="version.name"></questions-table>
-                                        
+                                        <questions-table v-if="version.questionCount>0" v-bind:questions="version.questions" v-bind:versionName="version.name" v-bind:versionId="version.id" v-bind:isPublished="version.isPublished" v-bind:questionSetId="questionSetId"></questions-table>
+                                        </div>
                                     </div>
                                    
                                 </div>
@@ -86,13 +86,38 @@ export default {
         return{
             versions:[],
             questionSetId:null,
-            contributorId:null
+            contributorId:null,
+            questionCount:0
         }
     },
 
     methods:{
         toggleCollapse:function(versionId){
             this.$emit('setversion', versionId);
+        },
+        createVersion: function(){
+
+            var vueInstance = this;
+            var url = `/api/contributor/${this.contributorId}/question_set/${this.questionSetId}/create_version`;
+            console.log(url);
+
+           axios.post(url).then(resp=>{
+                console.log(resp);
+                if(resp.statusText=='OK'){
+
+                    var formatedDate = new Date();
+                     var data = {
+                        id: resp.date.id,
+                        name: `Version ${vueInstance.versions.length + 1}`,
+                        questionCount: 0,
+                        questions:[],
+                        date: `${formatedDate.getDate()} / ${formatedDate.getMonth()}/${formatedDate.getFullYear()}`
+                    }
+                    vueInstance.versions.push(data);
+                }
+            }).catch(err=>{
+
+            }) 
         }
     },
 
@@ -105,6 +130,8 @@ export default {
         var url = `/api/contributor/${this.contributorId}/question_set/${this.questionSetId}/versions`
         var vueInstance = this;
         axios.get(url).then(resp =>{
+
+            console.log(resp);
 
             if(resp.statusText=='OK'){
                 var count = 1;
@@ -119,12 +146,15 @@ export default {
                         })
                     })
 
-                    var formatedDate = new Date(version.date);
+                    var formatedDate = new Date(version.dateUpdated);
                     var data = {
+                        id:version.id,
                         name: `Version ${count}`,
+                        tagName:`Version_${count}`,
                         questionCount: questions.length,
                         questions:questions,
-                        date: `${formatedDate.getDate()} / ${formatedDate.getMonth()}/${formatedDate.getFullYear()}`
+                        isPublished: version.isPublished,
+                        date: `${formatedDate.getDate()}/${formatedDate.getMonth() + 1}/${formatedDate.getFullYear()}`
                     }
 
                     count = count +1;

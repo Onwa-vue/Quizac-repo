@@ -17,7 +17,7 @@
                         </div>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="login.html">Log Out</a></li>
+                        <li><a v-on:click="logout">Log Out</a></li>
                     </ul>
                 </div>
             </nav>
@@ -28,19 +28,39 @@
 <script>
 
 var localstore  = require('../../utility/cookieStorage.js'); 
-var d = localstore.getdata('auth')
+var d;
 
 export default {
 
     data(){
         return{
-            displayname : d.displayname,
-            picture : d.picture==null?'../../../img/default_avi.png':d.picture
+            displayname : '',
+            picture : '../../../img/default_avi.png'
+        }
+    },
+
+    methods:{
+
+         logout: function(){
+
+            localstore.cleardata('auth');
+            localstore.cleardata('stage1_onboarding');
+            localstore.cleardata('stage2_onboarding');
+            localstore.cleardata('user_info');
+            this.$router.push({name:'login'})
+
         }
     },
 
     computed:{
        
+    },
+
+    mounted: function(){
+
+        d= localstore.getdata('auth');
+        console.log(d)
+        this.displayname = d.email!=null || d.email != undefined ?d.email:'';
     }
 
 }

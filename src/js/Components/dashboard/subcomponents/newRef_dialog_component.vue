@@ -43,6 +43,7 @@ export default {
             this.$emit('add-reference',{title:this.name, resourceLink:this.url})
             this.name = '';
             this.url = '';
+            $('#new_ref').modal('toggle');
         }
     }
 }

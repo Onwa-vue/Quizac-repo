@@ -15,7 +15,7 @@
                           <p class="color__grey_dark margin_top_sm margin_bottom_md">Add <strong>12</strong> more questions to publish this version of your question set.</p>
                            <div class="post_thumb_list ">
 
-                                <article class="post_item_thumb" v-for="question in questionList" v-bind:key="question.count">
+                                <article class="post_item_thumb" v-for="question in questionList" v-bind:key="question.id">
                                     <div class="post_thumb_wrapper align-items-center">
                                         <div class="post_info">
                                             <span class="">{{question.text}}</span>
@@ -27,7 +27,7 @@
                                                 </svg>
                                             </a>
                                             <ul class="dropdown-menu">
-                                                <li><a>Edit</a></li>
+                                                <li><a v-on:click="editQuestion(question)">Edit</a></li>
                                                 <li><a v-on:click="removeQuestion(question)">Remove</a></li>
                                             </ul>
                                         </div>
@@ -61,7 +61,7 @@
                                 <h3 class="section_title">New Question</h3>
                             </header>
 
-                            <div class="form_body">
+                            
                                 <form action="">
                                     <div class="form_row_group row">
                                         <div class="form_group_item col-md-4">
@@ -77,7 +77,7 @@
                                         </div>
                                         <div class="form_group_item col-md-8">
                                             <div class="custom_selector">
-                                                <div class="seletor_pill selector_item">
+                                                <div class="seletor_pill selector_item" v-bind:class="{selected:difficulties.easy}">
                                                     <label for="diff_0" class="pill_wrapper">
                                                         <input type="radio" id="diff_0" class="cst_selector" name="qs_diff" value="Easy" v-model="difficulty">
                                                         <span class="selector_label">
@@ -85,15 +85,15 @@
                                                         </span>
                                                     </label>
                                                 </div>
-                                                <div class="seletor_pill selector_item">
+                                                <div class="seletor_pill selector_item" v-bind:class="{selected:difficulties.medium}">
                                                     <label for="diff_1" class="pill_wrapper">
-                                                        <input type="radio" id="diff_1" class="cst_selector" name="qs_diff" value="Medium" v-model="difficulty">
+                                                        <input type="radio" id="diff_1" class="cst_selector" name="qs_diff" value="Normal" v-model="difficulty">
                                                         <span class="selector_label">
-                                                            Medium
+                                                            Normal
                                                         </span>
                                                     </label>
                                                 </div>
-                                                <div class="seletor_pill selector_item">
+                                                <div class="seletor_pill selector_item" v-bind:class="{selected:difficulties.hard}"> 
                                                     <label for="diff_2" class="pill_wrapper">
                                                         <input type="radio" id="diff_2" class="cst_selector" name="qs_diff" value="Hard" v-model="difficulty">
                                                         <span class="selector_label">
@@ -117,7 +117,7 @@
                                                     <div class="row_content">
                                                         <div class="option_input_widget">
                                                             <div class="option_widget_block option_answer_marker" title="" data-toggle="tooltip" data-original-title="Set as answer">
-                                                                <input type="radio" name="quest_option" id="option_1" v-on:click="selectAnswer(option)">
+                                                                <input type="radio" name="quest_option" id="option_1" v-on:click="selectAnswer(option)" v-bind:value="option.status" v-model="answer">
                                                             </div>
                                                             <div class="option_widget_block option_answer_input">
                                                                 <input type="text" class="option_input_control" placeholder="Option text here" v-model="option.text">
@@ -198,20 +198,16 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form_cto text-center">
-                                        <a class="btn btn-primary" v-on:click="addQuestion">Save Question</a>
+                                     <div class="form_cto text-right">
+                                          <a class="btn btn-default" v-on:click="CancelEdit" v-if="id!=null">Cancel</a>
+                                        <a class="btn btn-primary" v-on:click="addQuestion">{{processStatus.text}}</a>
                                     </div>
                                 </form>
-                            </div>
                         </div>
                     </section>
                 </div>
              </main>
-             
-           
         </div>
-
-    
 </div>
 
    
@@ -224,7 +220,9 @@ var axion = client();
 
 var questionSetId;
 var contributorId;
+var versionId;
  var count=0;
+ var arrayIndex;
 
 export default {
     data(){
@@ -236,7 +234,9 @@ export default {
                 text:'Add Question',
                 IsProcessing : false
             },
+            id: null,
             questionText: '',
+            difficulties:{easy:false, medium:false, hard:false},
             difficulty: null,
             review:'',
             duration:'',
@@ -249,7 +249,8 @@ export default {
                  {status:false, text:'', count:3}, 
                  {status:false, text:'', count:4}, 
                  {status:false, text:'', count:5}
-            ]
+            ],
+            answer:null
         }
     },
 
@@ -280,17 +281,10 @@ export default {
                       var reader = new FileReader();
                       reader.onload = (e) => {
                       this.img = e.target.result;
-                      }
-                      
+                       vueInstance.imgString = e.target.result
+                      }   
                 reader.readAsDataURL(input.files[0]);
-                console.log('am here');
-                var stringReader = new FileReader();
-                stringReader.onload = (e)=>{
-                    var imgstr = btoa(reader.result);
-                    vueInstance.imgString = imgstr;
-                     console.log(imgstr);
-                }
-                stringReader.readAsBinaryString(input.files[0]);
+               
               }
      },
 
@@ -302,7 +296,6 @@ export default {
        selectAnswer : function(option){
            this.options.forEach(op=>{
                op.status= false
-               console.log(op);
            })
            option.status=true;
           
@@ -312,7 +305,6 @@ export default {
 
            var vueInstance = this;
            if(!this.processStatus.IsProcessing){
-
                     let choices= [];
                     this.options.forEach(function(option){
                         if(option.text !=''){
@@ -331,38 +323,26 @@ export default {
                         point: this.point,
                         review : this.review,
                         choices : choices,
-                        imageBase64: this.imgString,
+                        level:{name:this.difficulty},
+                        imageUrl: this.imgString,
                         count:count
                     }
 
-                    this.questionList.push(data);
-
-                    this.questionText='';
-                    this.duration ='';
-                    this.point = '';
-                    this.review = '';
-                    this.img = null;
-                    this.imgString = '';
-                    this.options = [
-                            {status:false, text:'', count:1},
-                            {status:false, text:'', count:2},
-                            {status:false, text:'', count:3}, 
-                            {status:false, text:'', count:4}, 
-                            {status:false, text:'', count:5}
-                    ]
-
-
-                   /* var url = '/api/contributor/'+contributorId+'/question_set/'+questionSetId;
-
                     vueInstance.processStatus.IsProcessing = true;
                     vueInstance.processStatus.text = 'adding ...';
+                    
+                   // console.log(contributorId = localstore.getdata('auth'));
+                   if(this.id == null){
 
                     console.log(data);
 
-                    axion.post(url, data).then(function(resp){
-                        console.log(resp);
-                        if(resp.statusText =='OK' && resp.data.status=='success'){
-                            
+                    axion.post(`/api/contributor/${contributorId}/question_set/${questionSetId}/versions/${versionId}`,[data]).then(resp=>{
+                        
+                       
+                        if(resp.statusText=='OK' && resp.data.status=='success'){
+                            data.id= resp.data.id;
+                            vueInstance.questionList.push(data);
+
                             vueInstance.questionText = '';
                             vueInstance.difficulty = null;
                             vueInstance.review = '';
@@ -370,7 +350,9 @@ export default {
                             vueInstance.point ='';
                             vueInstance.img= null;
                             vueInstance.imgString = '';
-                            
+                            vueInstance.difficulties.easy =false;
+                            vueInstance.difficulties.medium=false;
+                            vueInstance.difficulties.hard=false;
                             vueInstance.options.forEach(function(option){
                                 option.text='';
                                 option.status= false
@@ -387,27 +369,211 @@ export default {
                         }else{
                             vueInstance.processStatus.IsProcessing = false;
                             vueInstance.processStatus.text = 'Add Question';
-                        }
-                    
-                    }).catch(function(err){
+                        }}).catch(err=>{
+                        
                         console.log(err);
-                         vueInstance.processStatus.IsProcessing = false;
-                         vueInstance.processStatus.text = 'Add Question';
-                    })  */
+                        vueInstance.processStatus.IsProcessing = false;
+                        vueInstance.processStatus.text = 'Add Question';
+                    }) 
+                   }
+                    else{
 
+                        this.questionList.indexOf(data)
+                        data.id = this.id;
+                        console.log(data);
+                        axion.put(`/api/contributor/${contributorId}/question_set/${questionSetId}/version/${versionId}/questions/${this.id}`,data).then(resp=>{
+
+                          if(resp.statusText=='OK' && resp.data.status=='success'){
+
+                            vueInstance.questionList[arrayIndex] = data;
+                            vueInstance.id= null;
+                            vueInstance.questionText = '';
+                            vueInstance.difficulty = null;
+                            vueInstance.review = '';
+                            vueInstance.duration = '';
+                            vueInstance.point ='';
+                            vueInstance.img= null;
+                            vueInstance.imgString = '';
+
+                            vueInstance.difficulties.easy =false;
+                            vueInstance.difficulties.medium=false;
+                            vueInstance.difficulties.hard=false;
+
+                            console.log(vueInstance.difficulties.medium);
+
+                            vueInstance.options.forEach(function(option){
+                                option.text='';
+                                option.status= false
+                            })
+
+                            if(vueInstance.options.length>5){
+                                var c = vueInstance.options.length -5;
+                                vueInstance.options.splice(6,c);
+                            }
+
+                            vueInstance.processStatus.IsProcessing = false;
+                            vueInstance.processStatus.text = 'Add Question';
+                            }
+                            else{
+                            vueInstance.processStatus.IsProcessing = false;
+                            vueInstance.processStatus.text = 'Update Question';
+                            }
+                        })
+                    }
           }
        },
 
        removeQuestion: function(q){
-           var index = this.questionList.indexOf(q);
-           this.questionList.splice(index,1);
+           
+           console.log(q);
+           axion.delete(`/api/contributor/${contributorId}/question_set/${questionSetId}/version/${versionId}/questions/${q.id}`).then(resp=>{
+               if(resp.statusText=='OK' && resp.data.status=="success"){
+                   var index = this.questionList.indexOf(q);
+                   this.questionList.splice(index,1);
+               }
+           }).catch(err=>{
+
+           })   
+       },
+
+       editQuestion: function(q){
+
+           console.log(q);
+           arrayIndex  = this.questionList.indexOf(q);
+           this.id=q.id;
+           this.questionText=q.text;
+           this.review = q.review;
+           this.duration= q.duration;
+           this.point= q.point;
+           this.img = q.imageUrl==''?null:q.imageUrl;
+           this.processStatus.text= "Edit Question"
+          
+           switch (q.level.name){
+               case 'easy':
+               this.difficulties.easy=true
+               this.difficulties.medium= false;
+               this.difficulties.hard = false;
+
+               case 'medium':
+               this.difficulties.easy=false
+               this.difficulties.medium= true;
+               this.difficulties.hard = false;
+
+               case 'hard':
+              this.difficulties.easy=false
+               this.difficulties.medium= false;
+               this.difficulties.hard = true;
+           }
+
+           count = q.choices.length;
+           this.options = [];
+           var options = [];
+           var c = 0;
+
+           this.answer=true;
+
+           q.choices.forEach(choice=>{
+               options.push({
+                   status: choice.isCorrect, 
+                   text:choice.text,
+                   count: c +1
+               })
+               c = c+1;
+           });
+           this.options = options;
+       },
+
+       CancelEdit: function(){
+          
+           this.id= null   
+           this.processStatus.text= "Add Question"
+
+            this.questionText = '';
+            this.difficulty = null;
+            this.review = '';
+            this.duration = '';
+            this.point ='';
+            this.img= null;
+            this.imgString = '';
+            this.options.forEach(function(option){
+                                option.text='';
+                                option.status= false
+                            })
+
+             if(this.options.length>5){
+                    var c = this.options.length -5;
+                    this.options.splice(6,c);
+                }
        }
+
     },
 
     mounted: function(){
+
+        var vueInstance = this;
         questionSetId = this.$route.params.questionsetId
+        versionId = this.$route.params.versionId
+        var questionId = this.$route.query.questionId;
+        
         contributorId = localstore.getdata('auth').id;
-     }
+        axion = client();
+        axion.get(`/api/contributor/${contributorId}/question_set/${questionSetId}/versions/${versionId}`).then(resp=>{
+           
+           if(resp.statusText=="OK"){
+                resp.data.questions.forEach(q=>{
+                  let choices= [];
+                    q.choices.forEach(function(option){
+                        if(option.text !=''){
+                            choices.push({
+                                text:option.text,
+                                isCorrect:option.isCorrect
+                            })
+                        }
+                    })
+
+                   var data = {
+                        id:q.id,
+                        text: q.text,
+                        duration: q.duration,
+                        point: q.point,
+                        review : q.review,
+                        level:{name:q.level.name},
+                        choices : choices,
+                        imageUrl: q.imageUrl
+                    }
+
+                    vueInstance.questionList.push(data);
+                })
+
+                if(questionId != undefined){
+                    vueInstance.id=questionId;
+                    var q =   vueInstance.questionList.find(q=>{
+                            return q.id == questionId
+                        });
+
+                    console.log(q);    
+                    vueInstance.editQuestion(q);    
+                }
+            }
+        }).catch(err=>{
+
+        })
+    
+          /*Custom Selector*/
+      var selector = $(".cst_selector"),
+          target_container = $('.custom_selector');
+            selector.on('click', function() {
+                if ($(this).attr("checked"), true) {
+                    $(this).parents(".custom_selector").find(".selector_item").removeClass('selected');
+                    $(this).parents(".selector_item").addClass("selected");
+                } else {
+                    $(this).parents(".selector_item").removeClass('selected');
+                }
+            });    
+    
+
+
+    }
 }
 </script>
 

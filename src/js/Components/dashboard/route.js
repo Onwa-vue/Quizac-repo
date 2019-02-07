@@ -13,6 +13,7 @@ import questionEntryOption from './subcomponents/questionUploadOptions.vue'
 import questionSetVersions from './subcomponents/questionSetVersions.vue'
 
 import question from './newQuestionform.vue'
+import questionDetail from './questionDetail.vue'
 
 var routes = [
     {
@@ -72,6 +73,7 @@ var routes = [
             requiresAuth:true
         }
     },
+    
     {
         path:'/dashboard/questionset/:questionsetId',
         components:{
@@ -96,7 +98,7 @@ var routes = [
     },
 
     {
-        path:'/dashboard/questionset/:questionsetId/question/new',
+        path:'/dashboard/questionset/:questionsetId/version/:versionId/question/new',
         name:'newQuestionForm',
         components:{
             header:auth_header,
@@ -105,7 +107,21 @@ var routes = [
         meta:{
             requiresAuth:true
         }
+    } ,
+
+    {
+        path:'/dashboard/questionset/:questionsetId/question/:questionId',
+        name:'questionDetail',
+        components:{
+            header:auth_header,
+            main: questionDetail,
+        },
+        meta:{
+            requiresAuth:true
+        }
     } 
+
+
 ]
 
 export default routes;

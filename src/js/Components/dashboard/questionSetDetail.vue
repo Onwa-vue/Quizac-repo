@@ -54,7 +54,11 @@
                     </div>
                </div>
             </aside>
+            
            <question-upload-dialog v-bind:versionId="versionId"></question-upload-dialog>
+
+           <new-reference-dialog v-on:add-reference="addReference"></new-reference-dialog>
+
             <main class="main_content_wrapper layout_content_area">
                 <div class="layout_content_wrapper">
                     <nav class="wizard_nav not_fixed">
@@ -66,7 +70,7 @@
                             </ul>
                         </div>
                     </nav>
-                    <router-view name="section" v-on:setversion="setversion"></router-view>
+                    <router-view name="section" v-on:setversion="setversion" v-bind:ttle="title" v-bind:desc="description" v-bind:refs="references" v-bind:disc="discount" v-bind:amount="price"  v-on:update-detail="updateQuestionSet" v-on:update-Price="updateprice" v-on:update-reference="updateReference" ref="editSection"></router-view>
                 </div>
             </main>
         </div>
@@ -76,6 +80,7 @@
 <script>
 
 import questionUpload_dialog from './subcomponents/questionUpload_dialog.vue';
+import newReference_dialog from './subcomponents/newRef_dialog_component.vue';
 var client = require('../../Utility/serverClient.js')
 var localstore  = require('../../utility/cookieStorage.js'); 
 var axios;
@@ -94,19 +99,41 @@ export default {
             authorName:'',
             description:'',
             references:[],
+            discount:'',
             price:'',
             colorCode:'',
             versionId:''
 
         }
     },
+
     components:{
-        'question-upload-dialog': questionUpload_dialog
+        'question-upload-dialog': questionUpload_dialog,
+        'new-reference-dialog': newReference_dialog
     },
 
     methods:{
         setversion: function(versionId){
             this.versionId=versionId;
+        },
+
+        updateQuestionSet : function(data){
+            this.title = data.title;
+            this.description = data.description;
+        },
+
+        updateprice: function(data){
+            this.price = data.price;
+            this.discount = data.discount;
+        },
+
+        updateReference: function(data){
+            this.references = data.references
+        },
+
+        addReference : function(data){
+            this.references.push(data) 
+            this.$refs.editSection.addResource(data)
         }
     },
 
@@ -133,11 +160,13 @@ export default {
                         name : data.subject.name,
                         description : data.subject.description
                     }
+
                     vueInstance.questionsCount = data.questionsCount
                     vueInstance.authorName = data.authorName
                     vueInstance.description = data.description
                     vueInstance.references = data.references
                     vueInstance.price = data.price
+                    vueInstance.discount = data.discount
                     vueInstance.colorCode = data.colorCode
                 
             }

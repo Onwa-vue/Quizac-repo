@@ -21,7 +21,13 @@
                             </div>
                         </form>
                         <div class="section_cto text-center">
-                            <button class="btn btn-primary btn-block" v-on:click="login">Sign In</button>
+                            <button class="btn btn-primary btn-block" v-on:click="login" v-bind:class="{loading:status.isProcessing}">
+                                <span class="btn-label">Sign In</span>
+                                <div class="loadmore">
+                                        <span>Processing</span>
+                                        <span class="spinner"></span>
+                                </div>
+                            </button>
                             <router-link class="btn-link btn-block" to="/forgot_password"> Forgot Password</router-link>
                             <!--<a href="f_password.html" class="btn-link btn-block">Forgot Password?</a> -->
                         </div>
@@ -49,6 +55,7 @@ var axion = client();
 export default {
     data(){
         return {
+            status:{isProcessing:false, text:'Sign In'},
             email:null,
             password:null,
             show_error:false,
@@ -57,80 +64,103 @@ export default {
     },
 
     methods: {
+
         login: function(){
 
-        this.$validator.validate().then(result => {
-        if (result) {
-            var data = {
-                username: this.email,
-                password: this.password,
-                client_id: constants.client_id,
-                client_secret : constants.client_secret,
-                auth_type : constants.auth_type
-            }
+            this.$validator.validate().then(result => {
+                if (result) {
+                    var data = {
+                        username: this.email,
+                        password: this.password,
+                        client_id: constants.client_id,
+                        client_secret : constants.client_secret,
+                        auth_type : constants.auth_type
+                    }
+                    var v = this;
+                    this.status.isProcessing=true;
+                    this.status.text='Processing'
+                    axion.post("api/account/login", data).then(function(resp){
+                        
+                        if(resp.statusText=="OK" && resp.data.status=="success"){
+                            var d = resp.data.data;
+                                var auth_data = {
+                                        access_token : d.access_token,
+                                        expires_in : d.expires_in,
+                                        email: d.email,
+                                        refresh_token : d.refresh_token,
+                                        role :'contributor',
+                                        id : d.user.id,
+                                        status:'valid'
+                                    }
+                                   
+                                    localstore.storeAuthData(auth_data);
+                                   // localstore.storeOnboardingdata('stage1_onboarding',{status: true})
+                                   // localstore.storeOnboardingdata('stage2_onboarding',{status: true})
+                                   // v.$router.push('dashboard'); 
 
-            var v = this;
+                                   axion = client();
+
+                            var url ='/api/contributor/'+ d.user.id +'/profile'
+                            axion.get(url).then(function(res){
+                              
+                              console.log(res);
+
+                                if(res.statusText=='OK' && res.data.status=="success" ){
+                                var r = res.data.data; 
+                                var user_data = {
+                                        address: r.address,
+                                        bio:r.bio,
+                                        categories:r.categories,
+                                        countries: r.countries,
+                                        educationLevel:r.educationLevel,
+                                        email: r.email,
+                                        employmentStatus: r.employmentStatus,
+                                        id: r.id,
+                                        languages:r.languages,
+                                        linkedInUrl:r.linkedInUrl,
+                                        mobileNumber:r.mobileNumber,
+                                        picture:r.picture,
+                                        role:r.role,
+                                        roleExpereience:r.roleExpereience,
+                                        schools:r.schools,
+                                        subjects : r.subjects
+                                    };
+
+                                    localstore.storeUserData('user-detail',user_data);     
+                                    v.$router.push('dashboard'); 
+                                    
+                                }else{
+
+                                    if(res.statusText=='OK' &&  res.data.status.toLowerCase().trim() == "failed".toLowerCase().trim() && res.data.error_messages[0].toLowerCase().trim() =='Contributor does not exist'.toLowerCase().trim()){
+                                        localstore.storeOnboardingdata('stage1_onboarding', {status: false});
+                                        localstore.storeOnboardingdata('stage2_onboarding', {status: false});
+                                        v.$router.push('dashboard'); 
+                                    }
+                                }
+                                
+
+                            }).catch(function(err){
+
+                            })   
+                            
+                            // stops here 
 
 
-            axion.post("api/account/login", data).then(function(resp){
+                        }else{
+                            v.show_error= true;
+                        }
+                         v.status.isProcessing=false;
+                         v.status.text='Sign In';
 
-                console.log(resp);
-                if(resp.statusText=="OK" && resp.data.status=="success"){
-                    var d = resp.data.data;
-
-                         var data = {
-                                access_token : d.access_token,
-                                expires_in : d.expires_in,
-                                refresh_token : d.refresh_token,
-                                role :'contributor',
-                                id : d.user.id
-                            }
-                            localstore.storeAuthData(data);
-                            localstore.storeOnboardingdata('stage1_onboarding',{status: true})
-                            localstore.storeOnboardingdata('stage2_onboarding',{status: true})
-                            v.$router.push('dashboard'); 
-
-
-                    /* console.log(d);       
-                     axion.defaults.headers.common['Authorization'] = 'Bearer '+ d.access_token;
-                     var url ='/api/contributor/'+ d.user.id +'/profile'
-                     axion.get(url).then(function(r){
-                          console.log(r);
-                          if(r.statusText=='OK' && resp.data.status=="success" ){
-                        var data = {
-                                access_token : d.access_token,
-                                expires_in : d.expires_in,
-                                refresh_token : d.refresh_token,
-                                role :'contributor',
-                                id : d.user.id,
-                                fullname : r.fullname,
-                                displayName: r.displayName,
-                                country : r.country,
-                                picture : r.picture
-                            }
-                            console.log(data);
-                            v.show_error= false;
-                            localstore.storeAuthData(data);
-                            localstore.storeOnboardingdata('stage1_onboarding',{status: false})
-                            localstore.storeOnboardingdata('stage2_onboarding',{status: false})
-                            v.$router.push('dashboard/verification');
-                          }
-                      }).catch(function(err){
-
-                      })    */
-
-                }else{
-                    v.show_error= true;
+                    }).catch(function(error){
+                        v.show_error= true;
+                        v.status.isProcessing=false;
+                        v.status.text='Sign In';
+                    })
                 }
 
-            }).catch(function(error){
-                console.log(error);
-                v.show_error= true;
-            })
+            });
         }
-
-        })
-    }
     }
 }
 </script>

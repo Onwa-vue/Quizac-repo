@@ -76,7 +76,7 @@
                     </div>
                 </div>
             </div>
-            <div class="figure_bg" style="background-image: url(../../../img/banners/expert_illo.svg);">
+            <div class="figure_bg" style="background-image: url(./dist/img/banners/expert_illo.svg);">
             </div>
         </section>
         <section class="section_block bg__primary_light bg_left">
@@ -101,7 +101,7 @@
                     </div>
                 </div>
             </div>
-            <div class="figure_bg" style="background-image: url(../../../img/banners/student_illo.svg);">
+            <div class="figure_bg" style="background-image: url(./dist/img/banners/student_illo.svg);">
             </div>
         </section>
         <section class="section_block">

@@ -158,7 +158,8 @@ export default {
                     })    
                 }
             }).catch(err =>{
-                
+                console.log(err);
+                console.log( JSON.stringify(err))
             })
         },
         questionDetail: function(q){

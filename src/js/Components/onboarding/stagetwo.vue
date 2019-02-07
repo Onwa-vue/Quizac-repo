@@ -128,7 +128,13 @@
                                     <a href="onboard_form_1.html" class="btn btn-default">Previous</a>
                                 </div>
                                 <div class="nav_btn btn-next">
-                                    <button class="btn btn-primary" v-on:click="submit">Submit</button>
+                                    <button class="btn btn-primary" v-on:click="submit" v-bind:class="{loading:status.isProcessing}">
+                                        <span class="btn-label">Continue</span>
+                                        <div class="loadmore">
+                                           <span>Saving</span>
+                                            <span class="spinner"></span>
+                                        </div>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -147,6 +153,7 @@ var axion = client();
 export default {
     data(){
         return {
+            status:{isProcessing:false, text:'Submit'},
             role : null,
             roleExpereience: null,
             educationLevel: null,
@@ -157,10 +164,12 @@ export default {
     },
 
     methods : {
-        submit : function(){
 
+        submit : function(){
             var vueInstance = this;
             var id = localstore.getdata('auth').id;
+            this.status.text ='Proccessing';
+            this.status.isProcessing = true;
             axion.post('api/contributor/'+ id +'/update_profile',{
                 role: vueInstance.role,
                 roleExpereience: vueInstance.roleExpereience,
@@ -170,13 +179,15 @@ export default {
                 bio : vueInstance.bio
             }).then(function(resp){
                 if(resp.statusText=="OK" && resp.data.status=="success"){
-                    console.log(resp);
                     localstore.storeOnboardingdata('stage2_onboarding', {status: true})
                     vueInstance.$router.push('/dashboard/verification');
                 }
+                 this.status.isProcessing = false;
             })
         }
-    }
+    },
+
+   
 }
 </script>
 

@@ -1,7 +1,7 @@
 <template>
      <section class="section_block">
             <div class="container">
-                <div class="empty_state row">
+                <div class="row">
                     <div class="offset-md-2 col-md-8">
                         <header class="margin_bottom_md">
                             <h2>Congratulations</h2>
@@ -11,7 +11,7 @@
 
                         <div class="row action_options">
                             <div class="col-sm-4">
-                                <a href="forum.html" class="help_subs">
+                                <a href="#" class="help_subs">
                                     <figure>
                                         <img src="../../../img/icons/guide.svg" alt="Contributor Guide">
                                     </figure>
@@ -19,15 +19,16 @@
                                 </a>
                             </div>
                             <div class="col-sm-4">
-                                <a href="contact.html" class="help_subs">
+                                <router-link class="help_subs" to="/dashboard/questionset/new">
+                               
                                     <figure>
                                         <img src="../../../img/icons/create_sets.svg" alt="Create a Set">
                                     </figure>
                                     <p class="font-regular">Create your first question set</p>
-                                </a>
+                                </router-link>
                             </div>
                             <div class="col-sm-4">
-                                <a href="contact.html" class="help_subs">
+                                <a href="#" class="help_subs">
                                     <figure>
                                         <img src="../../../img/icons/update_profile.svg" alt="Update Profile">
                                     </figure>
@@ -42,7 +43,11 @@
 </template>
 
 <script>
+var localstore  = require('../../utility/cookieStorage.js'); 
 export default {
-   
+   mounted: function(){
+        console.log(localstore.getdata('stage1_onboarding'));
+        console.log(localstore.getdata('stage2_onboarding'));
+   }
 }
 </script>

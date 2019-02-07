@@ -1,121 +1,11 @@
 <template>
 <div>
 
-    <div class="modal fade" id="new_cat_dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <header class="modal-header">
-                    <h4 class="modal-title text-caps">Add your class</h4>
-                    <button type="button" class="close_dialog" data-dismiss="modal" ></button>
-                </header>
-                <div class="modal-body">
-                    <form action="">
-                        <div class="form-group">
-                            <label class="control-label">Category Name</label>
-                            <input type="text" class="form-control" placeholder="Name of your class">
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Wikipedia Link</label>
-                            <input type="url" class="form-control" placeholder="Link to the class's wikipedia page">
-                        </div>
-                        <div class="numbered_row_item">
-                            <div class="row_content">
-                                <header class="row_header">
-                                    <span class="control-label">How would you categorize your class?</span>
-                                </header>
-                                <div class="form-group">
-                                    <div class="radio">
-                                        <label for="class_cat_basic" class="control_flex">
-                                            <input type="radio" id="class_cat_basic" class="form_ind" name="class_cat">
-                                            <div class="form_info_block">
-                                                <span class="label_title color-black caps_upper">Basic</span>
-                                                <span class="label_info">Applicable to students within the ages (3 &amp; 12). Includes nursery, primary, and junior secondary classes.</span>
-                                            </div>
-                                        </label>
-                                    </div>
-                                    <div class="radio">
-                                        <label for="class_cat_intermediate" class="control_flex">
-                                            <input type="radio" id="class_cat_intermediate" class="form_ind" name="class_cat">
-                                            <div class="form_info_block">
-                                                <span class="label_title color-black caps_upper">Intermediate</span>
-                                                <span class="label_info">Applicable to students within the age of (13 &amp; 18). Includes senior secondary and college classes.</span>
-                                            </div>
-                                        </label>
-                                    </div>
-                                    <div class="radio">
-                                        <label for="class_cat_adv" class="control_flex">
-                                            <input type="radio" id="class_cat_adv" class="form_ind" name="class_cat">
-                                            <div class="form_info_block">
-                                                <span class="label_title color-black caps_upper">Advanced</span>
-                                                <span class="label_info">Applicable to students within the age of (19 above). Includes University and Post graduate degree classes.</span>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-sm btn-primary">
-                        Add
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
+    <new-category v-on:submitcategory="addCategory"></new-category>
+    <new-subject v-on:submitsubject="addSubject"></new-subject>
 
-     <div class="modal fade" id="new_subject_dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <header class="modal-header">
-                    <h4 class="modal-title text-caps">Add Subject</h4>
-                    <button type="button" class="close_dialog" data-dismiss="modal" ></button>
-                </header>
-                <div class="modal-body">
-                    <form action="">
-                        <div class="form-group">
-                            <label class="control-label">Subject Name</label>
-                            <input type="text" class="form-control" placeholder="E.g Biology">
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Resource URL</label>
-                            <input type="url" class="form-control" placeholder="Link for more information">
-                            <p class="help-block">URL for any website that gives more information about the subject.</p>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Short description</label>
-                            <textarea rows="10" class="form-control" placeholder="A short description of the subject"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Subject Thumbnail</label>
-                            <div class="media_block">
-                                <div class="media_block_item">
-                                    <figure class="tile_image">
-                                        <div class="image_wrapper">
-                                            <label for="upload_imgs" class="upload_btn" title="Change subject thumbnail">
-                                                <input type="file" accept=".png, .jpg, .jpeg" name="file" id="upload_imgs" hidden class="inputfile"/>
-                                                <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                    <polygon points="20 9 11 9 11 0 9 0 9 9 0 9 0 11 9 11 9 20 11 20 11 11 20 11 20 9"/>
-                                                </svg>
-                                            </label>
-                                            <img src="../../../img/banners/subject_default.png" alt="Add subject thumbnail">
-                                        </div>
-                                    </figure>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-sm btn-primary">
-                        Add
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
+   
     <main class="main_content_wrapper">
         <nav class="wizard_nav">
             <div class="container">
@@ -160,7 +50,7 @@
 
     
 
-         <router-view></router-view>
+         <router-view ref="childComponent" ></router-view>
 
 
  </main>
@@ -169,7 +59,20 @@
 </template>
 
 <script>
+var client = require('../../Utility/serverClient.js')
+var localstore  = require('../../utility/cookieStorage.js'); 
+import newcategory from './components/newCategoryDialog.vue'
+import newsubject from './components/newSubjectDialog.vue'
+var count =0;
+
 export default {
+
+    data(){
+
+        return{
+
+        }
+    },
 
     methods:{
         stage_one_status: function(){
@@ -180,8 +83,24 @@ export default {
         stage_two_status : function(){
             var pth = this.$route.path;
              return pth.includes('stagetwo');
-        }
-    }
+        },
+
+        addSubject: function(data){
+            console.log(data);
+             this.$refs.childComponent.addSubject(data);
+        },
+
+          addCategory: function(data){
+               console.log(data);
+             this.$refs.childComponent.addCategory(data);
+        },
+
+    },
+
+    components:{
+        'new-category':newcategory,
+        'new-subject':newsubject
+    }  
 }
 </script>
 

@@ -65,20 +65,14 @@ export default {
              error_msg: 'The email address you provided is associated with another account. Would you like to',
              showlogin_lnk: false
         }
-       
-
         }
     },
 
     methods: {
         signUp : function(){
 
-           
-
-
          this.$validator.validate().then(result => {
          if (result) {
-
             this.view.btn_text = "please wait !";
             var v = this;
             axion.post('api/contributor/register',{
@@ -91,13 +85,11 @@ export default {
 
             }).then(function(resp){
 
-                 console.log(resp);
-
                 if(resp.statusText=='OK' && resp.data.status == 'success' ){
                     v.btn_text= "Continue";
                     v.view.showError= false;
                     v.view.showlogin_lnk = false;
-                    this.$router.push({name:'login'});
+                    v.$router.push({name:'login'});
                 }
                 else { 
                     v.view.showError= true;
@@ -106,7 +98,6 @@ export default {
                     v.view.btn_text= "Continue";
                 }
             }).catch(function(error){
-               console.log(error);
                     v.view.showError= true;
                     v.view.showlogin_lnk = false;
                     v.view.error_msg = 'An error occur while trying to signup, please try again';

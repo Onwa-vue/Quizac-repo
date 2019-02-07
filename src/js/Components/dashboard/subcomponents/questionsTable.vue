@@ -1,6 +1,6 @@
 <template>
-    <div  class="version_items panel-collapse collapse show" style="" v-bind:href="versionName">
-                                            <div class="table table-responsive table-brand">
+
+     <div class="table table-responsive table-brand">
                                                 <table class="table table-hover">
                                                     <thead>
                                                         <tr>
@@ -32,9 +32,9 @@
                                                                         </svg>
                                                                     </a>
                                                                     <ul class="dropdown-menu">
-                                                                        <li><a href="#">Edit</a></li>
-                                                                        <li><a href="question_view.html">View</a></li>
-                                                                        <li><a href="#">Archive</a></li>
+                                                                        <li><a>Edit</a></li>
+                                                                        <li><a v-on:click="viewQuestion(question)">View</a></li>
+                                                                        <li><a>Archive</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </td>
@@ -43,8 +43,8 @@
                                                     </tbody>
                                                 </table>
                                                 <!--Hide or remove for published versions-->
-                                                <article class="post_item_thumb new_post_thumb margin_top_sm hidden">
-                                                    <a href="new_question.html" class="post_thumb_wrapper justify-content-center align-items-center">
+                                                <article class="post_item_thumb new_post_thumb margin_top_sm" v-bind:class="{hidden:isPublished}">
+                                                    <a  class="post_thumb_wrapper justify-content-center align-items-center" v-on:click="openQuestionForm">
                                                         <span class="t_icon">
                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                                                 <polygon points="20 9 11 9 11 0 9 0 9 9 0 9 0 11 9 11 9 20 11 20 11 11 20 11 20 9"></polygon>
@@ -53,16 +53,32 @@
                                                         <span>Manage Questions</span>
                                                     </a>
                                                 </article>
-                                            </div>
-                                        </div>
+    </div>
+    
 </template>
 
 <script>
 export default {
     props:{
         questions:Array,
-        versionName:String
+        versionName:String,
+        isPublished:Boolean,
+        versionId:String,
+        questionSetId: String
+    },
+
+     methods:{
+        openQuestionForm : function(){
+          var questionSetId = this.$route.params.questionsetId;
+          this.$router.push({name:'newQuestionForm', params:{questionsetId:questionSetId, versionId: this.versionId}})
+        },
+
+        viewQuestion: function(question){
+            this.$router.push({name:'questionDetail', params:{questionsetId:this.questionSetId, questionId: question.id}})
+        }
     }
+
+
 }
 </script>
 

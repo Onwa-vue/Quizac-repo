@@ -3,6 +3,7 @@ import accountRoutes from '../js/Components/account/route';
 import dashboardRoutes from '../js/Components/dashboard/route';
 import indexroute from '../js/Components/index/route';
 import onboardingroutes from '../js/Components/onboarding/route';
+import profileroutes from '../js/Components/profile/route';
 
 var localstore  = require('./Utility/cookieStorage.js') 
 
@@ -18,6 +19,7 @@ routes.push.apply(routes,indexroute);
 routes.push.apply(routes,accountRoutes);
 routes.push.apply(routes,dashboardRoutes);
 routes.push.apply(routes,onboardingroutes)
+routes.push.apply(routes,profileroutes);
 
 var router = new VueRouter({
     routes : routes

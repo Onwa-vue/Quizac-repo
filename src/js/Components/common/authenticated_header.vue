@@ -43,8 +43,8 @@
                         </div>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">My Profile</a></li>
-                        <li><a href="#">Settings</a></li>
+                        <li><router-link to="/profile" >My Profile </router-link></li>
+                        <li><router-link to="/profile/account/setting" >Settings</router-link></li>
                         <li><a href="" v-on:click="logout">Log Out</a></li>
                     </ul>
                 </div>
@@ -70,8 +70,8 @@ export default {
 
     data(){
         return{
-            displayname : null,
-            picture : null
+            displayname : '',
+            picture : '../../../img/default_avi.png'
         }
     },
 
@@ -91,46 +91,26 @@ export default {
         },
 
         logout: function(){
-
             localstore.cleardata('auth');
             localstore.cleardata('stage1_onboarding');
             localstore.cleardata('stage2_onboarding');
             localstore.cleardata('user_info');
             this.$router.push({name:'login'})
-
         }
     },
 
     mounted : function(){
         
-        var d = localstore.getdata('user_info');
+       /* var d = localstore.getdata('user_info');
         axion = client();
         if(d != null){
             this.displayname = d.displayname,
             this.picture  = d.picture
         }
 
-        
         var authenData = localstore.getdata('auth');
-        var v = this;
-        var url ='/api/contributor/'+ authenData.id +'/profile';
-        axion.get(url).then(function(r){   
-            if(r.statusText=='OK' && r.data.status=="success" ){
-                var data = {
-                            id : r.data.data.id,
-                            fullname : r.data.data.fullName,
-                            country : r.data.data.countries,
-                            picture : r.data.data.picture
-                           }
-                localstore.storeUserData('user_info',data);
-                v.displayname = d.displayname
-                v.picture  = d.picture
-                }
-            }).catch(function(err){
-
-            }) 
+        var v = this; */
     }
-
 }
 </script>
 
