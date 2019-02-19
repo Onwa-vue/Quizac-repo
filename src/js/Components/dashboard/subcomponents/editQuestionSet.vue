@@ -140,7 +140,7 @@
 var client = require('../../../Utility/serverClient.js')
 var axios;
 var localstore  = require('../../../utility/cookieStorage.js'); 
-var questionSetId, contributorId,
+var questionSetId, contributorId;
 var count = 1;
 
 export default {
@@ -149,8 +149,8 @@ export default {
         ttle:String,
         desc: String,
         refs:Array,
-        disc: String,
-        amount: String
+        disc: Number,
+        amount: Number
 
     },
 
@@ -158,7 +158,7 @@ export default {
         return{
             title:'',
             name:'',
-            decription:'',
+            description:'',
             about:'',
             resources:[],
             price:'',
@@ -176,6 +176,7 @@ export default {
 
         updateDetail: function(){
 
+            var vueInstance = this;
             if(!this.status.updatingDetail){
             var data = {
                 title: this.name,
@@ -202,15 +203,15 @@ export default {
         },
 
         updatePricing: function(){
-            
+
             if(!this.status.updatingPricing){
                 var data = {
                     price: this.price,
                     discount: this.discount
                 }
 
-                this.status.updatingPricing= true;
-                vueInstance.status.showStatusMsg= false;
+                this.status.updatingPricing = true;
+                vueInstance.status.showStatusMsg = false;
                 var url = `/api/contributor/${contributorId}/question_set/${questionSetId}`
                 axios.put(url,data).then(resp=>{
                     if(resp.statusText=='OK'){
@@ -314,7 +315,9 @@ export default {
          this.description = this.desc;
          this.resources = this.refs;
          this.price = this.amount;
-         this.discount = this.disc
+         this.discount =  this.disc;
+         this.$emit('set-tab-status','setting');
+         
         /* var url = `/api/contributor/${contributorId}/question_set/${questionSetId}`
          axios.get(url).then(resp=>{
              if(resp.statusText=='OK'){

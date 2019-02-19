@@ -52,7 +52,7 @@
                                                     </svg>
                                                 </div>
                                                 <h2 class="version_label">
-                                                    <span>{{version.name}}</span> - <span>{{version.date}}</span> - <span>{{version.questionCount}}</span>
+                                                    <span>{{version.name}}</span> - <span>{{version.date}}</span> - <span>{{version.questionCount>1? version.questionCount + '  Questions':version.questionCount+'  Question'}}</span>
                                                 </h2>
                                                 <div class="version_status">
                                                     <span class="stat_tag"></span>
@@ -105,7 +105,7 @@ export default {
                 console.log(resp);
                 if(resp.statusText=='OK'){
 
-                    var formatedDate = new Date();
+                   /* var formatedDate = new Date();
                      var data = {
                         id: resp.date.id,
                         name: `Version ${vueInstance.versions.length + 1}`,
@@ -113,59 +113,64 @@ export default {
                         questions:[],
                         date: `${formatedDate.getDate()} / ${formatedDate.getMonth()}/${formatedDate.getFullYear()}`
                     }
-                    vueInstance.versions.push(data);
+                    vueInstance.versions.push(data); */
+                    vueInstance.getVersion();
+
                 }
             }).catch(err=>{
 
             }) 
-        }
+        },
+        getVersion: function(){
+
+             var vueInstance = this;
+                this.questionSetId = this.$route.params.questionsetId;
+                this.contributorId = localstore.getdata('auth').id;
+                var url = `/api/contributor/${this.contributorId}/question_set/${this.questionSetId}/versions`
+                var vueInstance = this;
+                axios.get(url).then(resp =>{
+
+                            if(resp.statusText=='OK'){
+                                var count = 1;
+                                vueInstance.versions = [];
+                                resp.data.forEach( version=>{
+
+                                    var questions = [];
+                                    version.questions.forEach(question=>{
+                                        questions.push({
+                                            id:question.id,
+                                            text:question.text,
+                                            versionId: version.id
+                                        })
+                                    })
+
+                                    var formatedDate = new Date(version.dateUpdated);
+                                    var data = {
+                                        id:version.id,
+                                        name: `Version ${count}`,
+                                        tagName:`Version_${count}`,
+                                        questions:questions,
+                                        questionCount: questions.length,
+                                        isPublished: version.isPublished,
+                                        date: `${formatedDate.getDate()}/${formatedDate.getMonth() + 1}/${formatedDate.getFullYear()}`
+                                    }
+
+                                    count = count +1;
+                                    vueInstance.versions.push(data)
+
+                                })
+                            }
+
+                        }).catch(err=>{
+
+                        })
+       }
     },
 
     mounted: function(){
-        
         axios = client();
-        var vueInstance = this;
-        this.questionSetId = this.$route.params.questionsetId;
-        this.contributorId = localstore.getdata('auth').id;
-        var url = `/api/contributor/${this.contributorId}/question_set/${this.questionSetId}/versions`
-        var vueInstance = this;
-        axios.get(url).then(resp =>{
-
-            console.log(resp);
-
-            if(resp.statusText=='OK'){
-                var count = 1;
-                resp.data.forEach( version=>{
-
-                    var questions = [];
-                    version.questions.forEach(question=>{
-                        questions.push({
-                            id:question.id,
-                            text:question.text,
-                            versionId: version.id
-                        })
-                    })
-
-                    var formatedDate = new Date(version.dateUpdated);
-                    var data = {
-                        id:version.id,
-                        name: `Version ${count}`,
-                        tagName:`Version_${count}`,
-                        questionCount: questions.length,
-                        questions:questions,
-                        isPublished: version.isPublished,
-                        date: `${formatedDate.getDate()}/${formatedDate.getMonth() + 1}/${formatedDate.getFullYear()}`
-                    }
-
-                    count = count +1;
-                    vueInstance.versions.push(data)
-
-                })
-            }
-
-        }).catch(err=>{
-
-        })
+        this.getVersion();
+        this.$emit('set-tab-status','question')
     },
 
     components:{

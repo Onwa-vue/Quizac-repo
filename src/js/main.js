@@ -14,13 +14,14 @@ import 'vue2-dropzone/dist/vue2Dropzone.css'
 // require("./Utility/modernizr")
 require("jquery")
 require("./utility/base.min.js")
+require("./utility/selectize.min.js")
 //require('./Utility/dropzone.min.js')
 require("./script.js")
 
 const dictionary = {
     en: {
       messages:{
-        required: () => 'Require*',
+        required: () => 'Required*',
         email: ()=> 'invalid email',
         alpha:() => 'invalid name',
         image :()=> 'invalid format',

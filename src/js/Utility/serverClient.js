@@ -5,62 +5,64 @@ var constants  = require('./constants.js');
 var client = function(){
     var authdata = localstore.getdata('auth') == undefined?'': localstore.getdata('auth');;
     var access_token = authdata.access_token;
-    
+   
     var config = {
         baseURL:'http://api.staging.quizac.com/',
         timeout: 60000,
-        headers : {'Authorization':'bearer jajaj'+ access_token}
+        headers : {'Authorization':'bearer '+ access_token}
     }
+    
+
    var ax = axios.create(config);
    
     ax.interceptors.response.use(response=>{
-        console.log(response);
         return response;
          }, function(err){
 
+           
             // console.log(err.request);
-             console.log(err.config);
+           /*  console.log(err.config);
              console.log(err.response);
              console.log(err.response.status);
-             console.log(authdata.status)
-          //  if( err.response.status == 401 && authdata.status =='valid'){
-            if( err.response.status == 401){
-                console.log('am here');
+             console.log(authdata.status) */
+         // if( err.response.status == 401 && authdata.status =='valid'){
+             // console.log(err.response.status);
+
+              console.log(authdata);
+              console.log(JSON.stringify(err));
+              
+            if( err.response.status == 401 && authdata.status =='valid'){
+
                     authdata.status = 'expired';
+                   // console.log(authdata);
                     localstore.storeAuthData(authdata)
-
-                    console.log(constants)
-
+                     console.log(localstore.getdata('auth'));
                     var data = {
-                        auth_type:constants.auth_type,
+                        grant_type:0,
                         client_secret:constants.client_secret,
                         client_id:constants.client_id,
                         refresh_token:authdata.refresh_token,
                     }
 
-                    console.log('after data')
                     console.log(data);
 
                 ax.post('/auth_token',data).then(resp=>{
-                    var d = resp.data
-                    console.log(resp);
-                    if(resp.statusText=='OK'){
-                        var d = {
-                            access_token : d.access_token,
-                            expires_in : d.expires_in,
-                            refresh_token : d.refresh_token,
-                            role :'contributor',
-                            id : d.user.id,
-                            status:'valid'
-                        }
-                        localstore.storeAuthData(d);
+
+                    if(resp.statusText=='OK' && resp.data.status=="success"){
+                        console.log(resp);
+                        var d = resp.data.data
+                        authdata.access_token = d.access_token;
+                        authdata.expires_in = d.expires_in;
+                        authdata.refresh_token = d.refresh_token;
+                        authdata.status = 'valid'
+                        console.log(authdata)
+                        localstore.storeAuthData(authdata);
                     }
                 }).catch(err=>{
 
-                })
+                })  
             } 
-        
-
+            
             return Promise.reject(error);
             
          }) 

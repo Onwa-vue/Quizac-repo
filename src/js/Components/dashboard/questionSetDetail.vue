@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="metaItem">
                                     <span class="metaValue">
-                                        Arithmetics
+                                        {{topic.name}}
                                     </span>
                                 </div>
                                 <div class="metaItem">
@@ -56,23 +56,25 @@
             </aside>
             
            <question-upload-dialog v-bind:versionId="versionId"></question-upload-dialog>
-
            <new-reference-dialog v-on:add-reference="addReference"></new-reference-dialog>
+           <delete-question-set-dialog v-bind:title="title"></delete-question-set-dialog>
 
             <main class="main_content_wrapper layout_content_area">
                 <div class="layout_content_wrapper">
                     <nav class="wizard_nav not_fixed">
-                        <div class="container">
+                        <div class="container"> 
                             <ul class="step_nav" role="tablist">
-                                <li class="step_nav_item active"><a href="question_set_details.html">Questions</a></li>
-                                <li class="step_nav_item"><a href="set_reviews.html">Reviews</a></li>
-                                <li class="step_nav_item"><a href="set_settings.html">Settings</a></li>
+                                <li class="step_nav_item" v-bind:class="{active:tabStatus.question}"><router-link v-bind:to="{name:'questionSetVersions', param:{questionsetId:questionSetId}}" >Questions</router-link></li>
+                                <li class="step_nav_item"><a href="#">Reviews</a></li>
+                                <li class="step_nav_item" v-bind:class="{active:tabStatus.setting}"> <router-link  v-bind:to="{name:'editQuestionSetVersions',param:{questionsetId:questionSetId}}">Settings</router-link></li>
                             </ul>
+
                         </div>
                     </nav>
-                    <router-view name="section" v-on:setversion="setversion" v-bind:ttle="title" v-bind:desc="description" v-bind:refs="references" v-bind:disc="discount" v-bind:amount="price"  v-on:update-detail="updateQuestionSet" v-on:update-Price="updateprice" v-on:update-reference="updateReference" ref="editSection"></router-view>
+                    <router-view name="section" v-on:setversion="setversion" v-bind:ttle="title" v-bind:desc="description" v-bind:refs="references" v-bind:disc="discount" v-bind:amount="price"  v-on:update-detail="updateQuestionSet" v-on:update-Price="updateprice" v-on:update-reference="updateReference" ref="editSection" v-on:set-tab-status="setTabStatus" ></router-view>
                 </div>
             </main>
+
         </div>
     </div>
 </template>
@@ -81,12 +83,13 @@
 
 import questionUpload_dialog from './subcomponents/questionUpload_dialog.vue';
 import newReference_dialog from './subcomponents/newRef_dialog_component.vue';
+import deleteQuestionSet_dialog from './subcomponents/question_set_delete_dialog.vue';
 var client = require('../../Utility/serverClient.js')
 var localstore  = require('../../utility/cookieStorage.js'); 
 var axios;
 
- var questionSetId;
- var contributorId;
+var questionSetId;
+var contributorId;
 
 export default {
     data(){
@@ -99,20 +102,24 @@ export default {
             authorName:'',
             description:'',
             references:[],
-            discount:'',
-            price:'',
+            discount:null,
+            price:null,
             colorCode:'',
-            versionId:''
+            versionId:'',
+            questionSetId:'',
+            tabStatus:{ question:false, review:false,setting:false }
 
         }
     },
 
     components:{
         'question-upload-dialog': questionUpload_dialog,
-        'new-reference-dialog': newReference_dialog
+        'new-reference-dialog': newReference_dialog,
+        'delete-question-set-dialog' :deleteQuestionSet_dialog
     },
 
     methods:{
+
         setversion: function(versionId){
             this.versionId=versionId;
         },
@@ -126,7 +133,7 @@ export default {
             this.price = data.price;
             this.discount = data.discount;
         },
-
+        
         updateReference: function(data){
             this.references = data.references
         },
@@ -134,6 +141,29 @@ export default {
         addReference : function(data){
             this.references.push(data) 
             this.$refs.editSection.addResource(data)
+        },
+
+        setTabStatus : function(tab){
+
+           
+            if(tab.toLowerCase().trim() =='question'){
+                this.tabStatus.question = true;
+                this.tabStatus.review = false;
+                this.tabStatus.setting = false;
+            }
+            if(tab.toLowerCase().trim() == 'review'){
+                this.tabStatus.question = false;
+                this.tabStatus.review = true;
+                this.tabStatus.setting = false;
+            }
+
+            if(tab.toLowerCase().trim() == 'setting'){
+
+                this.tabStatus.question = false;
+                this.tabStatus.review = false;
+                this.tabStatus.setting = true;
+
+            }
         }
     },
 
@@ -142,9 +172,13 @@ export default {
         axios = client();
         var vueInstance = this;
         questionSetId = this.$route.params.questionsetId;
+        this.questionSetId = questionSetId;
         contributorId = localstore.getdata('auth').id;
         var url = '/api/contributor/'+ contributorId +'/question_set/'+questionSetId;
         axios.get(url).then(resp=>{
+
+            console.log(resp);
+
             if(resp.statusText=='OK'){
                 var data = resp.data; 
                 
@@ -165,7 +199,7 @@ export default {
                     vueInstance.authorName = data.authorName
                     vueInstance.description = data.description
                     vueInstance.references = data.references
-                    vueInstance.price = data.price
+                    vueInstance.price = data.price;
                     vueInstance.discount = data.discount
                     vueInstance.colorCode = data.colorCode
                 

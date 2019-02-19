@@ -148,7 +148,7 @@
 
 var client = require('../../Utility/serverClient.js')
 var localstore  = require('../../utility/cookieStorage.js'); 
-var axion = client();
+var axion;
 
 export default {
     data(){
@@ -168,6 +168,7 @@ export default {
         submit : function(){
             var vueInstance = this;
             var id = localstore.getdata('auth').id;
+            console.log(localstore.getdata('auth'))
             this.status.text ='Proccessing';
             this.status.isProcessing = true;
             axion.post('api/contributor/'+ id +'/update_profile',{
@@ -182,10 +183,14 @@ export default {
                     localstore.storeOnboardingdata('stage2_onboarding', {status: true})
                     vueInstance.$router.push('/dashboard/verification');
                 }
-                 this.status.isProcessing = false;
+                 vueInstance.status.isProcessing = false;
             })
         }
     },
+
+    mounted: function(){
+        axion = client();
+    }
 
    
 }

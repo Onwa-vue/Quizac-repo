@@ -92,22 +92,23 @@ export default {
                                         id : d.user.id,
                                         status:'valid'
                                     }
-                                   
+                                    console.log(auth_data);
                                     localstore.storeAuthData(auth_data);
-                                   // localstore.storeOnboardingdata('stage1_onboarding',{status: true})
-                                   // localstore.storeOnboardingdata('stage2_onboarding',{status: true})
-                                   // v.$router.push('dashboard'); 
+                                  
+                                  
 
                                    axion = client();
 
                             var url ='/api/contributor/'+ d.user.id +'/profile'
                             axion.get(url).then(function(res){
-                              
-                              console.log(res);
-
+                                
                                 if(res.statusText=='OK' && res.data.status=="success" ){
                                 var r = res.data.data; 
+                                console.log(r);
                                 var user_data = {
+                                        firstname:r.firstName,
+                                        lastname: r.lastName,
+                                        fullname:r.fullName,
                                         address: r.address,
                                         bio:r.bio,
                                         categories:r.categories,
@@ -123,7 +124,12 @@ export default {
                                         role:r.role,
                                         roleExpereience:r.roleExpereience,
                                         schools:r.schools,
-                                        subjects : r.subjects
+                                        subjects : r.subjects,
+                                        questionsCreated:r.questionsCreated,
+                                        state:'',
+                                        country:'',
+                                        rating:r.averageRating,
+                                        username:r.username
                                     };
 
                                     localstore.storeUserData('user-detail',user_data);     

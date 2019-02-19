@@ -182,6 +182,7 @@ export default {
     },
 
     mounted:function(){
+
         axios = client();
         var vueInstance = this;
         questionSetId = this.$route.params.questionsetId;
@@ -189,6 +190,7 @@ export default {
         contributorId = localstore.getdata('auth').id;
         var url = '/api/contributor/'+ contributorId +'/question_set/'+questionSetId+'/versions';
         axios.get(url).then(resp=>{
+            console.log(resp)
             if(resp.statusText=='OK'){
                  resp.data.forEach( version=>{
                     version.questions.forEach(question=>{

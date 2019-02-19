@@ -11,6 +11,7 @@ import questionSets from './questionSets.vue'
 import questionSetDetail from './questionSetDetail.vue'
 import questionEntryOption from './subcomponents/questionUploadOptions.vue'
 import questionSetVersions from './subcomponents/questionSetVersions.vue'
+import editQuestionSet from './subcomponents/editQuestionSet.vue'
 
 import question from './newQuestionform.vue'
 import questionDetail from './questionDetail.vue'
@@ -37,36 +38,34 @@ var routes = [
             },
             
             {
-            path:'verification',
-            components:{
-                userdata: userdata_hero,
-                main :  verification_confirmation
-            },
-            meta :{
-                requiresAuth:true
-             }
+                path:'verification',
+                components:{
+                    userdata: userdata_hero,
+                    main :  verification_confirmation
+                },
+                meta :{
+                    requiresAuth:true
+                }
            },
 
            {
-            path:'questionset',
-            components:{
-                main :  questionSets
-            },
-            meta :{
-                requiresAuth:true
-             }
-            
+                path:'questionset',
+                components:{
+                    main :  questionSets
+                },
+                meta :{
+                    requiresAuth:true
+                }  
            },
-          
+
            {
-            path:'questionset/new',
-            components:{
-                main :  newQuestionSet
-            },
-            meta :{
-                requiresAuth:true
-             }
-            
+                path:'questionset/new',
+                components:{
+                    main :  newQuestionSet
+                },
+                meta :{
+                    requiresAuth:true
+                }
            }
         ],
         meta:{
@@ -86,6 +85,16 @@ var routes = [
                 name: 'questionSetVersions' ,
                 components:{
                     section : questionSetVersions
+                },
+                meta :{
+                    requiresAuth:true
+                 }
+            },
+            {
+                path:'review',
+                name: 'editQuestionSetVersions' ,
+                components:{
+                    section : editQuestionSet
                 },
                 meta :{
                     requiresAuth:true

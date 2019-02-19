@@ -1,7 +1,7 @@
 <template>
     <div>
-        <router-view name="header"></router-view>
-        <router-view name="main"></router-view>
+        <router-view name="header"  ref="updateLayout"></router-view>
+        <router-view name="main" v-on:update-header="updateHeader"></router-view>
         <router-view name="footer"></router-view>
     </div>
 </template>
@@ -11,7 +11,13 @@
 import router from './router.js'
 
 export default {
-    router  
+    router  ,
+    methods:{
+        updateHeader: function(){
+            console.log('in container calling header')
+            this.$refs.updateLayout.update();
+        }
+    }
 }
 </script>
 

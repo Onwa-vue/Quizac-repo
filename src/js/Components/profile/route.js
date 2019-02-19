@@ -3,7 +3,7 @@ import auth_header from '../common/authenticated_header.vue'
 import footer from '../common/footer.vue'
 
 import profile from './profile.vue'
-import userInfo from './userInfomation.vue'
+import userInfo from './userInformation.vue'
 import preference from './preference.vue'
 import accountSetting from './accountSetting.vue'
 
@@ -50,3 +50,5 @@ var routes = [
         ]            
     }
 ];
+
+export default routes;

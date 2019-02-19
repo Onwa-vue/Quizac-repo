@@ -93,6 +93,9 @@ export default {
             req.push(axios.get('api/contributor/'+ contributor_id + '/question_sets/0/2'));
             req.push(axios.get('api/feedback'));
             Promise.all(req).then(function(resps){
+
+                console.log(resps);
+
                 if(resps[0].statusText=='OK'){
                     resps[0].data.forEach(function(q){
                         vueInstance.questionSets.push({
@@ -122,7 +125,7 @@ export default {
                     })
                 }
             }).catch(err=>{
-                console.log(JSON.stringify(err))
+                
             })
         }
     },

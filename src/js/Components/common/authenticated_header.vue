@@ -2,9 +2,9 @@
      <header class="mainHeader has_feedback" role="banner">
         <div class="container">
             <div class="brand_img">
-                <a href="index.html" class="logo_link">
+                <router-link class="logo_link" to="/">
                     <img src="../../../img/logo.png" alt="Quizac Contributor Portal">
-                </a>
+                </router-link>
             </div>
             <nav class="navMenu menu__primary">
                 <div class="menuList-item" v-bind:class="{active:isDashboard()}" >
@@ -21,7 +21,7 @@
             </nav>
             <nav class="navMenu menu_alt">
                 <div class="menuList-item control_btns has_feedback">
-                    <a href="feedbacks.html" class="menu__link_item">
+                    <a href="#" class="menu__link_item">
                         <span class="icon_holder">
                             <svg class="cust_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
                                 <path d="M12.5,25a12.43,12.43,0,0,1-6.87-2.06l-4.3,1.33a.49.49,0,0,1-.61-.61l1.33-4.3A12.5,12.5,0,0,1,21.34,3.66,12.5,12.5,0,0,1,12.5,25ZM5.71,21.92A.49.49,0,0,1,6,22a11.52,11.52,0,1,0-3-3,.49.49,0,0,1,.06.42L1.93,23.07l3.63-1.13Z"/>
@@ -88,6 +88,11 @@ export default {
         isWallet : function(){
             var pth = this.$route.path;
             return  pth.includes('wallet');
+        },
+
+        update: function(){
+            let ContributorInfo = localstore.getdata('user-detail');
+            this.picture = ContributorInfo.picture == null || ContributorInfo.picture ==''?'../../../img/default_avi.png': ContributorInfo.picture;
         },
 
         logout: function(){

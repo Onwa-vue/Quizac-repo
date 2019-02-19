@@ -296,18 +296,8 @@ export default {
                 questionCount:0,
                 colorCode:'FFF'
             }
-
-           /* var data = {
-               title: this.name,
-               description : this.about,
-               categories : cats,
-               subjectId : this.subject,
-               topic : tps,
-               references: this.references,
-               currencyCode:'NGN',
-               price : this.price,
-               discount : this.discount
-            } */
+            
+            console.log(data);
 
             var contributorId = localstore.getdata('auth').id;
             var url = '/api/contributor/'+ contributorId +'/question_set/'+ true;
@@ -315,7 +305,7 @@ export default {
             axion.post(url, data).then(result=>{
                 if(result.statusText=='OK' && result.data.status =="success"){
                      var id = result.data.data.id;
-                     vueInstance.$router.push({name:'questionEntryOption', params:{questionsetId:id}})
+                     vueInstance.$router.push({name:'questionSetVersions', params:{questionsetId:id}})
                 }
             }).catch(err=>{
                 
