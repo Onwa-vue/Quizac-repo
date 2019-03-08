@@ -50,7 +50,7 @@
 <script>
 
 var client = require('../../Utility/serverClient.js');
-var axion = client();
+var axion = require('../../Utility/serverRequestUtil.js')
 
 export default {
     data (){

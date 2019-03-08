@@ -32,7 +32,7 @@
 
 <script>
 var client = require('../../../Utility/serverClient.js')
-var axios;
+var axios = require('../../Utility/serverRequestUtil.js')
 var localstore  = require('../../../utility/cookieStorage.js'); 
 
 export default {
@@ -63,7 +63,7 @@ export default {
     },
 
     mounted: function(){
-        axios = client();
+       
     }
 }
 </script>

@@ -53,8 +53,9 @@
 
 <script>
 
-var client = require('../../../Utility/serverClient.js')
+
 var localstore  = require('../../../utility/cookieStorage.js'); 
+var axion = require('../../../Utility/serverRequestUtil.js')
 
 var count=0;
 
@@ -89,7 +90,7 @@ export default {
                             isActive: '',
                             description: this.category.description
                         }
-                        console.log(data);
+                       
                         this.$emit('submitcategory',data);
                         this.category.name=null;
                         this.category.link=null;
@@ -104,12 +105,9 @@ export default {
 
      mounted:function(){
 
-        var axios = client();
         let vueInstance = this;
         let url ='/api/category';
-        axios.get(url).then(resp=>{
-            
-            console.log(resp);
+        axios.get(url).then(resp=>{ 
             if(resp.statusText=='OK'){
                 resp.data.forEach(cat=>{
                     if(cat.parentId == null){

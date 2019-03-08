@@ -54,10 +54,9 @@
 
 <script>
 
-var client = require('../../Utility/serverClient.js')
 var localstore  = require('../../utility/cookieStorage.js'); 
 var constants  = require('../../utility/constants.js'); 
-var axios;
+var axios = require('../../Utility/serverRequestUtil.js')
 
 import questionset from './subcomponents/questionset.vue';
 import feedback  from './subcomponents/feedback.vue';
@@ -131,7 +130,6 @@ export default {
     },
     created: function(){
         
-        axios = client();
         this.loadPage();
 
     },

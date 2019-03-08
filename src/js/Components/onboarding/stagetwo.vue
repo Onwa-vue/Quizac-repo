@@ -146,9 +146,9 @@
 
 <script>
 
-var client = require('../../Utility/serverClient.js')
+
 var localstore  = require('../../utility/cookieStorage.js'); 
-var axion;
+var axion = require('../../Utility/serverRequestUtil.js')
 
 export default {
     data(){
@@ -189,7 +189,7 @@ export default {
     },
 
     mounted: function(){
-        axion = client();
+       
     }
 
    

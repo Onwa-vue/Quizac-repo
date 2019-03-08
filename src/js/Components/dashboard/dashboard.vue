@@ -5,7 +5,7 @@
 
     <main class="main_content_wrapper bg__off_white">
          <router-view name="userdata"></router-view>
-         <router-view name="main" v-bind:references="references"  v-on:select-subject="setSujectId" v-on:remove-reference="removeReference"></router-view>
+         <router-view name="main" v-bind:references="references"  v-on:select-subject="setSujectId" v-on:remove-reference="removeReference" v-on:add-topic="addTopic" ref="main"></router-view>
     </main>
 </div>
 </template>
@@ -36,7 +36,11 @@ export default {
         },
 
         setSujectId : function(subjectId){
-            this.subjectId = subjectId
+            this.subjectId = subjectId;
+        },
+
+        addTopic: function(d){
+            this.$refs.main.addTopic(d);
         }
     },
 

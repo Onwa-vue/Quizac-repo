@@ -75,8 +75,7 @@
 </template>
 
 <script>
-var client = require('../../../Utility/serverClient.js')
-var axios;
+var axios = require('../../../Utility/serverRequestUtil.js')
 var localstore  = require('../../../utility/cookieStorage.js'); 
 import questionsTable from './questionsTable.vue'
 import questionUploadOption from './questionUploadOptions.vue'
@@ -168,7 +167,6 @@ export default {
     },
 
     mounted: function(){
-        axios = client();
         this.getVersion();
         this.$emit('set-tab-status','question')
     },

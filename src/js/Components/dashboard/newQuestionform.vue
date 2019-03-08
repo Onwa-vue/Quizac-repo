@@ -216,7 +216,7 @@
 
 var localstore  = require('../../utility/cookieStorage.js'); 
 var client = require('../../Utility/serverClient.js')
-var axion = client();
+var axion = require('../../Utility/serverRequestUtil.js')
 
 var questionSetId;
 var contributorId;
@@ -432,7 +432,7 @@ export default {
                    this.questionList.splice(index,1);
                }
            }).catch(err=>{
-
+               
            })   
        },
 
@@ -516,7 +516,7 @@ export default {
         var questionId = this.$route.query.questionId;
         
         contributorId = localstore.getdata('auth').id;
-        axion = client();
+
         axion.get(`/api/contributor/${contributorId}/question_set/${questionSetId}/versions/${versionId}`).then(resp=>{
            
            if(resp.statusText=="OK"){

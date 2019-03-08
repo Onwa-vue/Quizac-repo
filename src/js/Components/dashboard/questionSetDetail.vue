@@ -86,8 +86,7 @@ import newReference_dialog from './subcomponents/newRef_dialog_component.vue';
 import deleteQuestionSet_dialog from './subcomponents/question_set_delete_dialog.vue';
 var client = require('../../Utility/serverClient.js')
 var localstore  = require('../../utility/cookieStorage.js'); 
-var axios;
-
+var axios = require('../../Utility/serverRequestUtil.js')
 var questionSetId;
 var contributorId;
 
@@ -169,7 +168,6 @@ export default {
 
     mounted: function(){
 
-        axios = client();
         var vueInstance = this;
         questionSetId = this.$route.params.questionsetId;
         this.questionSetId = questionSetId;

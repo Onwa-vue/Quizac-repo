@@ -137,8 +137,7 @@
 </template>
 
 <script>
-var client = require('../../../Utility/serverClient.js')
-var axios;
+var axios = require('../../../Utility/serverRequestUtil.js')
 var localstore  = require('../../../utility/cookieStorage.js'); 
 var questionSetId, contributorId;
 var count = 1;
@@ -305,7 +304,6 @@ export default {
 
     mounted: function(){
 
-         axios = client();
          var vueInstance = this;
          questionSetId = this.$route.params.questionsetId;
          contributorId = localstore.getdata('auth').id;

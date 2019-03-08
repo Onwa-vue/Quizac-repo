@@ -89,7 +89,7 @@
 
 var localstore  = require('../../utility/cookieStorage.js'); 
 var client = require('../../Utility/serverClient.js')
-var axios;
+var axios = require('../../Utility/serverRequestUtil.js')
 
 export default {
     data(){ 
@@ -143,7 +143,6 @@ export default {
     },
 
       mounted: function(){
-          axios = client();
         this.$emit('set-active-class',{tab:'account-setting'})
     }
 }

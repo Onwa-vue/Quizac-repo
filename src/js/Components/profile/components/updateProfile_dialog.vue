@@ -164,7 +164,7 @@
 
 var localstore  = require('../../../utility/cookieStorage.js'); 
 var client = require('../../../Utility/serverClient.js')
-var axios;
+var axios = require('../../../Utility/serverRequestUtil.js')
 
 export default {
     data(){
@@ -314,7 +314,7 @@ export default {
         this.u_bio = this.about;
         this.u_country = this.country;
         this.u_state = this.state;
-        axios = client();
+       
     }
 }
 </script>

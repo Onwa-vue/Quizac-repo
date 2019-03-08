@@ -97,10 +97,9 @@
                     </div>
 </template>
 <script>
-var client = require('../../Utility/serverClient.js')
 import Selectize from 'vue2-selectize'
 var localstore  = require('../../utility/cookieStorage.js'); 
-var axios;
+var axios = require('../../Utility/serverRequestUtil.js')
 export default {
 
     data(){
@@ -239,17 +238,71 @@ export default {
 
         updatePreference: function(){
 
+             var vueInstance = this;
              var id = localstore.getdata('auth').id;
-             var categoriesUpdates =[];
+             var updatesCall =[];
+
              this.removedCategories.forEach(cat=>{
-                 categoriesUpdates.push(axios.delete(`/api/contributor/${id}/categories/${cat.id}`));
+                 updatesCall.push(axios.delete(`/api/contributor/${id}/categories/${cat.id}`));
              })
 
              this.addedCategories.forEach(cat=>{
-                 categoriesUpdates.push(axios.post(`/api/contributor/${id}/categories`),cat);
+                 updatesCall.push(axios.post(`/api/contributor/${id}/categories`),cat);
              })
 
-              
+             this.addedSubjects.forEach(sub =>{
+                 updatesCall.push(axios.post(`/api/contributor/${id}/subjects`, sub));
+             })
+
+             this.removedSubjects.forEach(sub =>{
+                 updatesCall.push(axios.delete(`/api/contributor/${id}/subjects/${sub.id}`));
+             });
+
+             var data = {
+                 countries: this.selectedCountries
+             }
+             updatesCall.push(axios.post(`/api/contributor/${id}/update_profile`, data))
+
+             this.status.isProcessing= true;
+             Promise.all(updatesCall).then(resps=>{
+                 vueInstance.status.isProcessing = false;
+                 let ContributorInfo = localstore.getdata('user-detail');
+                 ContributorInfo.countries = vueInstance.selectedCountries;
+                
+                 var selectedCategoriesObj = [];
+                 var selectedSubjectsObj = [];
+
+                
+
+                 vueInstance.levels.forEach(l=>{
+                     vueInstance.selectedLevels.forEach(sl=>{
+                         if(sl==l.id){
+                             selectedCategoriesObj.push(l);
+                         }
+                     })
+                 })
+
+                  console.log('level is cool');
+                  console.log(selectedCategoriesObj);
+
+                 ContributorInfo.categories = selectedCategoriesObj;
+
+                 vueInstance.subjects.forEach(sub=>{
+                     vueInstance.selectedSubjects(s=>{
+                         if(s==sub.id){
+                             selectedSubjectsObj.push(sub);
+                         }
+                     })
+                 })
+
+                  console.log('Subject is cool');
+                  console.log(selectedSubjectsObj);
+
+                 ContributorInfo.subjects = selectedSubjectsObj;
+                 localstore.storeUserData('user-detail',ContributorInfo); 
+
+
+             }).catch(err=>{});
 
            /*  let vueInstance = this;
                     var levels = [];
@@ -411,7 +464,7 @@ export default {
         this.categories = ContributorInfo.categories;
         this.subjects = ContributorInfo.subjects;
 
-        axios = client();
+       
         var vueInstance = this;
         this.u_countries.forEach(country=>{
             vueInstance.countries.forEach(c=>{

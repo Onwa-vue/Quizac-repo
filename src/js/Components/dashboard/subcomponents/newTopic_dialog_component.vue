@@ -10,16 +10,16 @@
                     <form action="">
                         <div class="form-group">
                             <label class="control-label caps_upper">Topic Name</label>
-                            <input type="text" class="form-control" placeholder="E.g Arithmetics">
+                            <input type="text" class="form-control" placeholder="E.g Arithmetics" v-model="title">
                         </div>
                         <div class="form-group">
                             <label class="control-label caps_upper">Reference URL</label>
-                            <input type="url" class="form-control" placeholder="Link for more information">
+                            <input type="url" class="form-control" placeholder="Link for more information" v-model="resourceLink">
                             <p class="help-block">Please provide a link to any material we can use to verify this topics.</p>
                         </div>
                         <div class="form-group">
                             <label class="control-label caps_upper">Description</label>
-                            <textarea rows="10" class="form-control" placeholder="Tell us a little about this topic"></textarea>
+                            <textarea rows="10" class="form-control" placeholder="Tell us a little about this topic" v-model="description"></textarea>
                         </div>
                         <div class="form-group">
                             <label class="control-label caps_upper">Assign an image as the topic thumbnail</label>
@@ -109,7 +109,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-sm btn-primary">
+                    <button class="btn btn-sm btn-primary" v-on:click="add">
                         Add
                     </button>
                 </div>
@@ -117,3 +117,35 @@
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    data(){
+        return{
+            title:null,
+            resourceLink: null,
+            description: null,
+            image: null
+        }
+    },
+
+    methods: {
+        add: function(){
+
+            var data = {
+                id:'',
+                name : this.title,
+                description:this.description,
+                subjectId : '',
+                subjectName :'',
+                status : 'sugestion',
+                imageurl: ''
+            }
+            
+            this.$emit('add-topic',data);
+            $("#new_topic_dialog").modal('toggle');
+        }
+    }
+}
+</script>
+

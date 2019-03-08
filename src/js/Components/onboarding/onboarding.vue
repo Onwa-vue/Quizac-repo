@@ -59,7 +59,6 @@
 </template>
 
 <script>
-var client = require('../../Utility/serverClient.js')
 var localstore  = require('../../utility/cookieStorage.js'); 
 import newcategory from './components/newCategoryDialog.vue'
 import newsubject from './components/newSubjectDialog.vue'
@@ -86,15 +85,13 @@ export default {
         },
 
         addSubject: function(data){
-            console.log(data);
+           
              this.$refs.childComponent.addSubject(data);
         },
 
           addCategory: function(data){
-               console.log(data);
              this.$refs.childComponent.addCategory(data);
         },
-
     },
 
     components:{

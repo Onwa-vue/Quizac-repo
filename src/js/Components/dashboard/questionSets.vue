@@ -124,7 +124,7 @@
 var client = require('../../Utility/serverClient.js')
 var localstore  = require('../../utility/cookieStorage.js'); 
 var constants  = require('../../utility/constants.js'); 
-var axios;
+var axios = require('../../Utility/serverRequestUtil.js')
 
 export default {
     data(){
@@ -167,7 +167,6 @@ export default {
         }
     },
     created: function(){
-        axios = client();
         this.loadPage(); 
     }
 }

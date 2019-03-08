@@ -55,6 +55,7 @@
 
 var client = require('../../../Utility/serverClient.js')
 var localstore  = require('../../../utility/cookieStorage.js'); 
+var axios = require('../../../Utility/serverRequestUtil.js')
 
 var count=0;
 
@@ -103,12 +104,9 @@ export default {
 
      mounted:function(){
 
-        var axios = client();
         let vueInstance = this;
         let url ='/api/category';
         axios.get(url).then(resp=>{
-            
-            console.log(resp);
             if(resp.statusText=='OK'){
                 resp.data.forEach(cat=>{
                     if(cat.parentId == null){

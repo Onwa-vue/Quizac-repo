@@ -134,7 +134,7 @@ var config = {
     }),
         extractPlugin,
        new htmwebpackplugin({
-           filename :'main.html',
+           filename :'index.html',
            chunks : ['main'],
            template : 'src/main.html'
        })

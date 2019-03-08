@@ -47,10 +47,11 @@
 
 <script>
 
-var client = require('../../Utility/serverClient.js')
+// var client = require('../../Utility/serverClient.js')
 var localstore  = require('../../utility/cookieStorage.js'); 
 var constants  = require('../../utility/constants.js'); 
-var axion = client();
+// var axion = client();
+var axion = require('../../Utility/serverRequestUtil.js')
 
 export default {
     data(){
@@ -67,8 +68,9 @@ export default {
 
         login: function(){
 
-            this.$validator.validate().then(result => {
+        this.$validator.validate().then(result => {
                 if (result) {
+
                     var data = {
                         username: this.email,
                         password: this.password,
@@ -76,10 +78,91 @@ export default {
                         client_secret : constants.client_secret,
                         auth_type : constants.auth_type
                     }
+
                     var v = this;
                     this.status.isProcessing=true;
                     this.status.text='Processing'
-                    axion.post("api/account/login", data).then(function(resp){
+                    axion.post('api/account/login', data).then(resp=>{
+                        console.log(resp);
+                        var d;
+                        if(resp.statusText=="OK" && resp.data.status=="success"){
+                             d = resp.data.data;
+                                var auth_data = {
+                                        access_token : d.access_token,
+                                        expires_in : d.expires_in,
+                                        email: d.email,
+                                        refresh_token : d.refresh_token,
+                                        role :'contributor',
+                                        id : d.user.id,
+                                        status:'valid'
+                                    }
+                            console.log(auth_data);
+                            localstore.storeAuthData(auth_data);
+
+                    }
+
+                    return d;
+
+                    }).then(d=>{
+
+                        if(d != null || d != undefined){
+                          var url ='/api/contributor/'+ d.user.id +'/profile'
+                          axion.get(url).then(function(res){
+                                console.log(res);
+
+                            if(res.statusText=='OK' && res.data.status=="success" ){
+                                var r = res.data.data; 
+                                var user_data = {
+                                        firstname:r.firstName,
+                                        lastname: r.lastName,
+                                        fullname:r.fullName,
+                                        address: r.address,
+                                        bio:r.bio,
+                                        categories:r.categories,
+                                        countries: r.countries,
+                                        educationLevel:r.educationLevel,
+                                        email: r.email,
+                                        employmentStatus: r.employmentStatus,
+                                        id: r.id,
+                                        languages:r.languages,
+                                        linkedInUrl:r.linkedInUrl,
+                                        mobileNumber:r.mobileNumber,
+                                        picture:r.picture,
+                                        role:r.role,
+                                        roleExpereience:r.roleExpereience,
+                                        schools:r.schools,
+                                        subjects : r.subjects,
+                                        questionsCreated:r.questionsCreated,
+                                        state:'',
+                                        country:'',
+                                        rating:r.averageRating,
+                                        username:r.username
+                                    };
+
+                                    localstore.storeUserData('user-detail',user_data);     
+                                    v.$router.push('dashboard'); 
+                                    
+                                }else{
+                                    if(res.statusText=='OK' &&  res.data.status.toLowerCase().trim() == "failed".toLowerCase().trim() && res.data.error_messages[0].toLowerCase().trim() =='Contributor does not exist'.toLowerCase().trim()){
+                                        localstore.storeOnboardingdata('stage1_onboarding', {status: false});
+                                        localstore.storeOnboardingdata('stage2_onboarding', {status: false});
+                                        v.$router.push('dashboard'); 
+                                    }
+                                } 
+                            })
+                        }
+
+                    }).catch(err=>{
+
+                        v.show_error= true;
+                        v.status.isProcessing=false;
+                        v.status.text='Sign In';
+
+                    })
+                    }
+
+                    
+                 /*   axion.post("api/account/login", data).then(function(resp){
                         
                         if(resp.statusText=="OK" && resp.data.status=="success"){
                             var d = resp.data.data;
@@ -162,10 +245,9 @@ export default {
                         v.show_error= true;
                         v.status.isProcessing=false;
                         v.status.text='Sign In';
-                    })
-                }
-
-            });
+                    }) */
+                })
+           
         }
     }
 }

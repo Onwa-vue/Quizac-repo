@@ -189,7 +189,7 @@
 <script>
 var localstore  = require('../../utility/cookieStorage.js'); 
 var client = require('../../Utility/serverClient.js')
-var axion = client();
+var axion = require('../../Utility/serverRequestUtil.js')
 
 export default {
 
@@ -265,6 +265,10 @@ export default {
 
         removeReference : function(ref){
            this.$emit('remove-reference', ref)
+        },
+
+        addTopic: function(topic){
+            this.topics.push(topic);
         },
 
         addQuestionSet : function(){

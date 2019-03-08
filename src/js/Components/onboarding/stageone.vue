@@ -147,10 +147,9 @@
 
 <script>
 
-var client = require('../../Utility/serverClient.js')
 var localstore  = require('../../utility/cookieStorage.js'); 
 import Selectize from 'vue2-selectize'
-var axios;
+var axios = require('../../Utility/serverRequestUtil.js')
     
 export default {
    
@@ -287,7 +286,6 @@ export default {
                         })
                     })
 
-                    
                     this.status.isProcessing = true;
                     this.status.text='Processing';
 
@@ -328,7 +326,7 @@ export default {
     },
     
     mounted: function(){
-       axios = client();
+      
     }
    
 }

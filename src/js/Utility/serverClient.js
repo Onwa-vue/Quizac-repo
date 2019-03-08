@@ -3,9 +3,9 @@ var localstore  = require('./cookieStorage.js');
 var constants  = require('./constants.js');  
 
 var client = function(){
-    var authdata = localstore.getdata('auth') == undefined?'': localstore.getdata('auth');;
+    var authdata = localstore.getdata('auth') == undefined || localstore.getdata('auth') == null ?'': localstore.getdata('auth');
     var access_token = authdata.access_token;
-   
+
     var config = {
         baseURL:'http://api.staging.quizac.com/',
         timeout: 60000,
@@ -15,11 +15,10 @@ var client = function(){
 
    var ax = axios.create(config);
    
-    ax.interceptors.response.use(response=>{
+   /* ax.interceptors.response.use(response=>{
         return response;
-         }, function(err){
-
-           
+         }, function(err){     */
+              
             // console.log(err.request);
            /*  console.log(err.config);
              console.log(err.response);
@@ -27,11 +26,9 @@ var client = function(){
              console.log(authdata.status) */
          // if( err.response.status == 401 && authdata.status =='valid'){
              // console.log(err.response.status);
-
-              console.log(authdata);
-              console.log(JSON.stringify(err));
+            //  console.log(JSON.stringify(err));
               
-            if( err.response.status == 401 && authdata.status =='valid'){
+          /*  if( err.response.status == 401 && authdata.status =='valid'){
 
                     authdata.status = 'expired';
                    // console.log(authdata);
@@ -61,11 +58,11 @@ var client = function(){
                 }).catch(err=>{
 
                 })  
-            } 
+            }  */
             
-            return Promise.reject(error);
+          //  return Promise.reject(error);
             
-         }) 
+        // }) 
 
     return ax;
 }

@@ -14,7 +14,6 @@ export default {
     router  ,
     methods:{
         updateHeader: function(){
-            console.log('in container calling header')
             this.$refs.updateLayout.update();
         }
     }

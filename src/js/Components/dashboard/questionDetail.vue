@@ -130,7 +130,7 @@
 <script>
 var client = require('../../Utility/serverClient.js')
 var localstore  = require('../../utility/cookieStorage.js'); 
-var axios;
+var axios = require('../../Utility/serverRequestUtil.js')
 
 
 var questionSetId;
@@ -183,7 +183,6 @@ export default {
 
     mounted:function(){
 
-        axios = client();
         var vueInstance = this;
         questionSetId = this.$route.params.questionsetId;
         this.questionId = this.$route.params.questionId;
