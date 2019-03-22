@@ -1,14 +1,16 @@
 var webpack = require('webpack');
 var path = require('path');
 var htmwebpackplugin = require('html-webpack-plugin');
-var extractTextPlugin = require('extract-text-webpack-plugin');
+var extractTextPlugin =  require("mini-css-extract-plugin");
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 var DIST_DIR = path.resolve(__dirname,"dist");
 var SRC_DIR = path.resolve(__dirname,"src");
 
 var extractPlugin = new extractTextPlugin({
     filename:'css/[name].css'
-})
+}) 
 
 var config = {
 
@@ -73,6 +75,9 @@ var config = {
           {
             test: /\.js$/,
             loader: 'babel-loader',
+            options: {
+              presets: ['env']
+            },
             exclude: /node_modules/
           },
 
@@ -87,12 +92,21 @@ var config = {
           },
           {
             test: /\.css$/,
-            use:extractPlugin.extract({
+            use:[
+              {
+                loader: extractTextPlugin.loader,
+                options: {
+                }
+              },
+              "css-loader"
+            ]
+            
+            /*extractPlugin.extract({
                 use:{
                     loader: "css-loader"
                   } ,
                 fallback: "style-loader"
-            }) 
+            }) */
           } ,
 
           {
@@ -127,7 +141,6 @@ var config = {
     },
 
     plugins:[
-      
       new webpack.ProvidePlugin({
         jQuery:'jquery',
         $:'jquery'
@@ -137,8 +150,21 @@ var config = {
            filename :'index.html',
            chunks : ['main'],
            template : 'src/main.html'
-       })
-    ]
+       }),
+       new VueLoaderPlugin(),
+
+       new OptimizeCssAssetsPlugin({
+        assetNameRegExp: /\.css$/g,
+        cssProcessor: require('cssnano'),
+        cssProcessorPluginOptions: {
+          preset: ['default', { discardComments: { removeAll: true } }],
+        },
+        canPrint: true
+      })
+],
+
+mode: 'development',
+// mode: 'production',
 }
 
 module.exports = config;

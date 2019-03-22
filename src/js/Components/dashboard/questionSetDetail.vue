@@ -55,7 +55,7 @@
                </div>
             </aside>
             
-           <question-upload-dialog v-bind:versionId="versionId"></question-upload-dialog>
+           <question-upload-dialog v-bind:versionId="versionId" v-on:update-version="updateversion"></question-upload-dialog>
            <new-reference-dialog v-on:add-reference="addReference"></new-reference-dialog>
            <delete-question-set-dialog v-bind:title="title"></delete-question-set-dialog>
 
@@ -163,6 +163,11 @@ export default {
                 this.tabStatus.setting = true;
 
             }
+        },
+
+        updateversion: function(questions){
+            console.log(questions)
+            this.$refs.editSection.setVersionQuestions(questions.data, questions.id);
         }
     },
 
@@ -177,7 +182,7 @@ export default {
 
             console.log(resp);
 
-            if(resp.statusText=='OK'){
+            if(resp.status==200){
                 var data = resp.data; 
                 
                     vueInstance.id = data.id

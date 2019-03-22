@@ -211,7 +211,7 @@ export default {
            Promise.all(req).then(function(resps){
                 v.levels = [];
                 resps.forEach(function(resp){
-                   if(resp.statusText== "OK"){
+                   if(resp.status==200){
                          resp.data.forEach(function(level){
                          v.levels.push({
                             id: level.id,
@@ -233,7 +233,7 @@ export default {
              v.status.loadingSubject= true;
             axios.get(url).then(function(resp){
                console.log(resp);
-                if(resp.statusText=="OK"){
+                if(resp.status==200){
                      v.subjects = [];
                     resp.data.forEach(function(subj){
                         v.subjects.push({
@@ -294,7 +294,7 @@ export default {
                        
                        console.log(resps);
 
-                        if(resps[0].statusText=="OK" && resps[1].statusText=="OK"){
+                        if(resps[0].status==200 && resps[1].status==200){
                             var url = 'api/contributor/'+ id +'/update_profile';
                             var d = {
                                 countries: vueInstance.selectedCountries,
@@ -305,7 +305,7 @@ export default {
                             console.log(d);
                             axios.post( url,d ).then(function(resp){
                                 console.log(resp);
-                                if(resp.statusText=="OK"){
+                                if(resp.status==200){
                                     // save onboarding status 
                                     localstore.storeOnboardingdata('stage1_onboarding', {status: true})
                                     // navigate to stage two

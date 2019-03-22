@@ -102,7 +102,7 @@ export default {
 
            axios.post(url).then(resp=>{
                 console.log(resp);
-                if(resp.statusText=='OK'){
+                if(resp.status==200){
 
                    /* var formatedDate = new Date();
                      var data = {
@@ -129,7 +129,7 @@ export default {
                 var vueInstance = this;
                 axios.get(url).then(resp =>{
 
-                            if(resp.statusText=='OK'){
+                            if(resp.status==200){
                                 var count = 1;
                                 vueInstance.versions = [];
                                 resp.data.forEach( version=>{
@@ -163,6 +163,31 @@ export default {
                         }).catch(err=>{
 
                         })
+       },
+
+       setVersionQuestions: function(quests, versionId){
+           
+           console.log("am here")
+           var questions = [];
+           quests.forEach(q=>{
+               questions.push({
+                    id:q.id,
+                    text:q.text,
+                    versionId: versionId
+               })
+           })
+
+
+           console.log(this.versions)
+           console.log(versionId)
+
+           this.versions.forEach(v=>{
+               if(v.id==versionId){
+                   console.log("got version");
+                   v.questions= questions;
+                   v.questionCount = questions.length
+               }
+           })
        }
     },
 
@@ -175,9 +200,6 @@ export default {
         'questions-table':questionsTable,
         'question-upload-option': questionUploadOption
     }
-
-    
-    
 }
 </script>
 

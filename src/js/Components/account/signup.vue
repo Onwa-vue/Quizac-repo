@@ -85,7 +85,7 @@ export default {
 
             }).then(function(resp){
 
-                if(resp.statusText=='OK' && resp.data.status == 'success' ){
+                if(resp.status==200 && resp.data.status == 'success' ){
                     v.btn_text= "Continue";
                     v.view.showError= false;
                     v.view.showlogin_lnk = false;

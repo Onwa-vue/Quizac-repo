@@ -186,7 +186,7 @@ export default {
             vueInstance.status.showStatusMsg= false
             var url = `/api/contributor/${contributorId}/question_set/${questionSetId}`
             axios.put(url,data).then(resp=>{
-                if(resp.statusText=='OK'){
+                if(resp.status==200){
                     vueInstance.status.showStatusMsg= true
                     vueInstance.title= vueInstance.name;
                     vueInstance.$emit('update-detail',data)
@@ -213,7 +213,7 @@ export default {
                 vueInstance.status.showStatusMsg = false;
                 var url = `/api/contributor/${contributorId}/question_set/${questionSetId}`
                 axios.put(url,data).then(resp=>{
-                    if(resp.statusText=='OK'){
+                    if(resp.status==200){
                         vueInstance.status.showStatusMsg= true
                         setTimeout(e=>{
                             vueInstance.status.showStatusMsg= true
@@ -249,7 +249,7 @@ export default {
              vueInstance.status.updatingReferences= true;
               var url = `/api/contributor/${contributorId}/question_set/${questionSetId}`
                axios.put(url,data).then(resp=>{
-                    if(resp.statusText=='OK'){
+                    if(resp.status==200){
                         vueInstance.status.showStatusMsg= true
                         setTimeout(e=>{
                             vueInstance.status.showStatusMsg= true
@@ -280,7 +280,7 @@ export default {
              }
               var url = `/api/contributor/${contributorId}/question_set/${questionSetId}`
                axios.put(url,data).then(resp=>{
-                    if(resp.statusText=='OK'){
+                    if(resp.status==200){
                         vueInstance.status.showStatusMsg= true
                         setTimeout(e=>{
                             vueInstance.status.showStatusMsg= true
@@ -294,10 +294,6 @@ export default {
             
 
         },
-
-        
-
-
 
     },
 
@@ -318,7 +314,7 @@ export default {
          
         /* var url = `/api/contributor/${contributorId}/question_set/${questionSetId}`
          axios.get(url).then(resp=>{
-             if(resp.statusText=='OK'){
+             if(resp.status==200){
                  vueInstance.title= resp.data.title,
                  vueInstance.name = resp.data.title;
                  vueInstance.description = resp.data.description;

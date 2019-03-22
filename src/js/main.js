@@ -35,7 +35,7 @@ const dictionary = {
 
 Validator.localize(dictionary);
 Vue.use(VeeValidate, {event: 'onchange'});
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 //Vue.component('page-container',container);
 

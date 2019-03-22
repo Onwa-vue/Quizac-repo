@@ -139,7 +139,7 @@ export default {
             var vueInstance = this;
             var contributor_id = localstore.getdata('auth').id;
             axios.get('api/contributor/'+ contributor_id + '/question_sets/0/10').then(function(resp){
-                if(resp.statusText=='OK'){
+                if(resp.status==200){
                     resp.data.forEach(function(q){
 
                         vueInstance.questionSets.push({

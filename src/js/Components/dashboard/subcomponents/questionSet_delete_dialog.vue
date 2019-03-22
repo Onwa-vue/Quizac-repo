@@ -52,7 +52,7 @@ export default {
             var url = `/api/contributor/${contibutorId}/question_set/${id}`;
             vueInstance.status.processing= true
             axios.delete(url).then(resp=>{
-                if(resp.statusText=='OK'){
+                if(resp.status==200){
                     vueInstance.status.processing= false
                     vueInstance.$router.push('/dashboard/questionset')
                 }

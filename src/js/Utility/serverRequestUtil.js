@@ -67,7 +67,6 @@ module.exports = {
             }
             axios = client();
            return axios.post('/auth_token',data).then(resp=>{
-                
                                     if(resp.statusText=='OK' && resp.data.status=="success"){
                                         console.log(resp);
                                         var d = resp.data.data
@@ -79,11 +78,9 @@ module.exports = {
                                         localstore.storeAuthData(authdata);
                                     }
                                 }).catch(err=>{
-                
+                                    
                                 })  
-
         }
-
         return promise;
     }
 }

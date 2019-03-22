@@ -190,7 +190,7 @@ export default {
         var url = '/api/contributor/'+ contributorId +'/question_set/'+questionSetId+'/versions';
         axios.get(url).then(resp=>{
             console.log(resp)
-            if(resp.statusText=='OK'){
+            if(resp.status==200){
                  resp.data.forEach( version=>{
                     version.questions.forEach(question=>{
                         var choices =[];

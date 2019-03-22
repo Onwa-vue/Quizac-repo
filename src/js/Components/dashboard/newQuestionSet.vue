@@ -240,7 +240,7 @@ export default {
             if(this.subject != null){
                 this.status.loadingTopics = true;
                 axion.get('/api/Subject/'+ this.subject  +'/topics').then(function(resp){
-                    if(resp.statusText=='OK'){
+                    if(resp.status==200){
                         vueInstance.topics = [];
                         resp.data.forEach(function(t){
                             vueInstance.topics.push({
@@ -307,7 +307,7 @@ export default {
             var url = '/api/contributor/'+ contributorId +'/question_set/'+ true;
             
             axion.post(url, data).then(result=>{
-                if(result.statusText=='OK' && result.data.status =="success"){
+                if(result.status==200 && result.data.status =="success"){
                      var id = result.data.data.id;
                      vueInstance.$router.push({name:'questionSetVersions', params:{questionsetId:id}})
                 }
@@ -322,7 +322,7 @@ export default {
         var vueInstance = this;
         var url ='/api/contributor/'+ authenData.id +'/profile';
         axion.get(url).then(function(r){   
-            if(r.statusText=='OK' && r.data.status=="success" ){
+            if(r.status==200 && r.data.status=="success" ){
                 r.data.data.categories.forEach(function(c){
                     vueInstance.categories.push({
                         id:c.id,

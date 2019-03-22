@@ -337,12 +337,10 @@ export default {
                     console.log(data);
 
                     axion.post(`/api/contributor/${contributorId}/question_set/${questionSetId}/versions/${versionId}`,[data]).then(resp=>{
-                        
-                       
-                        if(resp.statusText=='OK' && resp.data.status=='success'){
+
+                        if(resp.status==200 && resp.data.status=='success'){
                             data.id= resp.data.id;
                             vueInstance.questionList.push(data);
-
                             vueInstance.questionText = '';
                             vueInstance.difficulty = null;
                             vueInstance.review = '';
@@ -370,8 +368,6 @@ export default {
                             vueInstance.processStatus.IsProcessing = false;
                             vueInstance.processStatus.text = 'Add Question';
                         }}).catch(err=>{
-                        
-                        console.log(err);
                         vueInstance.processStatus.IsProcessing = false;
                         vueInstance.processStatus.text = 'Add Question';
                     }) 
@@ -383,7 +379,7 @@ export default {
                         console.log(data);
                         axion.put(`/api/contributor/${contributorId}/question_set/${questionSetId}/version/${versionId}/questions/${this.id}`,data).then(resp=>{
 
-                          if(resp.statusText=='OK' && resp.data.status=='success'){
+                          if(resp.status==200 && resp.data.status=='success'){
 
                             vueInstance.questionList[arrayIndex] = data;
                             vueInstance.id= null;
@@ -427,7 +423,7 @@ export default {
            
            console.log(q);
            axion.delete(`/api/contributor/${contributorId}/question_set/${questionSetId}/version/${versionId}/questions/${q.id}`).then(resp=>{
-               if(resp.statusText=='OK' && resp.data.status=="success"){
+               if(resp.status==200 && resp.data.status=="success"){
                    var index = this.questionList.indexOf(q);
                    this.questionList.splice(index,1);
                }

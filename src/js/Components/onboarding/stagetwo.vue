@@ -179,7 +179,7 @@ export default {
                 linkedInUrl : vueInstance.linkedInUrl,
                 bio : vueInstance.bio
             }).then(function(resp){
-                if(resp.statusText=="OK" && resp.data.status=="success"){
+                if(resp.status==200 && resp.data.status=="success"){
                     localstore.storeOnboardingdata('stage2_onboarding', {status: true})
                     vueInstance.$router.push('/dashboard/verification');
                 }

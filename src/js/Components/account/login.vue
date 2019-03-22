@@ -85,7 +85,7 @@ export default {
                     axion.post('api/account/login', data).then(resp=>{
                         console.log(resp);
                         var d;
-                        if(resp.statusText=="OK" && resp.data.status=="success"){
+                        if(resp.status==200 && resp.data.status=="success"){
                              d = resp.data.data;
                                 var auth_data = {
                                         access_token : d.access_token,
@@ -96,9 +96,7 @@ export default {
                                         id : d.user.id,
                                         status:'valid'
                                     }
-                            console.log(auth_data);
                             localstore.storeAuthData(auth_data);
-
                     }
 
                     return d;
@@ -110,7 +108,7 @@ export default {
                           axion.get(url).then(function(res){
                                 console.log(res);
 
-                            if(res.statusText=='OK' && res.data.status=="success" ){
+                            if(res.status==200 && res.data.status=="success" ){
                                 var r = res.data.data; 
                                 var user_data = {
                                         firstname:r.firstName,

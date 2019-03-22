@@ -95,7 +95,7 @@ export default {
 
                 console.log(resps);
 
-                if(resps[0].statusText=='OK'){
+                if(resps[0].status==200){
                     resps[0].data.forEach(function(q){
                         vueInstance.questionSets.push({
                             id: q.id,
@@ -114,7 +114,7 @@ export default {
                     })    
                 }
 
-                if(resps[1].statusText=='OK'){
+                if(resps[1].status==200){
                     resps[1].data.forEach(function(f){
                         vueInstance.feedbacks.push({
                             id:f.id,

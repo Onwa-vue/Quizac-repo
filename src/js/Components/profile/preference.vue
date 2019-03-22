@@ -183,7 +183,7 @@ export default {
            Promise.all(req).then(function(resps){
                 v.levels = [];
                 resps.forEach(function(resp){
-                   if(resp.statusText== "OK"){
+                   if(resp.status==200){
                          resp.data.forEach(function(level){
                              
                              var d = {
@@ -212,7 +212,7 @@ export default {
              v.status.loadingSubject= true;
             axios.get(url).then(function(resp){
                
-                if(resp.statusText=="OK"){
+                if(resp.status==200){
                      v.u_subjects = [];
                     resp.data.forEach(function(subj){
                         var d =  {
