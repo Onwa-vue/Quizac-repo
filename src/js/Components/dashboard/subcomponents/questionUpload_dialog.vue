@@ -78,10 +78,8 @@ export default {
                         vueContext.$emit('update-version',{data: resp.data, id:vueContext.versionId})
                         $('#question_upload').modal('hide')
                     }
-                })
-               
+                })    
             }
-            
         },
 
         upload: function(){
@@ -90,8 +88,6 @@ export default {
         },
 
         oncompleted: function(file, msg, xhr){
-         console.log(msg);  
-         console.log(xhr);  
         }
     },
     components:{
