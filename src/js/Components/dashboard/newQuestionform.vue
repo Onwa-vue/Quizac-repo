@@ -504,7 +504,9 @@ export default {
 
     },
 
-    mounted: function(){
+    created: function(){
+
+        console.log("fetching data");
 
         var vueInstance = this;
         questionSetId = this.$route.params.questionsetId
@@ -554,9 +556,9 @@ export default {
         }).catch(err=>{
 
         })
-    
-          /*Custom Selector*/
-      var selector = $(".cst_selector"),
+
+        /*Custom Selector*/
+        var selector = $(".cst_selector"),
           target_container = $('.custom_selector');
             selector.on('click', function() {
                 if ($(this).attr("checked"), true) {
