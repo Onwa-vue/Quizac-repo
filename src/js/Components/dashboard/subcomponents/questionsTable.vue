@@ -14,7 +14,7 @@
                                                         <tr v-for="question in questions" v-bind:key="question.id">
                                                             <td>
                                                                 <div class="table_description">
-                                                                    <a href="question_view.html">
+                                                                    <a v-on:click="viewQuestion(question)">
                                                                        {{question.text}}
                                                                     </a>
                                                                 </div>
@@ -32,7 +32,7 @@
                                                                         </svg>
                                                                     </a>
                                                                     <ul class="dropdown-menu">
-                                                                        <li><a>Edit</a></li>
+                                                                        <li><a v-on:click="editQuestion(question)">Edit</a></li>
                                                                         <li><a v-on:click="viewQuestion(question)">View</a></li>
                                                                         <li><a>Archive</a></li>
                                                                     </ul>
@@ -72,13 +72,15 @@ export default {
           var questionSetId = this.$route.params.questionsetId;
           this.$router.push({name:'newQuestionForm', params:{questionsetId:questionSetId, versionId: this.versionId}})
         },
-
+           
         viewQuestion: function(question){
             this.$router.push({name:'questionDetail', params:{questionsetId:this.questionSetId, questionId: question.id}})
+        },
+
+        editQuestion: function(question){
+            this.$router.push({name:'newQuestionForm', params:{questionsetId:this.questionSetId,versionId:this.versionId}, query:{questionId:question.id}});
         }
     }
-
-
 }
 </script>
 

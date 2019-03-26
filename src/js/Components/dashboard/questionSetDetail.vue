@@ -68,7 +68,6 @@
                                 <li class="step_nav_item"><a href="#">Reviews</a></li>
                                 <li class="step_nav_item" v-bind:class="{active:tabStatus.setting}"> <router-link  v-bind:to="{name:'editQuestionSetVersions',param:{questionsetId:questionSetId}}">Settings</router-link></li>
                             </ul>
-
                         </div>
                     </nav>
                     <router-view name="section" v-on:setversion="setversion" v-bind:ttle="title" v-bind:desc="description" v-bind:refs="references" v-bind:disc="discount" v-bind:amount="price"  v-on:update-detail="updateQuestionSet" v-on:update-Price="updateprice" v-on:update-reference="updateReference" ref="editSection" v-on:set-tab-status="setTabStatus" ></router-view>

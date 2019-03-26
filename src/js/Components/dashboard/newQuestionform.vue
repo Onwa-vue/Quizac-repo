@@ -334,10 +334,8 @@ export default {
                    // console.log(contributorId = localstore.getdata('auth'));
                    if(this.id == null){
 
-                    console.log(data);
-
                     axion.post(`/api/contributor/${contributorId}/question_set/${questionSetId}/versions/${versionId}`,[data]).then(resp=>{
-
+                        
                         if(resp.status==200 && resp.data.status=='success'){
                             data.id= resp.data.id;
                             vueInstance.questionList.push(data);

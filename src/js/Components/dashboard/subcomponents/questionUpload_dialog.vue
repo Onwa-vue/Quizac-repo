@@ -69,12 +69,8 @@ export default {
 
             var vueContext = this;
             if(resp.status=="success"){
-                console.log(resp);
-                axios.post(`api/contributor/${contributorId}/question_set/${questionSetId}/add_bulk`,resp.data).then(function(r){
-
-                    console.log(r);
+                axios.post(`api/contributor/${contributorId}/question_set/${questionSetId}/versions/${vueContext.versionId}/add_bulk`,resp.data).then(function(r){
                     if(r.data.status=="success"){
-                        // display questions here 
                         vueContext.$emit('update-version',{data: resp.data, id:vueContext.versionId})
                         $('#question_upload').modal('hide')
                     }
@@ -83,7 +79,6 @@ export default {
         },
 
         upload: function(){
-            console.log(authdata)
             this.$refs.dropzone.processQueue();
         },
 

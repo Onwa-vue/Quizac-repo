@@ -98,6 +98,11 @@ export default {
                                     }
                             localstore.storeAuthData(auth_data);
                     }
+                    else{
+                        v.show_error= true;
+                        v.status.isProcessing=false;
+                        v.status.text='Sign In';
+                    }
 
                     return d;
 
