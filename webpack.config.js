@@ -164,7 +164,7 @@ var config = {
 ],
 
 //mode: 'development',
-// mode: 'production',
+ mode: 'production',
 }
 
 module.exports = config;
