@@ -7,7 +7,8 @@ var client = function(){
     var access_token = authdata.access_token;
 
     var config = {
-        baseURL:'http://api.staging.quizac.com/',
+       // baseURL:'http://api.staging.quizac.com/',
+        baseURL:'https://api.quizac.com/',
         timeout: 60000,
         headers : {'Authorization':'bearer '+ access_token}
     }

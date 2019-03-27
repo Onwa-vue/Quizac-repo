@@ -504,7 +504,7 @@ export default {
 
     created: function(){
 
-        console.log("fetching data");
+        
 
         var vueInstance = this;
         questionSetId = this.$route.params.questionsetId
@@ -513,9 +513,11 @@ export default {
         
         contributorId = localstore.getdata('auth').id;
 
+        console.log(contributorId + "  " + questionSetId + "  " + versionId );
+
         axion.get(`/api/contributor/${contributorId}/question_set/${questionSetId}/versions/${versionId}`).then(resp=>{
-           
-           if(resp.statusText=="OK"){
+           console.log(resp);
+           if(resp.status==200){
                 resp.data.questions.forEach(q=>{
                   let choices= [];
                     q.choices.forEach(function(option){
@@ -552,7 +554,7 @@ export default {
                 }
             }
         }).catch(err=>{
-
+            console.log(JSON.toString(err));
         })
 
         /*Custom Selector*/

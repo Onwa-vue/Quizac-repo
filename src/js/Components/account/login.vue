@@ -79,6 +79,8 @@ export default {
                         auth_type : constants.auth_type
                     }
 
+                    console.log(data);
+
                     var v = this;
                     this.status.isProcessing=true;
                     this.status.text='Processing'
@@ -157,6 +159,8 @@ export default {
 
                     }).catch(err=>{
 
+                        
+                        console.log(JSON.toString(err));
                         v.show_error= true;
                         v.status.isProcessing=false;
                         v.status.text='Sign In';
