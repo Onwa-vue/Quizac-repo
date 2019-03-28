@@ -57,12 +57,12 @@
                                 <div class="card_item_row header_row">
                                     <div class="productInfo">
                                         <figure class="productThumb">
-                                            <div class="productImage">
+                                            <div class="productImage" v-bind:style="{backgroundColor:questionset.colorCode}">
                                                 <span class="productInitials">A</span>
                                             </div>
                                         </figure>
                                         <div class="productDetails">
-                                            <h4 class="productName">{{questionset.name}}</h4>
+                                            <h4 class="productName">{{questionset.title}}</h4>
                                             <div class="productMeta">
                                                 <div class="metaItem">
                                                     <span class="metaValue">SSS3</span>
@@ -140,6 +140,7 @@ export default {
             var contributor_id = localstore.getdata('auth').id;
             axios.get('api/contributor/'+ contributor_id + '/question_sets/0/50').then(function(resp){
                 if(resp.status==200){
+                    console.log(resp.data)
                     resp.data.forEach(function(q){
 
                         vueInstance.questionSets.push({
@@ -153,13 +154,14 @@ export default {
                             authorId : q.authorId,
                             image : q.image,
                             price : q.price,
-                            subject : q.subject!=null? q.subject.name:''
+                            subject : q.subject!=null? q.subject.name:'',
+                            colorCode:q.colorCode
                         });
-                    })    
+                    })  
+                    console.log(vueInstance.questionSets);  
                 }
             }).catch(err =>{
-                console.log(err);
-                console.log( JSON.stringify(err))
+                
             })
         },
         questionDetail: function(q){
