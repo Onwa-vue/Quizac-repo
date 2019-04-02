@@ -4,7 +4,7 @@
                                         <div class="card_item_row header_row">
                                             <div class="productInfo">
                                                 <figure class="productThumb">
-                                                    <div class="productImage bg__inverse">
+                                                    <div class="productImage" v-bind:style="{backgroundColor:colorCode}">
                                                         <i class="productInitials color__white">L</i>
                                                     </div>
                                                 </figure>
@@ -74,7 +74,8 @@ export default {
         'authorId',
         'image',
         'price',
-        'subject'
+        'subject',
+        'colorCode'
           ],
 
           methods:{

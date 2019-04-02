@@ -93,8 +93,6 @@ export default {
             req.push(axios.get('api/feedback'));
             Promise.all(req).then(function(resps){
 
-                console.log(resps);
-
                 if(resps[0].status==200){
                     resps[0].data.forEach(function(q){
                         vueInstance.questionSets.push({
@@ -109,6 +107,7 @@ export default {
                             image : q.image,
                             price : q.price,
                             subject : q.subject==null?'': q.subject.name,
+                            colorCode: q.colorCode
                             
                         });
                     })    

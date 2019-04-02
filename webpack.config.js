@@ -162,8 +162,6 @@ var config = {
         canPrint: true
       })
 ],
-
-//mode: 'development',
  mode: 'production',
 }
 
