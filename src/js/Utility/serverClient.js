@@ -41,7 +41,7 @@ var client = function(){
                         client_id:constants.client_id,
                         refresh_token:authdata.refresh_token,
                     }
-
+                    
                     console.log(data);
 
                 ax.post('/auth_token',data).then(resp=>{

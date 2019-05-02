@@ -84,7 +84,7 @@ export default {
                 auth_type:'default'
 
             }).then(function(resp){
-
+                console.log(resp);
                 if(resp.status==200 && resp.data.status == 'success' ){
                     v.btn_text= "Continue";
                     v.view.showError= false;
@@ -98,6 +98,7 @@ export default {
                     v.view.btn_text= "Continue";
                 }
             }).catch(function(error){
+                console.log(JSON.stringify(error));
                     v.view.showError= true;
                     v.view.showlogin_lnk = false;
                     v.view.error_msg = 'An error occur while trying to signup, please try again';
