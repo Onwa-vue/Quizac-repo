@@ -50,7 +50,6 @@
 // var client = require('../../Utility/serverClient.js')
 var localstore  = require('../../utility/cookieStorage.js'); 
 var constants  = require('../../utility/constants.js'); 
-// var axion = client();
 var axion = require('../../Utility/serverRequestUtil.js')
 
 export default {
@@ -67,10 +66,8 @@ export default {
     methods: {
 
         login: function(){
-
         this.$validator.validate().then(result => {
                 if (result) {
-
                     var data = {
                         username: this.email,
                         password: this.password,
@@ -78,9 +75,6 @@ export default {
                         client_secret : constants.client_secret,
                         auth_type : constants.auth_type
                     }
-
-                    console.log(data);
-
                     var v = this;
                     this.status.isProcessing=true;
                     this.status.text='Processing'

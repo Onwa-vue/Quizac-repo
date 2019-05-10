@@ -1,5 +1,10 @@
 <template>
     <section class="section_block">
+
+        <new-category-dialog v-on:submitcategory="addCategory"></new-category-dialog>
+        <new-subject v-on:submitsubject="addSubject"></new-subject>
+        <new-topic-dialog ref="topicdialog" v-on:add-topic="addTopic"></new-topic-dialog>
+
             <div class="container content_narrow">
                 <header class="section_header">
                     <h3 class="section_title">Question set Details</h3>
@@ -52,6 +57,13 @@
                                         </label>
                                     </div>
 
+                                     <div class="more_control">
+                                        <a href="#new_cat_dialog" data-toggle="modal" data-backdrop="static">
+                                            <span>+</span>
+                                            <span> Want to add a new class ? Add it here.</span>
+                                        </a>
+                                    </div>
+
 
                                 </div>
                             </div>
@@ -70,6 +82,13 @@
                                                 {{sub.name}}
                                             </span>
                                         </label>
+                                    </div>
+
+                                      <div class="more_control">
+                                        <a href="#new_subject_dialog" data-toggle="modal" data-backdrop="static">
+                                            <span>+</span>
+                                            <span> Want to add a new subject ? Add it here.</span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -187,6 +206,11 @@
 </template>
 
 <script>
+
+import newCategoryDialog from './subcomponents/newCategoryDialog.vue';
+import newsubject from './subcomponents/newSubjectDialog.vue'
+import topicDialog from './subcomponents/newTopic_dialog_component.vue';
+
 var localstore  = require('../../utility/cookieStorage.js'); 
 var client = require('../../Utility/serverClient.js')
 var axion = require('../../Utility/serverRequestUtil.js')
@@ -199,7 +223,6 @@ export default {
           
     data(){
         return {
-
             status:{isProcessing:false, loadingTopics:false},
             name:null,
             about: null,
@@ -215,6 +238,7 @@ export default {
     },
 
     methods:{
+
         selectCategory: function(){
              var vueInstance = this;
             this.categories.forEach(function(c){
@@ -232,6 +256,7 @@ export default {
              this.subjects.forEach(function(s){
                 if(s.id==vueInstance.subject){
                     s.isSelected=true
+                    vueInstance.$refs.topicdialog.setSubject(s);
                 }else{
                      s.isSelected=false
                 }
@@ -240,6 +265,9 @@ export default {
             if(this.subject != null){
                 this.status.loadingTopics = true;
                 axion.get('/api/Subject/'+ this.subject  +'/topics').then(function(resp){
+                    
+                    console.log(resp);
+
                     if(resp.status==200){
                         vueInstance.topics = [];
                         resp.data.forEach(function(t){
@@ -314,14 +342,23 @@ export default {
             }).catch(err=>{
                 
             })
+        },
+
+        addCategory : function(data){
+            this.categories.push(data)
+        },
+
+        addSubject : function(data){
+            this.subjects.push(data);
         }
     },
 
-   mounted : function(){
+    mounted : function(){
+
         var authenData = localstore.getdata('auth');
         var vueInstance = this;
         var url ='/api/contributor/'+ authenData.id +'/profile';
-        axion.get(url).then(function(r){   
+        axion.get(url).then(function(r){  
             if(r.status==200 && r.data.status=="success" ){
                 r.data.data.categories.forEach(function(c){
                     vueInstance.categories.push({
@@ -345,7 +382,14 @@ export default {
             }).catch(function(err){
 
             })  
+    },
+
+    components:{
+        'new-category-dialog' : newCategoryDialog,
+        'new-subject':newsubject,
+        'new-topic-dialog' : topicDialog
     }
 }
+
 </script>
 

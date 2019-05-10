@@ -6,20 +6,29 @@ var client = function(){
     var authdata = localstore.getdata('auth') == undefined || localstore.getdata('auth') == null ?'': localstore.getdata('auth');
     var access_token = authdata.access_token;
 
-    var config = {
-       // baseURL:'http://api.staging.quizac.com/',
-        baseURL:'https://api.quizac.com/',
-        timeout: 60000,
-        headers : {'Authorization':'bearer '+ access_token}
-    }
-    
+    var baseURL = "http://api.staging.quizac.com/";
+  //  baseURL = "https://api.quizac.com/";
+    var config;
+
+        config = {
+            baseURL: baseURL,
+            timeout: 60000,
+            headers : {'Authorization':'bearer '+ access_token},
+          /*  transformRequest: [function (data, headers) {
+                console.log("showing the request header");
+                console.log(headers);
+               // console.log(data.get('name'));
+                return data;
+              }], */
+        
+         }
 
    var ax = axios.create(config);
    
    /* ax.interceptors.response.use(response=>{
         return response;
          }, function(err){     */
-              
+
             // console.log(err.request);
            /*  console.log(err.config);
              console.log(err.response);
@@ -57,7 +66,7 @@ var client = function(){
                         localstore.storeAuthData(authdata);
                     }
                 }).catch(err=>{
-
+                    
                 })  
             }  */
             

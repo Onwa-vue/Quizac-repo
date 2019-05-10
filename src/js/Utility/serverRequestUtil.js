@@ -16,6 +16,20 @@ module.exports = {
         })
     },
 
+    postForm: function(url,data){
+        return this.execute().then(r=>{
+            axios = client();
+            axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+            return  axios.post(url,data);
+         /*  const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+           } 
+            return  axios.post(url,data, config); */
+        })
+    },
+
     get: function(url){
         return this.execute().then(r=>{
             axios = client();

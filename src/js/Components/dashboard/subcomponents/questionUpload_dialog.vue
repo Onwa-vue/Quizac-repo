@@ -67,6 +67,7 @@ export default {
     methods:{
         afterComplete: function(file, resp){
 
+            console.log(resp)
             var vueContext = this;
             if(resp.status=="success"){
                 axios.post(`api/contributor/${contributorId}/question_set/${questionSetId}/versions/${vueContext.versionId}/add_bulk`,resp.data).then(function(r){
@@ -79,6 +80,7 @@ export default {
         },
 
         upload: function(){
+            console.log('am uploading here');
             this.$refs.dropzone.processQueue();
         },
 

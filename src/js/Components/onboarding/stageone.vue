@@ -250,10 +250,8 @@ export default {
         },
 
         addCategory: function(cat){
-            console.log('am here');
             this.levels.push(cat);
             this.selectedLevels.push(cat);
-            console.log(this.selectedLevels);
         },
 
         addSubject : function(subject){
