@@ -66,15 +66,14 @@ var count=0;
 export default {
     data(){
         return {
-              parentCategories:[],
+            parentCategories:[],
             category:{
                 name:null,
                 link:null,
                 description:null,
                 parentId: null
-
             },
-            isProcessing: false
+            isProcessing:false
         }
     },
 
@@ -84,10 +83,13 @@ export default {
         submit: function(){
              this.$validator.validate().then(result => {
 
+
+                 var vueInstance = this;
                  if(result){
                       count = count + 1;
+                    
                         var data = {
-                           // id: this.category.name + count,
+                            //id: this.category.name + count,
                             name:this.category.name,
                             parentId: this.category.parentId,
                             isActive: '',
@@ -95,26 +97,26 @@ export default {
                             isSuggested: true
                         }
 
-                        var contributorId = localstore.getdata('auth').id;
-                        this.isProcessing = true;
-                        var vueInstance = this;
-                          axion.post('/api/contributor/'+ contributorId +'/category', data).then(res=>{
-                            if(res.data.status=="success"){
-
-                                data.id = res.data.id;
-                                vueInstance.$emit('submitcategory',data);
-                                vueInstance.category.name=null;
-                                vueInstance.category.link=null;
-                                vueInstance.category.description=null;
-                                vueInstance.category.parentId= null;
-                                $('#new_cat_dialog').modal('toggle');
-                            }
-
-                            vueInstance.isProcessing = false;
-
-                          }).catch(err=>{
-                              vueInstance.isProcessing = false;
-                          })
+                        console.log(data);
+                        
+                            var contributorId = localstore.getdata('auth').id;
+                            this.isProcessing = true;
+                                axion.post('/api/contributor/'+ contributorId +'/category', data).then(res=>{
+                                if(res.data.status=="success"){
+                                    data.id = res.data.id;
+                                    vueInstance.$emit('submitcategory',data);
+                                    vueInstance.category.name=null;
+                                    vueInstance.category.link=null;
+                                    vueInstance.category.description=null;
+                                    vueInstance.category.parentId= null;
+                                    vueInstance.isProcessing = false;
+                                    $('#new_cat_dialog').modal('toggle');
+                              }
+                            }).catch(err=>{
+                                 vueInstance.isProcessing = false;
+                                })   
+                            
+                       
                  }
              })
         }
@@ -122,10 +124,9 @@ export default {
     },
 
      mounted:function(){
-
         let vueInstance = this;
         let url ='/api/category';
-        axios.get(url).then(resp=>{ 
+        axion.get(url).then(resp=>{ 
             if(resp.status==200){
                 resp.data.forEach(cat=>{
                     if(cat.parentId == null){

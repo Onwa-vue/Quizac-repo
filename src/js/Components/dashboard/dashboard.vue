@@ -1,7 +1,7 @@
 <template>
 <div>
     <new-ref-dialog v-on:add-reference="addReference" ></new-ref-dialog>
-    <new-topic-dialog></new-topic-dialog>
+    
 
     <main class="main_content_wrapper bg__off_white">
          <router-view name="userdata"></router-view>
@@ -13,7 +13,6 @@
 <script>
 
 import refDialog from './subcomponents/newRef_dialog_component.vue';
-import topicDialog from './subcomponents/newTopic_dialog_component.vue';
 
 export default {
     data(){
@@ -46,7 +45,6 @@ export default {
 
     components:{
         'new-ref-dialog':refDialog,
-        'new-topic-dialog' : topicDialog
     }
 }
 </script>

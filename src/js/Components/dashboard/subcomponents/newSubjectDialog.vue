@@ -12,11 +12,11 @@
                             <label class="control-label">Subject Name</label>
                             <input type="text" class="form-control" placeholder="E.g Biology" v-model="name" v-validate="'required'">
                         </div>
-                        <div class="form-group">
+                       <!-- <div class="form-group">
                             <label class="control-label">Resource URL</label>
                             <input type="url" class="form-control" placeholder="Link for more information" v-model="link" v-validate="'url'" >
                             <p class="help-block">URL for any website that gives more information about the subject.</p>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label class="control-label">Short description</label>
                             <textarea rows="10" class="form-control" placeholder="A short description of the subject" v-model="description" v-validate="'required'"></textarea>
@@ -43,7 +43,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-sm btn-primary" v-on:click="submit" v-bind:class="{loading:isProcessing}">
-                       <span class="btn-label">Add</span>
+                         <span class="btn-label">Add</span>
                                 <div class="loadmore">
                                         <span>Processing</span>
                                         <span class="spinner"></span>
@@ -81,11 +81,12 @@ export default {
          imgPreview : function(event){
               var input = event.target;
               let vueInstance= this;
-              if (input.files && input.files[0]) {
+              if (input.files && input.files[0] && input.files[0].type.match(/image.*/)) {
                       var reader = new FileReader();
-                      reader.onload = (e) => {
+                      reader.onload = (e) => {    
                       vueInstance.imgBase64 = e.target.result;
-                      }   
+                      }
+                      
                 reader.readAsDataURL(input.files[0]);
                 this.fileTye = input.files[0].type;
                 this.fileName = input.files[0].name;
@@ -98,7 +99,7 @@ export default {
              this.$validator.validate().then(result => {
                  if(result){
                       count = count + 1;
-                         var data = {
+                        var data = {
                             id:this.name + count,
                             name: this.name,
                             link: this.link,
@@ -118,22 +119,30 @@ export default {
                         var contributorId = localstore.getdata('auth').id;
                         var url = '/api/contributor/'+ contributorId +'/subject'
                         this.isProcessing = true;
-
                         axion.postForm(url, formdata).then(res=>{
                             console.log(res);
                             if(res.status==200 && res.data.status=="success"){
+
+                                data.id = res.data.data.id;
                                 vueInstance.$emit('submitsubject',data);
                                 vueInstance.name= null;
                                 vueInstance.description= null;
                                 vueInstance.link = null;
                                 vueInstance.imgBase64 = './dist/img/banners/subject_default.png';
+                                vueInstance.isProcessing = false;
                                 $('#new_subject_dialog').modal('toggle');
+                                
                             }
-                             vueInstance.isProcessing = false ;
-                        })
+                         }).catch(err=>{
+                             console.log(err);
+                         })        
                  }
              })
-        }
+        },
+
+         getSubjects : function(){
+           
+        },
     }
 }
 </script>

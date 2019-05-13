@@ -114,6 +114,14 @@
                             </div>
                         </article>
                     </div>
+
+                    <div class="section_cto text-center pager">
+                        <button type="button" class="btn btn-primary" v-on:click="loadMore" v-if="showLoadMore" v-bind:class="{loading:isProcessing}" >
+                            <span class="btn-label">Load More</span>
+                            <div class="loadmore"><span>Processing</span> <span class="spinner"></span></div>
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -123,13 +131,16 @@
 
 var client = require('../../Utility/serverClient.js')
 var localstore  = require('../../utility/cookieStorage.js'); 
-var constants  = require('../../utility/constants.js'); 
 var axios = require('../../Utility/serverRequestUtil.js')
+var page = 0;
+var pageCount = 17;
 
 export default {
     data(){
         return {
              questionSets:[],
+             showLoadMore:false,
+             isProcessing:false
         }
     },
 
@@ -138,11 +149,10 @@ export default {
 
             var vueInstance = this;
             var contributor_id = localstore.getdata('auth').id;
-            axios.get('api/contributor/'+ contributor_id + '/question_sets/0/50').then(function(resp){
+            this.isProcessing = true;
+            axios.get('api/contributor/'+ contributor_id + '/question_sets/'+ page+'/'+ pageCount).then(function(resp){
                 if(resp.status==200){
-                    console.log(resp.data)
                     resp.data.forEach(function(q){
-
                         vueInstance.questionSets.push({
                             id: q.id,
                             title: q.title,
@@ -157,12 +167,24 @@ export default {
                             subject : q.subject!=null? q.subject.name:'',
                             colorCode:q.colorCode
                         });
-                    })  
-                    console.log(vueInstance.questionSets);  
+                    })     
+                    
+                    if(resp.data.length == pageCount){
+                         vueInstance.showLoadMore = true;
+                    }
+                    else{
+                         vueInstance.showLoadMore = false;
+                    }
                 }
+               vueInstance.isProcessing = false;
             }).catch(err =>{
                 
             })
+        },
+
+        loadMore: function(){
+                ++ page;
+                this.loadPage();
         },
         questionDetail: function(q){
             this.$router.push({name:'questionSetVersions', params:{questionsetId:q.id}})

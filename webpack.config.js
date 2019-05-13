@@ -162,7 +162,7 @@ var config = {
         canPrint: true
       })
 ],
- mode: 'production',
+// mode: 'production',
 }
 
 module.exports = config;
