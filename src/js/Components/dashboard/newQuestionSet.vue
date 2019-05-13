@@ -47,7 +47,6 @@
                                     </span>
                                 </header>
                                 <div class="form-group custom_selector">
-
                                     <div class="seletor_pill selector_item" v-for="cat in categories" v-bind:key="cat.id"  v-bind:class="{selected:cat.isSelected}" >
                                         <label v-bind:for="cat.id" class="pill_wrapper">
                                            <input type="radio" v-bind:id="cat.id" class="cst_selector" name="set_cat" v-model="category" v-bind:value="cat.id" v-on:click="selectCategory">
@@ -56,16 +55,13 @@
                                             </span>
                                         </label>
                                     </div>
-
-                                     <div class="more_control">
+                                </div>
+                                 <div class="more_control">
                                         <a href="#new_cat_dialog" data-toggle="modal" data-backdrop="static">
                                             <span>+</span>
                                             <span> Want to add a new class ? Add it here.</span>
                                         </a>
-                                    </div>
-
-
-                                </div>
+                                 </div>
                             </div>
                         </div>
                         <div class="numbered_row_item">
@@ -83,14 +79,14 @@
                                             </span>
                                         </label>
                                     </div>
+                                </div>
 
-                                      <div class="more_control">
+                                 <div class="more_control">
                                         <a href="#new_subject_dialog" data-toggle="modal" data-backdrop="static">
                                             <span>+</span>
                                             <span> Want to add a new subject ? Add it here.</span>
                                         </a>
                                     </div>
-                                </div>
                             </div>
                         </div>
                         <div class="numbered_row_item">
@@ -116,14 +112,13 @@
                                             <div></div>
                                         </div>
                                     </div>
-
-                                    <div class="more_control">
+                                </div>
+                                 <div class="more_control">
                                         <a href="#new_topic_dialog" data-toggle="modal" data-backdrop="static">
                                             <span>+</span>
                                             <span>Can't find the topic? Add it here.</span>
                                         </a>
                                     </div>
-                                </div>
                             </div>
                         </div>
                         <div class="numbered_row_item">

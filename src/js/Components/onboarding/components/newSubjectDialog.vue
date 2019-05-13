@@ -42,8 +42,12 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-sm btn-primary" v-on:click="submit">
-                        Add
+                    <button class="btn btn-sm btn-primary" v-on:click="submit" v-bind:class="{loading:isProcessing}">
+                       <span class="btn-label">Add</span>
+                                <div class="loadmore">
+                                        <span>Processing</span>
+                                        <span class="spinner"></span>
+                                </div>
                     </button>
                 </div>
             </div>
@@ -54,6 +58,9 @@
 
 <script>
 
+var localstore  = require('../../../utility/cookieStorage.js'); 
+var axion = require('../../../Utility/serverRequestUtil.js')
+
 var count= 0;
 export default {
     data(){
@@ -61,7 +68,11 @@ export default {
                 name: null,
                 link: null,
                 description: null,
-                imgBase64: './dist/img/banners/subject_default.png'
+                imgBase64: './dist/img/banners/subject_default.png',
+                fileTye: null,
+                fileName: null,
+                file : null,
+                isProcessing: false
         }
     },
 
@@ -76,7 +87,9 @@ export default {
                       vueInstance.imgBase64 = e.target.result;
                       }   
                 reader.readAsDataURL(input.files[0]);
-               
+                this.fileTye = input.files[0].type;
+                this.fileName = input.files[0].name;
+                this.file = input.files[0];
               }
      },
 
@@ -85,20 +98,39 @@ export default {
              this.$validator.validate().then(result => {
                  if(result){
                       count = count + 1;
-                        var data = {
+                         var data = {
                             id:this.name + count,
                             name: this.name,
                             link: this.link,
                             description: this.description,
-                            imageUrl: this.imageUrl
+                            imageData: { fileType: this.fileTye, name: this.fileName, base64String: this.imgBase64, }
                         }
 
-                        this.$emit('submitsubject',data);
-                        this.name= null;
-                        this.description= null;
-                        this.link = null;
-                        this.imgBase64 = './dist/img/banners/subject_default.png';
-                        $('#new_subject_dialog').modal('toggle');
+                        console.log(data);
+                        const formdata = new FormData();
+                        formdata.append("imageData", this.file);
+                        formdata.append('name', data.name);
+                        var issuggested = new Blob([true]);
+                        formdata.set('issuggested', issuggested);
+                        formdata.append('description', data.description);
+
+                        var vueInstance = this;
+                        var contributorId = localstore.getdata('auth').id;
+                        var url = '/api/contributor/'+ contributorId +'/subject'
+                        this.isProcessing = true;
+
+                        axion.postForm(url, formdata).then(res=>{
+                            console.log(res);
+                            if(res.status==200 && res.data.status=="success"){
+                                vueInstance.$emit('submitsubject',data);
+                                vueInstance.name= null;
+                                vueInstance.description= null;
+                                vueInstance.link = null;
+                                vueInstance.imgBase64 = './dist/img/banners/subject_default.png';
+                                $('#new_subject_dialog').modal('toggle');
+                            }
+                             vueInstance.isProcessing = false ;
+                        })
                  }
              })
         }

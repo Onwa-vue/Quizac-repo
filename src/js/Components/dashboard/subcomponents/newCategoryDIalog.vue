@@ -72,7 +72,6 @@ export default {
                 link:null,
                 description:null,
                 parentId: null
-
             },
             isProcessing:false
         }
@@ -103,18 +102,18 @@ export default {
                             var contributorId = localstore.getdata('auth').id;
                             this.isProcessing = true;
                                 axion.post('/api/contributor/'+ contributorId +'/category', data).then(res=>{
-                                   if(res.data.status=="success"){
-                                       data.id = res.data.id;
-                                vueInstance.$emit('submitcategory',data);
-                                vueInstance.category.name=null;
-                                vueInstance.category.link=null;
-                                vueInstance.category.description=null;
-                                vueInstance.category.parentId= null;
-                                vueInstance.isProcessing = false;
-                                $('#new_cat_dialog').modal('toggle');
+                                if(res.data.status=="success"){
+                                    data.id = res.data.id;
+                                    vueInstance.$emit('submitcategory',data);
+                                    vueInstance.category.name=null;
+                                    vueInstance.category.link=null;
+                                    vueInstance.category.description=null;
+                                    vueInstance.category.parentId= null;
+                                    vueInstance.isProcessing = false;
+                                    $('#new_cat_dialog').modal('toggle');
                               }
                             }).catch(err=>{
-                                console.log(err)
+                                 vueInstance.isProcessing = false;
                                 })   
                             
                        

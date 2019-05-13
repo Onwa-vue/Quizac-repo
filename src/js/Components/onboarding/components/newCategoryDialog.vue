@@ -42,8 +42,12 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-sm btn-primary" v-on:click="submit">
-                        Add
+                    <button class="btn btn-sm btn-primary" v-on:click="submit" v-bind:class="{loading:isProcessing}">
+                        <span class="btn-label">Add</span>
+                                <div class="loadmore">
+                                        <span>Processing</span>
+                                        <span class="spinner"></span>
+                                </div>
                     </button>
                 </div>
             </div>
@@ -70,7 +74,7 @@ export default {
                 parentId: null
 
             },
-
+            isProcessing: false
         }
     },
 
@@ -82,21 +86,35 @@ export default {
 
                  if(result){
                       count = count + 1;
-                      console.log(count);
                         var data = {
-                            id: this.category.name + count,
+                           // id: this.category.name + count,
                             name:this.category.name,
                             parentId: this.category.parentId,
                             isActive: '',
-                            description: this.category.description
+                            description: this.category.description,
+                            isSuggested: true
                         }
-                       
-                        this.$emit('submitcategory',data);
-                        this.category.name=null;
-                        this.category.link=null;
-                        this.category.description=null;
-                        this.category.parentId= null;
-                        $('#new_cat_dialog').modal('toggle');
+
+                        var contributorId = localstore.getdata('auth').id;
+                        this.isProcessing = true;
+                        var vueInstance = this;
+                          axion.post('/api/contributor/'+ contributorId +'/category', data).then(res=>{
+                            if(res.data.status=="success"){
+
+                                data.id = res.data.id;
+                                vueInstance.$emit('submitcategory',data);
+                                vueInstance.category.name=null;
+                                vueInstance.category.link=null;
+                                vueInstance.category.description=null;
+                                vueInstance.category.parentId= null;
+                                $('#new_cat_dialog').modal('toggle');
+                            }
+
+                            vueInstance.isProcessing = false;
+
+                          }).catch(err=>{
+                              vueInstance.isProcessing = false;
+                          })
                  }
              })
         }
