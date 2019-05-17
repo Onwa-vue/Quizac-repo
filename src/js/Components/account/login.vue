@@ -79,7 +79,6 @@ export default {
                     this.status.isProcessing=true;
                     this.status.text='Processing'
                     axion.post('api/account/login', data).then(resp=>{
-                        console.log(resp);
                         var d;
                         if(resp.status==200 && resp.data.status=="success"){
                              d = resp.data.data;
@@ -90,9 +89,24 @@ export default {
                                         refresh_token : d.refresh_token,
                                         role :'contributor',
                                         id : d.user.id,
-                                        status:'valid'
+                                        status:'valid',
+                                        fullname: d.user.fullname,
+                                        displayname: d.user.displayName,
+                                        picture : d.user.picture
                                     }
+
+                             var roles = [];       
                             localstore.storeAuthData(auth_data);
+                            d.user.roles.forEach(r=>{
+                                roles.push(r.toLowerCase());
+                            })
+
+                            console.log(roles);
+                            if(roles.includes("contributor")){
+                               return d;
+                            }else{
+                                 v.$router.push('student_signup'); 
+                            }
                     }
                     else{
                         v.show_error= true;
@@ -100,16 +114,15 @@ export default {
                         v.status.text='Sign In';
                     }
 
-                    return d;
-
                     }).then(d=>{
 
                         if(d != null || d != undefined){
+                            
                           var url ='/api/contributor/'+ d.user.id +'/profile'
                           axion.get(url).then(function(res){
-                                console.log(res);
-
+                                
                             if(res.status==200 && res.data.status=="success" ){
+                                console.log(res);
                                 var r = res.data.data; 
                                 var user_data = {
                                         firstname:r.firstName,
@@ -142,8 +155,12 @@ export default {
                                     v.$router.push('dashboard'); 
                                     
                                 }else{
-                                    if(res.statusText=='OK' &&  res.data.status.toLowerCase().trim() == "failed".toLowerCase().trim() && res.data.error_messages[0].toLowerCase().trim() =='Contributor does not exist'.toLowerCase().trim()){
+                                    if(res.status==200 &&  res.data.status.toLowerCase().trim() == "failed".toLowerCase().trim() && res.data.error_messages[0].toLowerCase().trim() =='Contributor does not exist'.toLowerCase().trim()){
                                         localstore.storeOnboardingdata('stage1_onboarding', {status: false});
+                                        localstore.storeOnboardingdata('stage2_onboarding', {status: false});
+                                        v.$router.push('dashboard'); 
+                                    }else{
+                                         localstore.storeOnboardingdata('stage1_onboarding', {status: false});
                                         localstore.storeOnboardingdata('stage2_onboarding', {status: false});
                                         v.$router.push('dashboard'); 
                                     }

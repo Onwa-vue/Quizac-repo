@@ -12,6 +12,12 @@
                             <label class="control-label">Category Name</label>
                             <input type="text" class="form-control" placeholder="Name of your class" v-model="category.name" v-validate="'required'">
                         </div>
+                         <div class="form-group">
+                             <label class="control-label">Category Countries</label>
+                             <Selectize class="form-control sel_multiple" multiple="multiple" name="countries" v-model="selectedCountries" :settings="Countrysettings" v-validate="'required'" >
+                                 <option v-for="option in countries" v-bind:key="option.id" v-bind:value="option.name">{{option.name}}</option>
+                              </Selectize>
+                        </div>
                         <div class="form-group">
                             <label class="control-label">Wikipedia Link</label>
                             <input type="url" class="form-control" placeholder="Link to the class's wikipedia page" v-model="category.link" v-validate="'url'" >
@@ -60,6 +66,7 @@
 
 var localstore  = require('../../../utility/cookieStorage.js'); 
 var axion = require('../../../Utility/serverRequestUtil.js')
+import Selectize from 'vue2-selectize'
 
 var count=0;
 
@@ -73,10 +80,16 @@ export default {
                 description:null,
                 parentId: null
             },
-            isProcessing:false
+            isProcessing:false,
+            contributorCountries:[],
+            Countrysettings:{},
+            selectedCountries:[]
         }
     },
 
+    props:{
+        countries:Array
+    },
 
     methods:{
 
@@ -94,14 +107,13 @@ export default {
                             parentId: this.category.parentId,
                             isActive: '',
                             description: this.category.description,
-                            isSuggested: true
+                            isSuggested: true,
+                            countries: this.selectedCountries
                         }
-
-                        console.log(data);
                         
                             var contributorId = localstore.getdata('auth').id;
                             this.isProcessing = true;
-                                axion.post('/api/contributor/'+ contributorId +'/category', data).then(res=>{
+                            axion.post('/api/contributor/'+ contributorId +'/category', data).then(res=>{
                                 if(res.data.status=="success"){
                                     data.id = res.data.id;
                                     vueInstance.$emit('submitcategory',data);
@@ -114,13 +126,15 @@ export default {
                               }
                             }).catch(err=>{
                                  vueInstance.isProcessing = false;
-                                })   
-                            
-                       
+                                })  
                  }
              })
         }
        
+    },
+
+    components :{ 
+        Selectize
     },
 
      mounted:function(){
@@ -142,6 +156,19 @@ export default {
         }).catch(err=>{
 
         })
+
+        console.log("passed countries")
+        console.log(this.countries);
+       /* var i = 1;
+        this.countries.forEach(c=>{
+            console.log(c)
+            vueInstance.contributorCountries.push({name:c, id:i})
+            i = i + 1;
+        })  
+
+        console.log(this.contributorCountries) */
+
+
        
     }
 }

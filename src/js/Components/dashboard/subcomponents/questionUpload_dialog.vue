@@ -67,8 +67,11 @@ export default {
     methods:{
         afterComplete: function(file, resp){
 
-            console.log(resp)
             var vueContext = this;
+            console.log(resp)
+           // var url = `api/contributor/${contributorId}/question_set/${questionSetId}/versions/${vueContext.versionId}/add_bulk`;
+          //  console.log(url);
+
             if(resp.status=="success"){
                 axios.post(`api/contributor/${contributorId}/question_set/${questionSetId}/versions/${vueContext.versionId}/add_bulk`,resp.data).then(function(r){
                     if(r.data.status=="success"){
@@ -85,6 +88,7 @@ export default {
         },
 
         oncompleted: function(file, msg, xhr){
+
         }
     },
     components:{

@@ -325,7 +325,8 @@ export default {
                         choices : choices,
                         level:{name:this.difficulty},
                         imageUrl: this.imgString,
-                        count:count
+                        count:count,
+                        isActive:true
                     }
 
                     vueInstance.processStatus.IsProcessing = true;

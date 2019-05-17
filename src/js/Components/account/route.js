@@ -6,6 +6,7 @@ import login from '../account/login.vue'
 import signup from '../account/signup.vue'
 import signuplanding from '../account/signup_landing.vue'
 import forgotpassword from '../account/forgotpassword.vue'
+import studentsignup from './student_signup.vue'
 
 
 var routes = [
@@ -45,6 +46,15 @@ var routes = [
             footer: footer
         }
     },
+    {
+        path:'/student_signup',
+        name:'studentsignup',
+        components:{
+            header:header,
+            main: studentsignup,
+            footer: footer
+        }
+    }
 
 ]
 

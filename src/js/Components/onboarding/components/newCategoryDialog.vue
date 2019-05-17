@@ -12,6 +12,13 @@
                             <label class="control-label">Category Name</label>
                             <input type="text" class="form-control" placeholder="Name of your class" v-model="category.name" v-validate="'required'">
                         </div>
+                         <div class="form-group">
+                             <label class="control-label">Category Countries</label>
+                             <Selectize class="form-control sel_multiple" multiple="multiple" name="countries" v-model="selectedCountries" :settings="Countrysettings" v-validate="'required'" >
+                                 <option v-for="option in countries" v-bind:key="option.id" v-bind:value="option.name">{{option.name}}</option>
+                              </Selectize>
+                        </div>
+
                         <div class="form-group">
                             <label class="control-label">Wikipedia Link</label>
                             <input type="url" class="form-control" placeholder="Link to the class's wikipedia page" v-model="category.link" v-validate="'url'" >
@@ -60,6 +67,7 @@
 
 var localstore  = require('../../../utility/cookieStorage.js'); 
 var axion = require('../../../Utility/serverRequestUtil.js')
+import Selectize from 'vue2-selectize'
 
 var count=0;
 
@@ -74,8 +82,14 @@ export default {
                 parentId: null
 
             },
-            isProcessing: false
+            isProcessing: false,
+            selectedCountries:[],
+            Countrysettings:{}
         }
+    },
+
+    props:{
+        countries:Array
     },
 
 
@@ -92,7 +106,9 @@ export default {
                             parentId: this.category.parentId,
                             isActive: '',
                             description: this.category.description,
-                            isSuggested: true
+                            isSuggested: true,
+                            countries : this.selectedCountries
+
                         }
 
                         var contributorId = localstore.getdata('auth').id;
@@ -100,7 +116,6 @@ export default {
                         var vueInstance = this;
                           axion.post('/api/contributor/'+ contributorId +'/category', data).then(res=>{
                             if(res.data.status=="success"){
-
                                 data.id = res.data.id;
                                 vueInstance.$emit('submitcategory',data);
                                 vueInstance.category.name=null;
@@ -119,6 +134,10 @@ export default {
              })
         }
        
+    },
+
+    components :{ 
+        Selectize
     },
 
      mounted:function(){
@@ -140,7 +159,7 @@ export default {
             }
         }).catch(err=>{
 
-        })
+         })
        
     }
 }

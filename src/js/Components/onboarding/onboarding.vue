@@ -2,10 +2,9 @@
 <div>
 
     
-    <new-category v-on:submitcategory="addCategory"></new-category>
+    <new-category v-on:submitcategory="addCategory"  v-bind:countries="countries"></new-category>
     <new-subject v-on:submitsubject="addSubject"></new-subject>
 
-   
     <main class="main_content_wrapper">
         <nav class="wizard_nav">
             <div class="container">
@@ -50,7 +49,7 @@
 
     
 
-         <router-view ref="childComponent" ></router-view>
+         <router-view ref="childComponent" v-bind:countries="countries" ></router-view>
 
 
  </main>
@@ -70,10 +69,27 @@ export default {
 
         return{
 
+             countries : [
+                 {name: 'Nigeria', id:1}, 
+                 {name:'Ghana', id:2},
+                 {name:'France', id:3},
+                 {name:'South Africa', id:4},
+                 {name:'South Korea', id:5},
+                 {name:'China', id:6},
+                 {name:'India', id:7},
+                 {name:'United Kingdom', id:8},
+                 {name:'United States of America', id:9},
+                 {name:'Seria Leone', id:10},
+                 {name:'Togo', id:11},
+                 {name:'Benin Republic', id:12},
+                 {name:'Congo', id:13},
+                 {name:'Cameron', id:14}
+            ]
         }
     },
 
     methods:{
+
         stage_one_status: function(){
            var pth = this.$route.path;
             return  !pth.includes('stagetwo');
@@ -81,17 +97,16 @@ export default {
 
         stage_two_status : function(){
             var pth = this.$route.path;
-             return pth.includes('stagetwo');
+            return pth.includes('stagetwo');
         },
 
-        addSubject: function(data){
-           
-             this.$refs.childComponent.addSubject(data);
+        addSubject: function(data){ 
+            this.$refs.childComponent.addSubject(data);
         },
 
-          addCategory: function(data){
-             this.$refs.childComponent.addCategory(data);
-        },
+        addCategory: function(data){
+            this.$refs.childComponent.addCategory(data);
+        }
     },
 
     components:{

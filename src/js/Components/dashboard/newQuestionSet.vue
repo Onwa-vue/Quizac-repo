@@ -1,7 +1,7 @@
 <template>
     <section class="section_block">
 
-        <new-category-dialog v-on:submitcategory="addCategory"></new-category-dialog>
+        <new-category-dialog v-on:submitcategory="addCategory" v-bind:countries="countries"></new-category-dialog>
         <new-subject v-on:submitsubject="addSubject"></new-subject>
         <new-topic-dialog ref="topicdialog" v-on:add-topic="addTopic"></new-topic-dialog>
 
@@ -203,12 +203,12 @@
 <script>
 
 import newCategoryDialog from './subcomponents/newCategoryDialog.vue';
-import newsubject from './subcomponents/newSubjectDialog.vue'
+import newsubject from './subcomponents/newSubjectDialog.vue';
 import topicDialog from './subcomponents/newTopic_dialog_component.vue';
 
 var localstore  = require('../../utility/cookieStorage.js'); 
-var client = require('../../Utility/serverClient.js')
-var axion = require('../../Utility/serverRequestUtil.js')
+var client = require('../../Utility/serverClient.js');
+var axion = require('../../Utility/serverRequestUtil.js');
 
 export default {
 
@@ -228,7 +228,8 @@ export default {
             topics : [],
             topic: null,
             price:null,
-            discount : null
+            discount : null,
+            countries:[]
         }
     },
 
@@ -316,7 +317,7 @@ export default {
                 price : this.price,
                 currencyCode : 566,
                 title: this.name,
-                description: this.description,
+                description: this.about,
                 subjectId:this.subject,
                 topic: tp,
                 categories:cats,
@@ -372,7 +373,16 @@ export default {
                         description : s.description,
                         isSelected:false
                     })
-                })
+                });
+                console.log('countries');
+                console.log(r.data.data.countries)
+                var i = 1;
+               r.data.data.countries.forEach(function(c){
+                    vueInstance.countries.push({
+                        name: c, 
+                        id:i
+                    })
+                }) 
                 }
             }).catch(function(err){
 
