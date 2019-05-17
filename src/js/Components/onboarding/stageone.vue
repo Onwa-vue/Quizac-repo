@@ -5,7 +5,6 @@
                     <h3 class="section_title">Account Configuration</h3>
                     <p class="font-md">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non fugit sunt provident rem exercitationem obcaecati sit ex ullam nemo ducimus pariatur ipsum, vero dolor aliquid modi consequuntur velit! Quo, quibusdam!</p>
                 </header>
-                
                 <div class="form_body">
                     <form action="" class="numbered_row_list">
                         <div class="numbered_row_item">
@@ -144,9 +143,7 @@
             </div>
         </section>
 </template>
-
 <script>
-
 var localstore  = require('../../utility/cookieStorage.js'); 
 import Selectize from 'vue2-selectize'
 var axios = require('../../Utility/serverRequestUtil.js')
@@ -158,7 +155,7 @@ export default {
 
             status:{isProcessing:false, text:'Continue', loadingCategory:false, loadingSubject:false},
 
-            countries : [
+          /*  countries : [
                  {name: 'Nigeria', id:1}, 
                  {name:'Ghana', id:2},
                  {name:'France', id:3},
@@ -173,7 +170,7 @@ export default {
                  {name:'Benin Republic', id:12},
                  {name:'Congo', id:13},
                  {name:'Cameron', id:14}
-            ],
+            ], */
 
             Countrysettings:{
                // options: this.countries,
@@ -191,6 +188,10 @@ export default {
             email: null,
             phonenumber: null
         }
+    },
+
+    props:{
+        countries: Array
     },
     components :{ 
         Selectize
@@ -302,7 +303,7 @@ export default {
                             }
                             console.log(d);
                             axios.post( url,d ).then(function(resp){
-                                console.log(resp);
+                                
                                 if(resp.status==200){
                                     // save onboarding status 
                                     localstore.storeOnboardingdata('stage1_onboarding', {status: true})
@@ -324,7 +325,7 @@ export default {
     },
     
     mounted: function(){
-      
+
     }
    
 }
