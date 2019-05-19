@@ -288,7 +288,38 @@ export default {
                     this.status.isProcessing = true;
                     this.status.text='Processing';
 
-                    Promise.all([axios.post('/api/contributor/'+ id +'/categories',levels),axios.post('api/contributor/'+ id +'/subjects',subjects)]).
+                    var url = 'api/contributor/'+ id +'/update_profile';
+                    var d = {
+                        countries: vueInstance.selectedCountries,
+                        mobileNumber: vueInstance.phonenumber,
+                        email: vueInstance.email,
+                        languages: vueInstance.language
+                    }
+                    console.log(d);
+                    axios.post( url,d ).then(function(resp){
+                                 console.log(resp);
+                        if(resp.status==200){
+
+                            Promise.all([axios.post('/api/contributor/'+ id +'/categories',levels),axios.post('api/contributor/'+ id +'/subjects',subjects)]).then(resps=>{
+
+                                console.log(resps);
+                                 if(resps[0].status==200 && resps[1].status==200){
+                                       // save onboarding status 
+                                        localstore.storeOnboardingdata('stage1_onboarding', {status: true})
+                                        // navigate to stage two
+                                        vueInstance.$router.push('/onboarding/stagetwo');  
+                                 }
+                            })
+                        }
+                        }).catch(err=>{
+                            this.status.isProcessing = false;
+                            this.status.text='Continue';
+                        });  
+
+
+
+
+                  /*  Promise.all([axios.post('/api/contributor/'+ id +'/categories',levels),axios.post('api/contributor/'+ id +'/subjects',subjects)]).
                     then(function (resps){
                        
                        console.log(resps);
@@ -313,12 +344,12 @@ export default {
                             }).catch(err=>{
                                 this.status.isProcessing = false;
                                 this.status.text='Continue';
-                            });  
+                            });    
                         }   
                     }).catch(err=>{
                         this.status.isProcessing = false;
                         this.status.text='Continue';;  
-                     });  
+                     }); */  
                 }
         })
         }

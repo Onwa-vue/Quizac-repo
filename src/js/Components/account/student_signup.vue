@@ -31,7 +31,7 @@
 <script>
 
 var localstore  = require('../../utility/cookieStorage.js'); 
-var axion = require('../../Utility/serverRequestUtil.js')
+var axion = require('../../Utility/serverRequestUtil.js');
 
 export default {
 

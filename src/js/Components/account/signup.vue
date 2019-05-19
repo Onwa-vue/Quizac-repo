@@ -51,6 +51,7 @@
 
 var client = require('../../Utility/serverClient.js');
 var axion = require('../../Utility/serverRequestUtil.js')
+var localstore  = require('../../utility/cookieStorage.js'); 
 
 export default {
     data (){
@@ -84,12 +85,26 @@ export default {
                 auth_type:'default'
 
             }).then(function(resp){
-                console.log(resp);
+                
                 if(resp.status==200 && resp.data.status == 'success' ){
+                  
+                  /* console.log(resp);
+                    var url = `/api/contributor/${resp.data.data.user_id}/request_access`;
+                    axion.get(url).then(res=>{
+                        console.log(res);
+                        if(res.status==200 && res.data.status=="success"){
+                            localstore.cleardata('auth');
+                            v.btn_text= "Continue";
+                            v.view.showError= false;
+                            v.view.showlogin_lnk = false;
+                            v.$router.push({name:'login'});
+                        }
+                    })  */
+                    
                     v.btn_text= "Continue";
                     v.view.showError= false;
                     v.view.showlogin_lnk = false;
-                    v.$router.push({name:'login'});
+                    v.$router.push({name:'login'}); 
                 }
                 else { 
                     v.view.showError= true;

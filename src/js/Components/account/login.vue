@@ -95,13 +95,12 @@ export default {
                                         picture : d.user.picture
                                     }
 
-                             var roles = [];       
+                            var roles = [];       
                             localstore.storeAuthData(auth_data);
                             d.user.roles.forEach(r=>{
                                 roles.push(r.toLowerCase());
                             })
-
-                            console.log(roles);
+                           
                             if(roles.includes("contributor")){
                                return d;
                             }else{
@@ -121,8 +120,9 @@ export default {
                           var url ='/api/contributor/'+ d.user.id +'/profile'
                           axion.get(url).then(function(res){
                                 
+                               
                             if(res.status==200 && res.data.status=="success" ){
-                                console.log(res);
+                                
                                 var r = res.data.data; 
                                 var user_data = {
                                         firstname:r.firstName,
@@ -163,14 +163,12 @@ export default {
                                          localstore.storeOnboardingdata('stage1_onboarding', {status: false});
                                         localstore.storeOnboardingdata('stage2_onboarding', {status: false});
                                         v.$router.push('dashboard'); 
-                                    }
+                                    } 
                                 } 
                             })
                         }
 
                     }).catch(err=>{
-
-                        
                         console.log(JSON.toString(err));
                         v.show_error= true;
                         v.status.isProcessing=false;

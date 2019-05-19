@@ -144,7 +144,7 @@ export default {
 
         let vueInstance = this;
         let url ='/api/category';
-        axios.get(url).then(resp=>{ 
+        axion.get(url).then(resp=>{ 
             if(resp.status==200){
                 resp.data.forEach(cat=>{
                     if(cat.parentId == null){

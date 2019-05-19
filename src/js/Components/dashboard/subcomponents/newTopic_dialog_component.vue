@@ -162,6 +162,10 @@ export default {
         } */
     },
 
+    mounted: function(){
+     getImages();   
+    }
+
    
 }
 </script>
