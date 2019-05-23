@@ -116,21 +116,27 @@ export default {
                     }).then(d=>{
 
                         if(d != null || d != undefined){
-                            
                           var url ='/api/contributor/'+ d.user.id +'/profile'
-                          axion.get(url).then(function(res){
-                                
-                               
+                          axion.get(url).then(function(res){  
+
+                              console.log("profile Detail")
+                              console.log(res);
+
                             if(res.status==200 && res.data.status=="success" ){
                                 
                                 var r = res.data.data; 
+                                var categories = [];
+                                r.categories.forEach(c=>{
+                                    categories.push({id:c.id, name:c.name, description:c.description, isActive: c.isActive, parentId:c.parentId})
+                                })
+
                                 var user_data = {
                                         firstname:r.firstName,
                                         lastname: r.lastName,
                                         fullname:r.fullName,
                                         address: r.address,
                                         bio:r.bio,
-                                        categories:r.categories,
+                                        categories: categories,
                                         countries: r.countries,
                                         educationLevel:r.educationLevel,
                                         email: r.email,
@@ -145,14 +151,16 @@ export default {
                                         schools:r.schools,
                                         subjects : r.subjects,
                                         questionsCreated:r.questionsCreated,
-                                        state:'',
-                                        country:'',
+                                        state:r.state,
+                                        country:r.country,
                                         rating:r.averageRating,
-                                        username:r.username
-                                    };
+                                        username:r.username 
+                                }; 
 
-                                    localstore.storeUserData('user-detail',user_data);     
-                                    v.$router.push('dashboard'); 
+                                localstore.storeUserData('user_detail', user_data);   
+                                var d = localstore.getdata('user_detail'); 
+                               
+                                v.$router.push('dashboard'); 
                                     
                                 }else{
                                     if(res.status==200 &&  res.data.status.toLowerCase().trim() == "failed".toLowerCase().trim() && res.data.error_messages[0].toLowerCase().trim() =='Contributor does not exist'.toLowerCase().trim()){
@@ -169,7 +177,7 @@ export default {
                         }
 
                     }).catch(err=>{
-                        console.log(JSON.toString(err));
+                      
                         v.show_error= true;
                         v.status.isProcessing=false;
                         v.status.text='Sign In';

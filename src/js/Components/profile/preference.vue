@@ -100,6 +100,11 @@
 import Selectize from 'vue2-selectize'
 var localstore  = require('../../utility/cookieStorage.js'); 
 var axios = require('../../Utility/serverRequestUtil.js')
+
+
+var initialCategories =[];
+var initialSubjects = [];
+
 export default {
 
     data(){
@@ -127,18 +132,18 @@ export default {
 
              Countrysettings:{
                 onDropdownClose:this.getlevels,
-                onItemAdd: this.removeCountry,
-                onItemRemove : this.addCountry
+               // onItemAdd: this.addCountry,
+               // onItemRemove : this.removeCountry
             },
 
              Categorysettings:{
-                onItemAdd: this.removeCategory,
-                onItemRemove: this.addCategory
+               // onItemAdd: this.removeCategory,
+               // onItemRemove: this.addCategory
             },
 
              Subjectsettings:{
-                onItemAdd: this.removeSubject,
-                onItemRemove: this.addSubject
+              //  onItemAdd: this.removeSubject,
+              //  onItemRemove: this.addSubject
             },
 
             selectedCountries:[],
@@ -146,25 +151,9 @@ export default {
             levels:[],
             selectedLevels:[],
             u_subjects :[],
-            selectedSubjects:[],
-           
-           
-           removedCountries:[],
-           addedCountries:[],
-
-           removedCategories:[],
-           addedCategories:[],
-
-           removedSubjects:[],
-           addedSubjects:[]
+            selectedSubjects:[]
         }
     },
-
-  /*  props:{
-        countries:Array,
-        categories:Array,
-        subjects:Array
-    }, */
 
     methods:{
 
@@ -238,217 +227,142 @@ export default {
 
         updatePreference: function(){
 
-             var vueInstance = this;
+
+            var vueInstance = this;
+
+            var addedCategories = [];
+            var removedCategories= [];
+
+            this.selectedLevels.map(sl=>{
+                if(!initialCategories.includes(sl)){
+                    vueInstance.levels.forEach(l=>{
+                        if(l.id==sl){
+                            addedCategories.push({
+                                id:l.id,
+                                name : l.name,
+                                description: l.description,
+                                isActive: l.isActive,
+                                parentId: l.parentId
+                            });
+                        }
+                    })
+                }
+            })
+
+            initialCategories.map(l=>{
+                if(!vueInstance.selectedLevels.includes(l)){
+                    removedCategories.push(l);
+                }
+            })
+
+
+            var addedSubjects = [];
+            var removedSubjects= [];
+
+             this.selectedSubjects.map(ss=>{
+                if(!initialSubjects.includes(ss)){
+                    vueInstance.u_subjects.forEach(s=>{
+                        if(s.id==ss){
+                            addedSubjects.push(s);
+                        }
+                    })
+                }
+            })
+
+             initialSubjects.map(s=>{
+                if(!vueInstance.selectedSubjects.includes(s)){
+                    removedSubjects.push(s);
+                }
+            })
+
+
+             
              var id = localstore.getdata('auth').id;
-             var updatesCall =[];
+             var updatesCall = [];
+             console.log(id);
 
-             this.removedCategories.forEach(cat=>{
-                 updatesCall.push(axios.delete(`/api/contributor/${id}/categories/${cat.id}`));
+             removedCategories.forEach(cat=>{
+                 updatesCall.push(axios.delete(`/api/contributor/${id}/categories/${cat}`));
              })
 
-             this.addedCategories.forEach(cat=>{
-                 updatesCall.push(axios.post(`/api/contributor/${id}/categories`),cat);
-             })
+            if(addedCategories.length>0){
+                updatesCall.push(axios.post(`/api/contributor/${id}/categories`,addedCategories));
+            }
+             
+            if(addedSubjects.length>0){
+                 updatesCall.push(axios.post(`/api/contributor/${id}/subjects`, addedSubjects));
+             }
+             
 
-             this.addedSubjects.forEach(sub =>{
-                 updatesCall.push(axios.post(`/api/contributor/${id}/subjects`, sub));
-             })
-
-             this.removedSubjects.forEach(sub =>{
-                 updatesCall.push(axios.delete(`/api/contributor/${id}/subjects/${sub.id}`));
+             removedSubjects.forEach(sub =>{
+                 updatesCall.push(axios.delete(`/api/contributor/${id}/subjects/${sub}`));
              });
 
              var data = {
                  countries: this.selectedCountries
              }
+
              updatesCall.push(axios.post(`/api/contributor/${id}/update_profile`, data))
 
              this.status.isProcessing= true;
              Promise.all(updatesCall).then(resps=>{
+                 console.log(resps);
                  vueInstance.status.isProcessing = false;
-                 let ContributorInfo = localstore.getdata('user-detail');
-                 ContributorInfo.countries = vueInstance.selectedCountries;
-                
-                 var selectedCategoriesObj = [];
-                 var selectedSubjectsObj = [];
+                 vueInstance.updateUserData(); 
 
-                
-
-                 vueInstance.levels.forEach(l=>{
-                     vueInstance.selectedLevels.forEach(sl=>{
-                         if(sl==l.id){
-                             selectedCategoriesObj.push(l);
-                         }
-                     })
-                 })
-
-                  console.log('level is cool');
-                  console.log(selectedCategoriesObj);
-
-                 ContributorInfo.categories = selectedCategoriesObj;
-
-                 vueInstance.subjects.forEach(sub=>{
-                     vueInstance.selectedSubjects(s=>{
-                         if(s==sub.id){
-                             selectedSubjectsObj.push(sub);
-                         }
-                     })
-                 })
-
-                  console.log('Subject is cool');
-                  console.log(selectedSubjectsObj);
-
-                 ContributorInfo.subjects = selectedSubjectsObj;
-                 localstore.storeUserData('user-detail',ContributorInfo); 
-
-
-             }).catch(err=>{});
-
-           /*  let vueInstance = this;
-                    var levels = [];
-                    this.levels.map(l=>{
-                        vueInstance.selectedLevels.forEach(sl=>{
-                            if(sl==l.id){
-                                levels.push(l);
-                            }
-                        })
-                    })
-
-                    var subjects = [];
-                    this.subjects.map(s=>{
-                        var subjs = [];
-                        vueInstance.selectedSubjects.forEach(sb=>{
-                            if(sb==s.id){
-                                subjects.push(s);
-                            }
-                        })
-                    })
-                    
-                    var d = {
-                        countries: this.selectedCountries,
-                    }
-
-                    this.status.isProcessing= true;
-                    Promise.all([axios.post('/api/contributor/'+ id +'/categories',levels),axios.post('api/contributor/'+ id +'/subjects',subjects),axios.post('api/contributor/'+ id +'/update_profile',d.countries) ]).
-                    then(resps=>{
-                        if(resps[0].statusText=='OK' && resps[1].statusText=='OK' && resps[2].statusText=='OK'){        
-                            vueInstance.status.showMsg=true;
-                            setInterval(function(){
-                                 vueInstance.status.showMsg=false;
-                            }, 10000)                                                           
-                        }
-                        vueInstance.status.isProcessing = false;
-                    }).catch(err=>{
-
-                    }) */
-        },
-
-        addCategory : function(data){
-            console.log('am inside to add category');
-            console.log(data);
-            this.levels.push(data);
-            this.selectedLevels.push(data.id);
-        },
-
-        addSubject: function(data){
-            console.log('am inside to add subject');
-            console.log(data);
-            this.u_subjects.push(data);
-            this.selectedSubjects.push(data.id)
-        },
-
-        removeCountry: function(d,e){
-           if(this.countries.includes(d)){
-               this.removedCountries.push(d);
-               var index = this.addedCountries.indexOf(d);
-               if(index>=0){
-                   this.addedCountries.splice(index,1);
-               }
-           }
-        },
-
-        addCountry: function(d){
-            if(!this.countries.includes(d)){
-                this.addedCountries.push(d);
-
-                 var index = this.removedCountries.indexOf(d);
-                  if(index>=0){
-                   this.removedCountries.splice(index,1);
-               }
-            }
-        },
-
-        removeCategory: function(d,e){
-            var cat;
-            this.categories.forEach(c=>{
-                if(c.id==d){
-                    cat = c;
-                }
-            })
-
-            if(this.categories.includes(cat)){
-                this.removedCategories.push(cat)
-                var index = this.addedCategories.indexOf(cat);
-                if(index >=0){
-                    this.addedCategories.splice(index,1);
-                }
-            }
-        },
-
-        addCategory: function(d){
-             var cat;
-            this.categories.forEach(c=>{
-                if(c.id==d){
-                    cat = c;
-                }
-            })
-
-             if(!this.categories.includes(cat)){
-                 this.addedCategories.push(cat);
-                  var index = this.removedCategories.indexOf(cat);
-                if(index >=0){
-                    this.removedCategories.splice(index,1);
-                }
-             }
+             }).catch(err=>{
+                  console.log('Server error ')
+                  console.log( JSON.stringify(err));
+             }); 
 
         },
 
-         removeSubject: function(d,e){
-
-             var sub;
-             this.subjects.forEach(s=>{
-                 if(s.id == d){
-                     sub = s;
-                 }
-             }) 
-             
-              if(this.subjects.includes(sub)){
-                this.removedSubjects.push(sub)
-                var index = this.addedSubjects.indexOf(sub);
-                if(index >=0){
-                    this.addedSubjects.splice(index,1);
-                }
-            }
 
 
-        },
+         updateUserData : function(){
 
-        addSubject: function(d){
+            var vueInstance = this;
+            var id = localstore.getdata('auth').id;
+            var url ='/api/contributor/'+ id +'/profile';
 
-             var sub;
-             this.subjects.forEach(s=>{
-                 if(s.id == d){
-                     sub = s;
-                 }
-             })
-              if(!this.subjects.includes(sub)){
-                this.addedSubjects.push(sub)
-                var index = this.removedSubjects.indexOf(sub);
-                if(index >=0){
-                    this.removedSubjects.splice(index,1);
-                }
-            }
-        }
+                            axios.get(url).then(function(res){
+                                console.log(res)
+                                if(res.status==200 && res.data.status=="success" ){
+                                var r = res.data.data; 
+                                var user_data = {
+                                        firstname:r.firstName,
+                                        lastname: r.lastName,
+                                        fullname:r.fullName,
+                                        address: r.address,
+                                        bio:r.bio,
+                                        categories:r.categories,
+                                        countries: r.countries,
+                                        educationLevel:r.educationLevel,
+                                        email: r.email,
+                                        employmentStatus: r.employmentStatus,
+                                        id: r.id,
+                                        languages:r.languages,
+                                        linkedInUrl:r.linkedInUrl,
+                                        mobileNumber:r.mobileNumber,
+                                        picture:r.picture,
+                                        role:r.role,
+                                        roleExpereience:r.roleExpereience,
+                                        schools:r.schools,
+                                        subjects : r.subjects,
+                                        questionsCreated:r.questionsCreated,
+                                        state:r.state,
+                                        country:r.country,
+                                        rating:r.averageRating,
+                                        username:r.username
+                                    };
+
+                                    localstore.storeUserData('user_detail',user_data);   
+                                }
+                            }).catch(function(err){
+
+                            })  
+         }
+
     },
     
      mounted: function(){
@@ -458,12 +372,21 @@ export default {
     created: function(){
 
 
-         let ContributorInfo = localstore.getdata('user-detail');
+        let ContributorInfo = localstore.getdata('user_detail');
         
         this.countries = ContributorInfo.countries;
-        this.categories = ContributorInfo.categories;
-        this.subjects = ContributorInfo.subjects;
 
+        this.categories = ContributorInfo.categories;
+        ContributorInfo.categories.forEach(c=>{
+             initialCategories.push(c.id);
+        })
+       
+
+        this.subjects = ContributorInfo.subjects;
+         ContributorInfo.subjects.forEach(s=>{
+             initialSubjects.push(s.id);
+        })
+      
        
         var vueInstance = this;
         this.u_countries.forEach(country=>{
@@ -471,6 +394,7 @@ export default {
                 if(country.name.trim().toLowerCase()==c.trim().toLowerCase()){
                     country.status=true;
                     vueInstance.selectedCountries.push(country.name);
+                    // initialCountry.push(country.name);
                 }
             })
         })

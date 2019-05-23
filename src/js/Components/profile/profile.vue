@@ -83,14 +83,14 @@ import newsubject from './components/newSubjectdialog.vue'
 export default {
     data(){
         return{
-       info:{},
-       preference:{},
-       id:'',
-       activeStatus:{
-           info_tab: false,
-           contributor_setting: false,
-           account_setting:false,
-       }
+            info:{},
+            preference:{},
+            id:'',
+            activeStatus:{
+                info_tab: false,
+                contributor_setting: false,
+                account_setting:false,
+            }
         }
     },
     components:{
@@ -124,6 +124,8 @@ export default {
         updateInfo : function(d){
           
                 let ContributorInfo = d;
+                console.log("updated info")
+                console.log(d)
                 this.info.fullname = ContributorInfo.fullname;
                 this.info.role = ContributorInfo.role;
                 this.info.questionCount = ContributorInfo.questionsCreated;
@@ -134,6 +136,7 @@ export default {
                 this.info.location = ContributorInfo.state + ',  '+ ContributorInfo.country;
                 this.info.about = ContributorInfo.bio;
                 this.$refs.updatedetail.updateInfo(this.info);
+                console.log(this.info)
                 this.$emit('update-header')
         },
 
@@ -148,14 +151,24 @@ export default {
 
      created: function(){
 
-        let ContributorInfo = localstore.getdata('user-detail');
+          let ContributorInfo = localstore.getdata('user_detail');
+          console.log(ContributorInfo);
+         var defaultImg = "AB";
+         if(ContributorInfo.fullname != "" || ContributorInfo.fullname != null){
+              var names = ContributorInfo.fullname.split(' ');
+              if(names.length > 1){
+                  defaultImg = names[0][0] + names[1][0];
+              }
+         } 
+
         this.id = ContributorInfo.id;
         this.info.fullname = ContributorInfo.fullname;
         this.info.role = ContributorInfo.role;
         this.info.questionCount = ContributorInfo.questionsCreated;
         this.info.username = ContributorInfo.username;
         this.info.imageUrl = ContributorInfo.picture;
-        this.info.defaultImg = ContributorInfo.firstname != null && ContributorInfo.lastname != null ? ContributorInfo.firstname[0]+ContributorInfo.lastname[0]: 'AB';
+        this.info.defaultImg = defaultImg;
+       // this.info.defaultImg = ContributorInfo.firstname != null && ContributorInfo.lastname != null ? ContributorInfo.firstname[0]+ContributorInfo.lastname[0]: 'AB';
         this.info.averageRating = ContributorInfo.rating;
         this.info.country =  ContributorInfo.country;
         this.info.state = ContributorInfo.state;

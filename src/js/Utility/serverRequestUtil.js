@@ -12,7 +12,7 @@ module.exports = {
     post: function(url,data){
         return this.execute().then(r=>{
             axios = client();
-          return  axios.post(url,data);
+        return  axios.post(url,data);
         })
     },
 

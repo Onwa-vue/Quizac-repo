@@ -59,7 +59,6 @@ export default {
     mounted: function(){
 
         d= localstore.getdata('auth');
-        console.log(d)
         this.displayname = d.email!=null || d.email != undefined ?d.email:'';
     }
 

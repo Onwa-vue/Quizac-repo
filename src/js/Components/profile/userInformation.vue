@@ -98,7 +98,6 @@ export default {
             u_fullname: String,
             u_role: String,
             u_username: String,
-            u_username: String,
             u_imageUrl: String,
             u_defaultImg: String,
             u_averageRating: String,
@@ -124,14 +123,14 @@ export default {
     methods:{
 
        updateInfo: function(d){
-           
+
            this.u_fullname = d.fullname;
            this.u_role = d.role;
            this.u_username = d.username;
            this.u_imageUrl = d.imageUrl;
            this.u_defaultImg = d.defaultImg;
            this.u_averageRating = d.averageRating;
-           this.u_location = this.state + ', ' + this.country;
+           this.u_location =d.location;
            this.u_about = d.about;
            
        }

@@ -201,9 +201,7 @@ export default {
         getlevels: function(){ 
 
            this.getSubjects();
-
            var req = [];
-           
            this.selectedCountries.forEach(function(c){
                req.push(axios.get('api/category/country/'+c))
            });
@@ -301,7 +299,6 @@ export default {
                         if(resp.status==200){
 
                             Promise.all([axios.post('/api/contributor/'+ id +'/categories',levels),axios.post('api/contributor/'+ id +'/subjects',subjects)]).then(resps=>{
-
                                 console.log(resps);
                                  if(resps[0].status==200 && resps[1].status==200){
                                        // save onboarding status 

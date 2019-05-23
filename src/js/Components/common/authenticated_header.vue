@@ -91,7 +91,7 @@ export default {
         },
 
         update: function(){
-            let ContributorInfo = localstore.getdata('user-detail');
+            let ContributorInfo = localstore.getdata('user_detail');
             this.picture = ContributorInfo.picture == null || ContributorInfo.picture ==''?'../../../img/default_avi.png': ContributorInfo.picture;
         },
 
@@ -99,22 +99,19 @@ export default {
             localstore.cleardata('auth');
             localstore.cleardata('stage1_onboarding');
             localstore.cleardata('stage2_onboarding');
-            localstore.cleardata('user_info');
+            localstore.cleardata('user_detail');
+
             this.$router.push({name:'login'})
         }
     },
 
     mounted : function(){
-        
-       /* var d = localstore.getdata('user_info');
-        axion = client();
-        if(d != null){
-            this.displayname = d.displayname,
-            this.picture  = d.picture
-        }
 
-        var authenData = localstore.getdata('auth');
-        var v = this; */
+        var d = localstore.getdata('user_detail'); 
+        if(d != null){
+            this.displayname = d.displayname;
+            this.picture  = d.picture;
+        }
     }
 }
 </script>

@@ -14,12 +14,12 @@ var client = function(){
             baseURL: baseURL,
             timeout: 60000,
             headers : {'Authorization':'bearer '+ access_token},
-          /*  transformRequest: [function (data, headers) {
+           /* transformRequest: [function (data, headers) {
                 console.log("showing the request header");
                 console.log(headers);
                // console.log(data.get('name'));
                 return data;
-              }], */
+              }],  */
         
          }
 

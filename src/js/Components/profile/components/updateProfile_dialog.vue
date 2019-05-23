@@ -179,7 +179,8 @@ export default {
             u_year:2000,
             u_month:1,
             u_day:1,
-            status:{isProcessing:false}
+            status:{isProcessing:false},
+            u_base64Img: null
         }
     },
 
@@ -199,42 +200,47 @@ export default {
             
             var vueInstance = this;
             var id = localstore.getdata('auth').id;
-            
             let url = `/api/contributor/${id}/update_profile`;
             var data = {
                     fullName: this.u_fullname,
                     bio: this.u_bio,
                     role:this.u_role,
                     country: this.u_country,
-                    state: this.u_state,
-                    picture: this.u_imageUrl
+                    state: this.u_state
                 }
 
-                console.log(data);
-               this.status.isProcessing= true;
-          
+           if(this.u_base64Img != null && this.u_base64Img != ''){
+               data.imageDto = this.u_base64Img;
+           }
+
+            var names = this.u_fullname.split(' ');
+            data.firstName = names[1];
+            data.lastName = names[0];
+            
+            console.log(data);
+            this.status.isProcessing= true;
+             
             axios.post(url,data).then(resp=>{
-               
-                if(resp.statusText == 'OK'){
-                    let ContributorInfo = localstore.getdata('user-detail');
+                console.log(resp);
+                if(resp.status== 200 && resp.data.status=="success"){
+                    let ContributorInfo = localstore.getdata('user_detail');
                     ContributorInfo.fullname = vueInstance.u_fullname;
                     ContributorInfo.bio = vueInstance.u_bio;
                     ContributorInfo.roleExpereience = vueInstance.u_role;
                     ContributorInfo.country = vueInstance.u_country;
                     ContributorInfo.state = vueInstance.u_state;
-                    localstore.storeUserData('user-detail',ContributorInfo);   
+
+                    localstore.storeUserData('user_detail',ContributorInfo);   
                     vueInstance.$emit('update-info',ContributorInfo);
-                   // vueInstance.updateUserData();   
+                    vueInstance.updateUserData();   
                 }
 
                  vueInstance.status.isProcessing = false;
                  $("#update_profile").modal('toggle');
-                 
-                 
 
             }).catch(err=>{
                  vueInstance.status.isProcessing = false;
-            }) 
+            })  
 
         },
 
@@ -245,6 +251,7 @@ export default {
               if (input.files && input.files[0]) {
                       var reader = new FileReader();
                       reader.onload = (e) => {
+                    this.u_base64Img = e.target.result;
                     this.u_imageUrl = e.target.result;
                 }
                 reader.readAsDataURL(input.files[0]);
@@ -256,11 +263,14 @@ export default {
 
             var vueInstance = this;
             var id = localstore.getdata('auth').id;
-            var url ='/api/contributor/'+ id +'/profile'
-                            axion.get(url).then(function(res){
-                                
-                                if(res.statusText=='OK' && res.data.status=="success" ){
+            var url ='/api/contributor/'+ id +'/profile';
+
+                            axios.get(url).then(function(res){
+                                console.log('am fetching updated profile');
+                                console.log(res)
+                                if(res.status==200 && res.data.status=="success" ){
                                 var r = res.data.data; 
+                                
                                 var user_data = {
                                         firstname:r.firstName,
                                         lastname: r.lastName,
@@ -282,17 +292,16 @@ export default {
                                         schools:r.schools,
                                         subjects : r.subjects,
                                         questionsCreated:r.questionsCreated,
-                                        state:'',
-                                        country:'',
+                                        state:r.state,
+                                        country:r.country,
                                         rating:r.averageRating,
                                         username:r.username
                                     };
 
-                                    localstore.storeUserData('user-detail',user_data);   
-                                     vueInstance.$emit('update-info',user_data)
-                                }
-                                
+                                    localstore.storeUserData('user_detail',user_data);   
+                                    vueInstance.$emit('update-info',user_data);
 
+                                }
                             }).catch(function(err){
 
                             })   
@@ -306,7 +315,6 @@ export default {
 
 
     mounted: function(){
-
         this.u_imageUrl = this.imageUrl;
         this.u_defaultImgText = this.defaultImg
         this.u_fullname= this.fullname;
