@@ -100,7 +100,8 @@ export default {
         'new-subject-dialog' : newsubject
     },
 
-    methods:{
+    methods:{  
+             
         setActiveClass: function(d){
             if(d.tab=='user-information'){
                 this.activeStatus.info_tab= true

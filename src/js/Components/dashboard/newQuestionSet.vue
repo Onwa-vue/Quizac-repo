@@ -240,6 +240,7 @@ export default {
             this.categories.forEach(function(c){
                 if(c.id==vueInstance.category){
                     c.isSelected=true
+                    vueInstance.$refs.topicdialog.setCategory(c);
                 }else{
                      c.isSelected=false
                 } 

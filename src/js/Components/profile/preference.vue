@@ -157,7 +157,7 @@ export default {
 
     methods:{
 
-          getlevels: function(){ 
+        getlevels: function(){ 
 
            this.getSubjects();
 
@@ -317,9 +317,7 @@ export default {
 
         },
 
-
-
-         updateUserData : function(){
+        updateUserData : function(){
 
             var vueInstance = this;
             var id = localstore.getdata('auth').id;
@@ -371,7 +369,6 @@ export default {
 
     created: function(){
 
-
         let ContributorInfo = localstore.getdata('user_detail');
         
         this.countries = ContributorInfo.countries;
@@ -386,8 +383,7 @@ export default {
          ContributorInfo.subjects.forEach(s=>{
              initialSubjects.push(s.id);
         })
-      
-       
+    
         var vueInstance = this;
         this.u_countries.forEach(country=>{
             vueInstance.countries.forEach(c=>{

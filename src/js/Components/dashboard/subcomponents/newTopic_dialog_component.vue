@@ -66,7 +66,8 @@ export default {
             subjectName: null,
             medias: [],
             selectedImg: null,
-            isProcessing:false
+            isProcessing:false,
+            categoryId: null
         }
     },
 
@@ -82,34 +83,36 @@ export default {
                 description:this.description,
                 subjectId : this.subjectId,
                 status : 'suggested',
-                imageurl: this.selectedImg.url
+                imageurl: this.selectedImg.url,
+                category:[{id:this.categoryId}]
             }
-
-            console.log(data);
 
             var vueInstance = this;
             this.isProcessing = true;
-           // var url = "/api/Subject/"+ this.subjectId +"/topics";
-             var url ="/api/topic";
+            var url ="/api/topic";
+
+           
 
             axion.post( url, data).then(resp=>{
-                console.log(resp);
                 if(resp.status == 200){
                     data.id = resp.data.id;
                     vueInstance.$emit('add-topic',data);
                     $("#new_topic_dialog").modal('toggle'); 
                 }
                 vueInstance.isProcessing = false;
-            }) 
+            })  
          }
         })
      },
 
         setSubject: function(subject){
-            console.log(subject);
             this.subjectId = subject.id;
             this.subjectName = subject.name;
             this.getImages();
+        },
+
+        setCategory: function(category){
+            this.categoryId = category.id;
         },
 
         selectImage : function(img){
@@ -127,7 +130,6 @@ export default {
             let url = this.subjectName != null ? "/api/topic/images/"+ this.subjectName : "/api/topic/images";
             var vueInstance = this;
             axion.get(url).then(resp=>{
-                console.log(resp);
                 if(resp.status == 200){
                     var index = 0;
                     vueInstance.medias = [];
