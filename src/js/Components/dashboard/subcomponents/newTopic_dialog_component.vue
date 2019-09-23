@@ -116,17 +116,15 @@ export default {
         },
 
         selectImage : function(img){
-
+            
             this.medias.forEach(m=>{
                 m.isSelected = false
             });
             img.isSelected = true; 
             this.selectedImg = img;
-
         },
 
         getImages: function(){
-
             let url = this.subjectName != null ? "/api/topic/images/"+ this.subjectName : "/api/topic/images";
             var vueInstance = this;
             axion.get(url).then(resp=>{
@@ -141,7 +139,6 @@ export default {
                     })
                 }
             }) 
-
         }
 
       /*  addTopic: function(){

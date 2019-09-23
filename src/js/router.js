@@ -8,10 +8,6 @@ import profileroutes from '../js/Components/profile/route';
 var localstore  = require('./Utility/cookieStorage.js') 
 
 
-import index from './Components/index/index.vue'
-import header from './Components/common/header.vue'
-import auth_header from './Components/common/authenticated_header.vue'
-import footer from './Components/common/footer.vue'
 
 
 var routes = [];

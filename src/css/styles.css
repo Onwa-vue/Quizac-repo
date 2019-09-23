@@ -5398,3 +5398,12 @@ footer[role="contentinfo"] {
 .snippetlabel {
   color: #959595;
 }
+
+
+.home_section_expert{
+  background-image: url(../img/banners/expert_illo.svg);
+}
+
+.home_section_student {
+  background-image: url(../img/banners/student_illo.svg);
+}

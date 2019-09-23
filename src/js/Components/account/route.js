@@ -7,6 +7,8 @@ import signup from '../account/signup.vue'
 import signuplanding from '../account/signup_landing.vue'
 import forgotpassword from '../account/forgotpassword.vue'
 import studentsignup from './student_signup.vue'
+import resetpassword from './reset_password.vue'
+
 
 
 var routes = [
@@ -52,6 +54,14 @@ var routes = [
         components:{
             header:header,
             main: studentsignup,
+            footer: footer
+        }
+    },{
+        path:'/reset/password/:username',
+        name:'resetpassword',
+        components:{
+            header:header,
+            main: resetpassword,
             footer: footer
         }
     }

@@ -338,7 +338,7 @@ export default {
                 }
             }).catch(err=>{
                 
-            })
+            }) 
         },
 
         addCategory : function(data){

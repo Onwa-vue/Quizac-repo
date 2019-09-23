@@ -132,7 +132,6 @@ var client = require('../../Utility/serverClient.js')
 var localstore  = require('../../utility/cookieStorage.js'); 
 var axios = require('../../Utility/serverRequestUtil.js')
 
-
 var questionSetId;
 var contributorId;
 
