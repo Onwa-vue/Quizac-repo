@@ -1,3 +1,4 @@
+
 {
   "name": "quizac_contributor",
   "version": "1.0.0",
@@ -27,6 +28,7 @@
     "babel-minify-webpack-plugin": "^0.3.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-stage-3": "^6.24.1",
+    "cors": "^2.8.5",
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.11",
     "exports-loader": "^0.6.4",

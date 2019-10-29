@@ -11,7 +11,7 @@
 
                         <div class="row action_options">
                             <div class="col-sm-4">
-                                <a href="#" class="help_subs">
+                                <a href="../../../docs/generation_guideline.pdf" class="help_subs">
                                     <figure>
                                         <img src="../../../img/icons/guide.svg" alt="Contributor Guide">
                                     </figure>

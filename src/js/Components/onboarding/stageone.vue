@@ -107,13 +107,13 @@
                            <span class="row_count"></span>
                             <div class="row_content">
                                <header class="row_header">
-                                    <span class="question_text">Please provide your contact email address and Phone number. We may need to contact you for further details about your application.</span>
+                                    <span class="question_text">Please provide your contact Phone number. We may need to contact you for further details about your application.</span>
                                 </header>
                                 <div class="row">
-                                    <div class="form-group col-sm-6">
-                                        <label class="control-label caps_upper">Email Address</label>
-                                        <input type="email" class="form-control" placeholder="Contact Email" v-model="email" v-validate="'required|email'" >
-                                    </div>
+<!--                                    <div class="form-group col-sm-6">-->
+<!--                                        <label class="control-label caps_upper">Email Address</label>-->
+<!--                                        <input type="email" class="form-control" placeholder="Contact Email" v-model="email" v-validate="'required|email'" >-->
+<!--                                    </div>-->
                                     <div class="form-group col-sm-6">
                                         <label class="control-label caps_upper">Phone Number</label>
                                         <input type="tel" class="form-control" placeholder="Contact Phone number" v-model="phonenumber" v-validate="'required'">
@@ -128,13 +128,13 @@
                                 <div class="nav_btn btn-prev"></div>
                                <div class="nav_btn btn-next">
                                    <!--Add the class "loading" to the button element to show the loader-->
-                                    <button class="btn btn-primary "  v-bind:class="{loading:status.isProcessing}" v-on:click="submit">
-                                        <span class="btn-label">Continue</span>
-                                        <div class="loadmore">
-                                           <span>Saving</span>
-                                            <span class="spinner"></span>
-                                        </div>
-                                    </button>
+                                       <button class="btn btn-primary "  v-bind:class="{loading:status.isProcessing}" v-on:click="submit">
+                                            <span class="btn-label">Continue</span>
+                                            <div class="loadmore">
+                                               <span>Saving</span>
+                                                <span class="spinner"></span>
+                                            </div>
+                                        </button>
                                 </div>
                             </div>
                         </div>

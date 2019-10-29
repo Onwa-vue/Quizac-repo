@@ -15,9 +15,10 @@
                     <router-link class="menu__link_item" to="/dashboard/questionset">Question Sets</router-link>
                   <!--  <a href="user_sets.html" class="menu__link_item">Question Sets</a> -->
                 </div>
-                <div class="menuList-item" v-bind:class="{active:isWallet()}">
-                    <a href="#" class="menu__link_item">Wallet</a>
-                </div>
+<!--                Wallet Disabled!!!
+                    <div class="menuList-item" v-bind:class="{active:isWallet()}">-->
+<!--                    <a href="#" class="menu__link_item">Wallet</a>-->
+<!--                </div>-->
             </nav>
             <nav class="navMenu menu_alt">
                 <div class="menuList-item control_btns has_feedback">
@@ -101,7 +102,7 @@ export default {
             localstore.cleardata('stage2_onboarding');
             localstore.cleardata('user_detail');
 
-            this.$router.push({name:'login'})
+            this.$router.push({name:'/'})
         }
     },
 

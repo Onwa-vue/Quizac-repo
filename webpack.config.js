@@ -108,6 +108,17 @@ var config = {
                 fallback: "style-loader"
             }) */
           } ,
+           {
+               test: /\.pdf$/,
+               use: {
+                   loader: "file-loader",
+                   options: {
+                       name: "[name].[ext]",
+                       outputPath: "docs/",
+                       publicPath: "../docs/"
+                   }
+               }
+           },
 
           {
             test: /\.(scss)$/,

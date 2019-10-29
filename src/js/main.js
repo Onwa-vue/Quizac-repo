@@ -10,6 +10,7 @@ require('../css/selectize.bootstrap3.css')
 require('../css/styles.css')
 import 'vue2-dropzone/dist/vue2Dropzone.css'
 
+import "../docs/generation_guideline.pdf"
 
 // require("./Utility/modernizr")
 require("jquery")
@@ -46,5 +47,4 @@ new Vue({
 
   
   
-   
    

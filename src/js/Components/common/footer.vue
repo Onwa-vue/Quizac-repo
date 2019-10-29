@@ -5,19 +5,19 @@
             <div class="footer_item_row nav_row">
                 <ul class="footer_nav">
                     <li class="footer_nav_link">
-                        <a href="http://quizac.com">Quizac</a>
+                        <a href="https://quizac.com">Quizac</a>
                     </li>
                     <li class="footer_nav_link">
-                        <a href="/generation_guideline.pdf">Contributor Guide</a>
+                        <a href="/docs/generation_guideline.pdf">Contributor Guide</a>
                     </li>
                     <li class="footer_nav_link">
-                        <a href="http://quizac.com/contact.html">Contact Us</a>
+                        <a href="https://quizac.com/contact.html">Contact Us</a>
                     </li>
                     <li class="footer_nav_link">
                         <a href="https://quizac.com/terms.html">Terms &amp; Conditions</a>
                     </li>
                     <li class="footer_nav_link">
-                        <a href="https://quizac.com/terms.html">Policies</a>
+                        <a href="https://quizac.com/policy.html">Policies</a>
                     </li>
                 </ul>    
             </div>

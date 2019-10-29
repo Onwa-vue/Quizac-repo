@@ -5,9 +5,11 @@ import indexroute from '../js/Components/index/route';
 import onboardingroutes from '../js/Components/onboarding/route';
 import profileroutes from '../js/Components/profile/route';
 
-var localstore  = require('./Utility/cookieStorage.js') 
+var localstore  = require('./Utility/cookieStorage.js')
 
 
+// var devMode = true;
+// //should remove this during deployment.
 
 
 var routes = [];
@@ -28,41 +30,45 @@ var router = new VueRouter({
       }
 })
 
-router.beforeEach((to, from, next)=>{
-    
-    if(to.matched.some(r=>r.meta.requiresAuth)){
-        // check cookie storage 
-        if(localstore.getdata('auth')== undefined){
-            next({name:'login'})
-        }
-        else
-        {
-           
-            if(localstore.getdata('stage1_onboarding').status && localstore.getdata('stage2_onboarding').status){
+// devMode === undefined;
+
+router.beforeEach(function (to, from, next) {
+    if (to.matched.some((r) => r.meta.requiresAuth)) {
+        //check cookie storage
+        if (localstore.getdata("auth") === undefined) {
+            next({name:'login'});
+        } else {
+
+            if (localstore.getdata("stage1_onboarding").status && localstore.getdata("stage2_onboarding").status) {
                 next();
             }
 
-            if(localstore.getdata('stage1_onboarding').status == false){
-               
-                if(to.path =="/onboarding"){
+            if (localstore.getdata("stage1_onboarding").status === false) {
+
+                if (to.path === "/onboarding") {
                     next();
+                } else {
+                    next("/onboarding");
                 }
-                else
-                    next('/onboarding');
-            }else{
 
-            if(localstore.getdata('stage2_onboarding').status == false){
-              if(to.path =="/onboarding/stagetwo")
-                next();
-              else
-                next('/onboarding/stagetwo');
-              
+            } else {
+
+                if (localstore.getdata("stage2_onboarding").status === false) {
+
+                    if (to.path === "/onboarding/stagetwo") {
+                        next();
+                    } else {
+                        next("/onboarding/stagetwo");
+                    }
+                }
             }
         }
-        }
-    }else{
-       next();
+        next();
+    } else if (localstore.getdata("auth") !== undefined) {
+        next("/dashboard");
+    } else {
+        next();
     }
-})
+});
 
 export default router;
