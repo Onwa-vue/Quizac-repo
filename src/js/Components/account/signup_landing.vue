@@ -8,6 +8,8 @@
                             <h2 class="info_title color-black">Create an Account</h2>
                             <p>Join other contributor from all over the world who are helping to build the quizac vision.</p>
                         </header>
+                        <!--
+                           Not Implemented
                         <div class="linkBar link_fb">
                             <a href="#" class="barWrapper color-white">
                                 <span class="link_icon">
@@ -15,7 +17,7 @@
                                </span>
                                 <span class="link_text">Continue with Facebook</span>
                             </a>
-                        </div>
+                        </div>-->
                         <div class="linkBar link_ggl">
                              <router-link class="barWrapper" to="/login">
                            <!-- <a href="login.html" class="barWrapper"> -->
