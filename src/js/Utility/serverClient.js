@@ -7,7 +7,7 @@ var client = function(){
     var access_token = authdata.access_token;
 
     var baseURL = "http://api.staging.quizac.com/";
-    baseURL = "https://api.quizac.com/";
+    //baseURL = "https://api.quizac.com/";
     var config;
 
         config = {
