@@ -21,7 +21,7 @@
     "vue2-selectize": "^1.1.7"
   },
   "devDependencies": {
-    "ajv": "^6.0.0",
+    "ajv": "^6.12.3",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-minify-webpack-plugin": "^0.3.1",
